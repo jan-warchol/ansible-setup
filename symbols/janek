@@ -1,0 +1,16 @@
+// polish qwerty adapted to my hardware setup, with some customizations
+
+default
+xkb_symbols "basic" {
+    include "pc"
+    include "pl(basic)"
+    include "ctrl(nocaps)"
+    include "shift(both_capslock)"
+
+    // map missing keys to something
+    key <TVAN> { [ Insert ] };
+    key <BACK> { [ Home ] };
+    key <FRWD> { [ End ] };
+
+    include "level3(ralt_switch)"
+};
