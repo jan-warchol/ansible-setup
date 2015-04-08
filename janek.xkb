@@ -2,6 +2,6 @@ xkb_keymap {
     xkb_keycodes { include "customThinkPad+aliases(qwerty)" };
     xkb_types    { include "complete" };
     xkb_compat   { include "complete" };
-    xkb_symbols  { include "janek(shorthands)" };
+    xkb_symbols  { include "janek(navigation)" };
     xkb_geometry { include "thinkpad(common)" };
 };

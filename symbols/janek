@@ -29,3 +29,28 @@ xkb_symbols "shorthands" {
     key <LatP> { [ NoSymbol, NoSymbol, plus ] };
     key <AE09> { [ NoSymbol, NoSymbol, colon ] }; // additional colon for smileys
 };
+
+xkb_symbols "navigation" {
+    include "janek(shorthands)"
+
+    // put arrows on 0 - F12 =
+    key <AE10> { [ Left, Left, Home, Home ] };
+    key <AE11> { [ Down, Down, Next, Next ] };
+    key <FK12> { [ Up, Up, Prior, Prior ] };
+    key <AE12> { [ Right, Right, End, End ] };
+
+    // it also makes sense to have Home and End close to arrows
+    key <FK11> { [ Home, Home, F11 ] };
+    key <END>  { [ End, End ] };
+
+    // now backward/forward keys can be PgUp/PgDown, as usual on ThinkPads
+    key <BACK> { [ Prior ] };
+    key <FRWD> { [ Next ] };
+
+    // replacement keys for 0 - = F11 F12
+    key <FK10> { [ 0, F10 ] };
+    key <MENU> { [ minus, underscore ] };
+    key <FK11> { [ NoSymbol, NoSymbol, F11 ] };
+    key <END>  { [ NoSymbol, NoSymbol, F12 ] };
+    key <AB08> { [ NoSymbol, NoSymbol, equal ] }; // comma key
+};
