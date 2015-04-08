@@ -14,3 +14,18 @@ xkb_symbols "basic" {
 
     include "level3(ralt_switch)"
 };
+
+xkb_symbols "shorthands" {
+    include "janek(basic)"
+
+    // make some symbols available under right alt.
+    // Using right alt with these keys is more convenient than using shift.
+    key <AC10> { [ NoSymbol, NoSymbol, colon ] };
+    key <AC11> { [ NoSymbol, NoSymbol, quotedbl ] };
+    key <AB10> { [ NoSymbol, NoSymbol, question ] };
+    // put parentheses on the same keys as brackets
+    key <AD11> { [ NoSymbol, NoSymbol, parenleft ] };
+    key <AD12> { [ NoSymbol, NoSymbol, parenright ] };
+    key <LatP> { [ NoSymbol, NoSymbol, plus ] };
+    key <AE09> { [ NoSymbol, NoSymbol, colon ] }; // additional colon for smileys
+};
