@@ -4,34 +4,40 @@ default
 xkb_symbols "basic" {
     include "pc"
     include "pl(basic)"
-    include "ctrl(nocaps)"
-    include "shift(both_capslock)"
 
-    // map missing keys to something
-    key <TVAN> { [ Insert ] };
-    key <BACK> { [ Home ] };
-    key <FRWD> { [ End ] };
+    // put parentheses on the same keys as brackets
+    key <AD11> { [ NoSymbol, NoSymbol, parenleft ] };
+    key <AD12> { [ NoSymbol, NoSymbol, parenright ] };
+
+    // move + to a closer key
+    key <LatP> { [ NoSymbol, NoSymbol, plus ] };
+
+    // move quotes so that <AC11> key can be used for shift
+    key <AC10> { [ NoSymbol, NoSymbol, apostrophe, quotedbl ] };
 
     include "level3(ralt_switch)"
 };
 
-xkb_symbols "shorthands" {
+xkb_symbols "modifiers" {
     include "janek(basic)"
 
-    // make some symbols available under right alt.
-    // Using right alt with these keys is more convenient than using shift.
-    key <AC10> { [ NoSymbol, NoSymbol, colon ] };
-    key <AC11> { [ NoSymbol, NoSymbol, quotedbl ] };
-    key <AB10> { [ NoSymbol, NoSymbol, question ] };
-    // put parentheses on the same keys as brackets
-    key <AD11> { [ NoSymbol, NoSymbol, parenleft ] };
-    key <AD12> { [ NoSymbol, NoSymbol, parenright ] };
-    key <LatP> { [ NoSymbol, NoSymbol, plus ] };
-    key <AE09> { [ NoSymbol, NoSymbol, colon ] }; // additional colon for smileys
+    // Shift keys. Pressing them both toggles Caps_Lock.
+    key <CAPS> {
+        type[Group1]="TWO_LEVEL",
+        symbols[Group1] = [ Shift_L, Caps_Lock ]
+    };
+    // WTF Shift_R doesn't work properly - if I define this key like this:
+    //     type[Group1]="TWO_LEVEL",
+    //     symbols[Group1] = [ Shift_R, Caps_Lock ]
+    // then right shift only works when Caps_Lock is on...
+    key <AC11> {
+        type[Group1]="TWO_LEVEL",
+        symbols[Group1] = [ Shift_L, Caps_Lock ]
+    };
 };
 
 xkb_symbols "navigation" {
-    include "janek(shorthands)"
+    include "janek(modifiers)"
 
     // put arrows on 0 - F12 =
     key <AE10> { [ Left, Left, Home, Home ] };
@@ -43,14 +49,14 @@ xkb_symbols "navigation" {
     key <FK11> { [ Home, Home, F11 ] };
     key <END>  { [ End, End ] };
 
-    // now backward/forward keys can be PgUp/PgDown, as usual on ThinkPads
-    key <BACK> { [ Prior ] };
-    key <FRWD> { [ Next ] };
-
     // replacement keys for 0 - = F11 F12
     key <FK10> { [ 0, F10 ] };
     key <MENU> { [ minus, underscore ] };
     key <FK11> { [ NoSymbol, NoSymbol, F11 ] };
     key <END>  { [ NoSymbol, NoSymbol, F12 ] };
     key <AB08> { [ NoSymbol, NoSymbol, equal ] }; // comma key
+
+    // backward/forward keys can be PgUp/PgDown, as usual on ThinkPads
+    key <BACK> { [ Prior ] };
+    key <FRWD> { [ Next ] };
 };
