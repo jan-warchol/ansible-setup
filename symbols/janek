@@ -1,19 +1,63 @@
-// polish qwerty adapted to my hardware setup, with some customizations
-
 default
 xkb_symbols "basic" {
     include "pc"
-    include "pl(basic)"
 
-    // put parentheses on the same keys as brackets
-    key <AD11> { [ NoSymbol, NoSymbol, parenleft ] };
-    key <AD12> { [ NoSymbol, NoSymbol, parenright ] };
+    key <TLDE> { [ grave, asciitilde ] };
+    key <AE01> { [ 1, exclam ] };
+    key <AE02> { [ 2, at ] };
+    key <AE03> { [ 3, numbersign ] };
+    key <AE04> { [ 4, dollar ] };
+    key <AE05> { [ 5, percent ] };
+    key <AE06> { [ 6, asciicircum ] };
+    key <AE07> { [ 7, ampersand ] };
+    key <AE08> { [ 8, asterisk ] };
+    key <AE09> { [ BackSpace, BackSpace, colon ] };
+    key <AE10> { [ 0 ] };
+    key <AE11> { [ minus, underscore ] };
+    key <AE12> { [ equal, plus ] };
 
-    // move + to a closer key
-    key <LatP> { [ NoSymbol, NoSymbol, plus ] };
+    key <LatQ> { [ q, Q ] };
+    key <LatW> { [ w, W ] };
+    key <LatE> { [ d, D ] };
+    key <LatR> { [ f, F ] };
+    key <LatT> { [ comma, less ] };
+    key <LatY> { [  ] };
+    key <LatU> { [ u, U ] };
+    key <LatI> { [ i, I ] };
+    key <LatO> { [ o, O, oacute, Oacute ] };
+    key <LatP> { [ j, J, plus ] };
+    key <AD11> { [ bracketleft, braceleft, parenleft ] };
+    key <AD12> { [ bracketright, braceright, parenright ] };
+    key <BKSL> { [  ] };
 
-    // move quotes so that <AC11> key can be used for shift
-    key <AC10> { [ NoSymbol, NoSymbol, apostrophe, quotedbl ] };
+    key <LatA> { [ a, A, aogonek, Aogonek ] };
+    key <LatS> { [ s, S, sacute, Sacute ] };
+    key <LatD> { [ e, E, eogonek, Eogonek ] };
+    key <LatF> { [ t, T ] };
+    key <LatG> { [ g, G ] };
+    key <LatH> { [ y, Y ] };
+    key <LatJ> { [ n, N ] };
+    key <LatK> { [ r, R ] };
+    key <LatL> { [ l, L, lstroke, Lstroke ] };
+    key <AC10> { [ h, H, apostrophe, quotedbl ] };
+
+    key <LatZ> { [ z, Z, zabovedot, Zabovedot ] };
+    key <LatX> { [ x, X, zacute, Zacute ] };
+    key <LatC> { [ c, C, cacute, Cacute ] };
+    key <LatV> { [ v, V ] };
+    key <LatB> { [ b, B ] };
+    key <LatN> { [ p, P, nacute, Nacute ] };
+    key <LatM> { [ m, M, backslash ] };
+    key <AB08> { [ k, K ] };
+    key <AB09> { [ period, greater, semicolon ] };
+    key <AB10> { [ slash, bar, question ] };
+
+    key <MENU> { [ Return ] };
+    key <BKSP> { [  ] };
+    key <RTRN> { [  ] };
+
+    // replacement keys
+    key <FK10> { [ 9, F10 ] };
 
     include "level3(ralt_switch)"
 };
