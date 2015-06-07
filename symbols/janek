@@ -39,22 +39,27 @@ xkb_symbols "modifiers" {
 xkb_symbols "navigation" {
     include "janek(modifiers)"
 
-    // put arrows on 0 - F12 =
-    key <AE10> { [ Left, Left, Home, Home ] };
-    key <AE11> { [ Down, Down, Next, Next ] };
-    key <FK12> { [ Up, Up, Prior, Prior ] };
-    key <AE12> { [ Right, Right, End, End ] };
+    // put arrows on right hand home keys, in second group (vim-style)
+    key <LatJ> {
+        symbols[Group2] = [ Left, Left, Home ]
+    };
+    key <LatK> {
+        symbols[Group2] = [ Down, Down, Next ]
+    };
+    key <LatL> {
+        symbols[Group2] = [ Up, Up, Prior ]
+    };
+    key <AC10> {
+        symbols[Group2] = [ Right, Right, End ]
+    };
 
-    // it also makes sense to have Home and End close to arrows
-    key <FK11> { [ Home, Home, F11 ] };
-    key <END>  { [ End, End ] };
+    // Switch groups to enable/disable arrows.
+    // I also use xcape to map this to more accessible keys.
+    key <LFSH> { [ ISO_Last_Group ] };
+    key <RTSH> { [ ISO_First_Group ] };
 
-    // replacement keys for 0 - = F11 F12
-    key <FK10> { [ 0, F10 ] };
-    key <MENU> { [ minus, underscore ] };
-    key <FK11> { [ NoSymbol, NoSymbol, F11 ] };
-    key <END>  { [ NoSymbol, NoSymbol, F12 ] };
-    key <AB08> { [ NoSymbol, NoSymbol, equal ] }; // comma key
+    // Home key doesn't work on my keyboard, so I need another one
+    key <FK12> { [ Home, Home, F12 ] };
 
     // backward/forward keys can be PgUp/PgDown, as usual on ThinkPads
     key <BACK> { [ Prior ] };
