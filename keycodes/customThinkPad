@@ -7,6 +7,9 @@ default xkb_keycodes "thinkpad" {
     <I156> = 156; // ThinkVantage
     alias <TVAN> = <I156>;
 
+    <VOL-> = 122;
+    <VOL+> = 123;
+
     <ESC>  = 9;
     <FK01> = 67;
     <FK02> = 68;
@@ -83,9 +86,9 @@ default xkb_keycodes "thinkpad" {
     <AB10> = 61;
     <RTSH> = 62;
 
-    <LCTL> = 64;
-    <LWIN> = 37;
-    <LALT> = 133;
+    <LCTL> = 37;
+    <LWIN> = 133;
+    <LALT> = 64;
     <SPCE> = 65;
     <RALT> = 108;
     <MENU> = 107;
@@ -102,9 +105,6 @@ default xkb_keycodes "thinkpad" {
     <RGHT> = 114;
 
     // Fake keycodes for virtual keys
-    <LVL3> =   92;
-    <MDSW> =   203;
-    <ALT>  =   204;
     <META> =   205;
     <SUPR> =   206;
     <HYPR> =   207;

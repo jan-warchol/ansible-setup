@@ -1,0 +1,83 @@
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "pc105" {
+    include "srvr_ctrl(fkey2vt)"
+
+    key <TVAN> { [ XF86Sleep ] };
+    key <BACK> { [ XF86MonBrightnessDown ] };
+    key <FRWD> { [ XF86MonBrightnessUp ] };
+
+    key <VOL-> { [ XF86AudioLowerVolume  ] };
+    key <VOL+> { [ XF86AudioRaiseVolume  ] };
+
+    key <PRSC> {
+        type= "PC_ALT_LEVEL2",
+        symbols[Group1]= [ Print, Sys_Req ]
+    };
+    key <SCLK> { [ Scroll_Lock ] };
+    key <PAUS> {
+        type= "PC_CONTROL_LEVEL2",
+        symbols[Group1]= [ Pause, Break ]
+    };
+
+    key <ESC> { [ Escape ] };
+
+    key <HOME> { [  ] };
+    key <END> { [ Return ] };
+    key <PGUP> { [ Prior ] };
+    key <PGDN> { [ Next ] };
+    key <INS> { [ Insert ] };
+    key <DELE> { [ Delete ] };
+
+    key <UP> { [ Up ] };
+    key <LEFT> { [ Left ] };
+    key <DOWN> { [ Down ] };
+    key <RGHT> { [ Right ] };
+
+    key <BKSP> { [  ] };
+    key <TAB> { [ Tab, ISO_Left_Tab ] };
+
+    // Shift keys. Pressing them both toggles Caps_Lock.
+    key <CAPS> {
+        type[Group1]="TWO_LEVEL",
+        symbols[Group1] = [ Shift_L, Caps_Lock ]
+    };
+    // WTF Shift_R doesn't work properly - if I define this key like this:
+    //     type[Group1]="TWO_LEVEL",
+    //     symbols[Group1] = [ Shift_R, Caps_Lock ]
+    // then right shift only works when Caps_Lock is on...
+    key <RTRN> {
+        type[Group1]="TWO_LEVEL",
+        symbols[Group1] = [ Shift_L, Caps_Lock ]
+    };
+
+    key <LCTL> { [  ] };
+    key <LWIN> { [ Super_L ] };
+    key <LALT> { [ Alt_L, Meta_L ] };
+
+    key <SPCE> { [ Control_L ] };
+
+    key <RALT> { [ space ] };
+    key <MENU> { [ ISO_Level3_Shift ] };
+    key <RWIN> { [ Super_R ] };
+    key <RCTL> { [ Control_R ] };
+
+    // Beginning of modifier mappings.
+    modifier_map Shift { Shift_L, Shift_R };
+    modifier_map Lock { Caps_Lock };
+    modifier_map Control { Control_L, Control_R };
+    modifier_map Mod1 { Alt_L, Meta_L };
+    modifier_map Mod2 { Num_Lock };
+    modifier_map Mod4 { Super_L, Super_R };
+    modifier_map Mod5 { ISO_Level3_Shift };
+
+    key <META> { [ NoSymbol, Meta_L ] };
+    modifier_map Mod1  { <META> };
+
+    key <SUPR> { [ NoSymbol, Super_L ] };
+    modifier_map Mod4  { <SUPR> };
+
+    key <HYPR> { [ NoSymbol, Hyper_L ] };
+    modifier_map Mod4  { <HYPR> };
+    // End of modifier mappings.
+};
+

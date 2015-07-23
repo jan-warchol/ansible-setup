@@ -1,6 +1,6 @@
 default
 xkb_symbols "basic" {
-    include "pc"
+    include "modifier_keys"
 
     key <TLDE> { [ grave, asciitilde ] };
     key <AE01> { [ 1, exclam ] };
@@ -54,36 +54,12 @@ xkb_symbols "basic" {
     key <AB10> { [ period, greater, semicolon ] };
     key <RTSH> { [ slash, bar, question ] };
 
-    key <MENU> { [ Return ] };
-    key <BKSP> { [  ] };
-    key <RTRN> { [  ] };
-
     // replacement keys
     key <FK11> { [ 10, F11 ] };
-
-    include "level3(ralt_switch)"
-};
-
-xkb_symbols "modifiers" {
-    include "janek(basic)"
-
-    // Shift keys. Pressing them both toggles Caps_Lock.
-    key <CAPS> {
-        type[Group1]="TWO_LEVEL",
-        symbols[Group1] = [ Shift_L, Caps_Lock ]
-    };
-    // WTF Shift_R doesn't work properly - if I define this key like this:
-    //     type[Group1]="TWO_LEVEL",
-    //     symbols[Group1] = [ Shift_R, Caps_Lock ]
-    // then right shift only works when Caps_Lock is on...
-    key <RTRN> {
-        type[Group1]="TWO_LEVEL",
-        symbols[Group1] = [ Shift_L, Caps_Lock ]
-    };
 };
 
 xkb_symbols "navigation" {
-    include "janek(modifiers)"
+    include "janek(basic)"
 
     // put arrows on right hand home keys, in second group (vim-style)
     key <LatK> {
