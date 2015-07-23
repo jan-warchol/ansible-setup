@@ -5,20 +5,20 @@ xkb_symbols "basic" {
     key <TLDE> { [ grave, asciitilde ] };
     key <AE01> { [ 1 ] };
     key <AE02> { [ 2, at ] };
-    key <AE03> { [ 3, numbersign ] };
-    key <AE04> { [ 4, dollar ] };
+    key <AE03> { [ 3, numbersign, 9 ] };
+    key <AE04> { [ 4, dollar, 0 ] };
     key <AE05> { [ 5, percent ] };
     key <AE06> { [ 6, asciicircum ] };
     key <AE07> { [ 7, ampersand ] };
     key <AE08> { [ 8, asterisk ] };
-    key <AE09> { [ 9 ] };
-    key <AE10> { [ BackSpace, BackSpace, colon ] };
-    key <AE11> { [ minus, underscore ] };
-    key <AE12> { [ equal, plus ] };
+    key <AE09> { [ Left ] };
+    key <AE10> { [ Down ] };
+    key <AE11> { [ Up ] };
+    key <AE12> { [ Right ] };
 
     key <LatQ> { [ q, Q, exclam ] };
-    key <LatW> { [ w, W ] };
-    key <LatE> { [ v, V ] };
+    key <LatW> { [ w, W, bracketleft, braceleft ] };
+    key <LatE> { [ v, V, bracketright, braceright ] };
     key <LatR> { [ f, F ] };
     key <LatT> { [ comma, less ] };
     key <LatY> { [  ] };
@@ -26,9 +26,9 @@ xkb_symbols "basic" {
     key <LatI> { [ u, U ] };
     key <LatO> { [ i, I, colon, semicolon ] };
     key <LatP> { [ o, O, oacute, Oacute ] };
-    key <AD11> { [ j, J, plus ] };
-    key <AD12> { [ bracketleft, braceleft ] };
-    key <BKSL> { [ bracketright, braceright ] };
+    key <AD11> { [ equal, plus ] };
+    key <AD12> { [ j, J ] };
+    key <BKSL> { [ minus, underscore ] };
 
     key <LatA> { [ a, A, aogonek, Aogonek ] };
     key <LatS> { [ s, S, sacute, Sacute ] };
@@ -54,33 +54,5 @@ xkb_symbols "basic" {
     key <AB09> { [ k, K ] };
     key <AB10> { [ period, greater ] };
     key <RTSH> { [ slash, question ] };
-
-    // replacement keys
-    key <FK11> { [ 10, F11 ] };
 };
 
-xkb_symbols "navigation" {
-    include "janek(basic)"
-
-    // put arrows on right hand home keys, in second group (vim-style)
-    key <LatK> {
-        symbols[Group2] = [ Left, Left, Home ]
-    };
-    key <LatL> {
-        symbols[Group2] = [ Down, Down, Next ]
-    };
-    key <AC10> {
-        symbols[Group2] = [ Up, Up, Prior ]
-    };
-    key <AC11> {
-        symbols[Group2] = [ Right, Right, End ]
-    };
-
-    // Switch groups to enable/disable arrows.
-    // I also use xcape to map this to more accessible keys.
-    key <BACK> { [ ISO_Last_Group ] };
-    key <FRWD> { [ ISO_First_Group ] };
-
-    // Home key doesn't work on my keyboard, so I need another one
-    key <FK12> { [ Home, Home, F12 ] };
-};
