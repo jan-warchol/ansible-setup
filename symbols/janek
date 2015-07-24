@@ -3,7 +3,7 @@ xkb_symbols "basic" {
     include "modifier_keys"
 
     key <TLDE> { [ grave, asciitilde ] };
-    key <AE01> { [ 1, exclam ] };
+    key <AE01> { [ 1 ] };
     key <AE02> { [ 2, at ] };
     key <AE03> { [ 3, numbersign ] };
     key <AE04> { [ 4, dollar ] };
@@ -16,19 +16,19 @@ xkb_symbols "basic" {
     key <AE11> { [ minus, underscore ] };
     key <AE12> { [ equal, plus ] };
 
-    key <LatQ> { [ q, Q ] };
+    key <LatQ> { [ q, Q, exclam ] };
     key <LatW> { [ w, W ] };
-    key <LatE> { [ d, D ] };
+    key <LatE> { [ v, V ] };
     key <LatR> { [ f, F ] };
     key <LatT> { [ comma, less ] };
     key <LatY> { [  ] };
     key <LatU> { [  ] };
     key <LatI> { [ u, U ] };
-    key <LatO> { [ i, I ] };
+    key <LatO> { [ i, I, colon, semicolon ] };
     key <LatP> { [ o, O, oacute, Oacute ] };
     key <AD11> { [ j, J, plus ] };
-    key <AD12> { [ bracketleft, braceleft, parenleft ] };
-    key <BKSL> { [ bracketright, braceright, parenright ] };
+    key <AD12> { [ bracketleft, braceleft ] };
+    key <BKSL> { [ bracketright, braceright ] };
 
     key <LatA> { [ a, A, aogonek, Aogonek ] };
     key <LatS> { [ s, S, sacute, Sacute ] };
@@ -37,22 +37,23 @@ xkb_symbols "basic" {
     key <LatG> { [ g, G ] };
     key <LatH> { [  ] };
     key <LatJ> { [ y, Y ] };
-    key <LatK> { [ n, N ] };
-    key <LatL> { [ r, R ] };
+    key <LatK> { [ n, N, parenright ] };
+    key <LatL> { [ r, R, parenleft ] };
     key <AC10> { [ l, L, lstroke, Lstroke ] };
     key <AC11> { [ h, H, apostrophe, quotedbl ] };
 
+    key <LFSH> { [ backslash, bar ] };
     key <LatZ> { [ z, Z, zabovedot, Zabovedot ] };
     key <LatX> { [ x, X, zacute, Zacute ] };
     key <LatC> { [ c, C, cacute, Cacute ] };
-    key <LatV> { [ v, V ] };
+    key <LatV> { [ d, D ] };
     key <LatB> { [  ] };
     key <LatN> { [ b, B ] };
-    key <LatM> { [ p, P, nacute, Nacute ] };
-    key <AB08> { [ m, M, backslash ] };
+    key <LatM> { [ p, P ] };
+    key <AB08> { [ m, M, nacute, Nacute ] };
     key <AB09> { [ k, K ] };
-    key <AB10> { [ period, greater, semicolon ] };
-    key <RTSH> { [ slash, bar, question ] };
+    key <AB10> { [ period, greater ] };
+    key <RTSH> { [ slash, question ] };
 
     // replacement keys
     key <FK11> { [ 10, F11 ] };
