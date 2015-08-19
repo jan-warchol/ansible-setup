@@ -1,0 +1,20 @@
+# FIXME
+# Ansible's apt module says that it cannot find "libx11-dev",
+# but using apt directly gives no error...
+- name: install xcape dependencies
+  shell: apt-get install git gcc make pkg-config libx11-dev libxtst-dev libxi-dev
+  sudo: yes
+
+- name: clone xcape repository
+  git:
+    repo: "https://github.com/alols/xcape.git"
+    dest: "~/bin/xcape.git"
+
+- name: install xcape
+  shell: make chdir=~/bin/xcape.git
+
+- name: create symlink
+  file:
+    src: ~/bin/xcape.git/xcape
+    dest: ~/bin/xcape
+    state: link

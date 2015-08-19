@@ -1,0 +1,63 @@
+- name: create XDG directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ ansible_env.HOME }}/media/wymiana"
+    - "{{ ansible_env.HOME }}/media/muzyka"
+    - "{{ ansible_env.HOME }}/media/filmy"
+    - "{{ ansible_env.HOME }}/media/obrazy"
+
+- name: user-dirs.dirs file
+  copy:
+    src: user-dirs
+    dest: ~/.config/user-dirs.dirs
+
+- name: file manager bookmarks
+  copy:
+    src: bookmarks
+    dest: ~/.config/gtk-3.0/bookmarks
+
+- name: remove unneeded directories
+  shell: rmdir "{{ item }}" || true
+  with_items:
+    - "{{ ansible_env.HOME }}/Desktop"
+    - "{{ ansible_env.HOME }}/Documents"
+    - "{{ ansible_env.HOME }}/Downloads"
+    - "{{ ansible_env.HOME }}/Music"
+    - "{{ ansible_env.HOME }}/Pictures"
+    - "{{ ansible_env.HOME }}/Public"
+    - "{{ ansible_env.HOME }}/Templates"
+    - "{{ ansible_env.HOME }}/Videos"
+  register: task_result
+  changed_when: task_result.stderr == ''
+
+- name: Update xkb files
+  copy:
+    src: "{{ ansible_env.HOME }}/.config/xkb/{{ item.src }}"
+    dest: /usr/share/X11/xkb/{{ item.dest }}
+  with_items:
+    - { src: symbols/janek, dest: symbols/janek }
+    - { src: symbols/modifier_keys, dest: symbols/modifier_keys }
+    - { src: keycodes/customThinkPad, dest: keycodes/customThinkPad }
+  sudo: yes
+
+- name: Update xorg.conf
+  copy:
+    src: xorg.conf
+    dest: /etc/X11/xorg.conf
+  sudo: yes
+
+- name: set Terminator as default system terminal
+  shell: >
+    gsettings get org.cinnamon.desktop.default-applications.terminal exec;
+    gsettings set org.cinnamon.desktop.default-applications.terminal exec 'terminator'
+  register: previous_default
+  changed_when: '"terminator" not in previous_default.stdout'
+
+- name: check whether xcape is installed
+  stat: path=~/bin/xcape
+  register: xcape_executable
+
+- include: install-xcape.yml
+  when: xcape_executable.stat.exists == false

@@ -1,0 +1,26 @@
+# As of 2015, official apt repos keep serving ancient Vagrant, and there's
+# no PPA, so we scrape vagrant website and download .deb from there.
+
+- name: get url pointing to the latest Vagrant .deb
+  shell: >
+    wget --quiet https://www.vagrantup.com/downloads.html -O- |
+    grep -P "\d+\.\d+\.\d+_x86_64\.deb" |
+    cut -d'"' -f2
+  register: vagrant_latest_deb_url
+  failed_when: vagrant_latest_deb_url.rc > 0
+  changed_when: False
+
+- name: download Vagrant .deb
+  get_url:
+    url: "{{ vagrant_latest_deb_url.stdout }}"
+    dest: /tmp/vagrant.deb
+
+- name: install Vagrant
+  apt: deb=/tmp/vagrant.deb
+  sudo: yes
+
+- name: remove vagrant.deb file
+  file:
+    path: /tmp/vagrant.deb
+    state: absent
+

@@ -1,0 +1,12 @@
+- hosts: personal_computers
+  roles:
+    - basic-system-config
+    - basic-user-conifg
+    - graphical-desktop-env
+    - extra-packages
+    - virtualization-tools
+
+- hosts: test_vagrant_vms
+  roles:
+    - basic-system-config
+    - basic-user-conifg
