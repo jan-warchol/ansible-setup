@@ -1,6 +1,7 @@
 127.0.0.1	localhost
 127.0.1.1	jwlap
 10.5.2.103	terminator
+192.168.123.11	test-vm-1
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback

@@ -2,4 +2,4 @@
 localhost ansible_connection=local
 
 [test_vagrant_vms]
-192.168.123.234 ansible_ssh_user=vagrant
+test-vm-1 ansible_ssh_user=vagrant
