@@ -1,0 +1,20 @@
+- name: create .ssh directory
+  file:
+    path: ~/.ssh
+    state: directory
+
+- name: update ssh config
+  copy:
+    src: ssh-config
+    dest: ~/.ssh/config
+
+- name: add github.com to known_hosts
+  known_hosts:
+    name: github.com
+    key: "{{ github_public_key }}"
+
+- name: add my personal key to authorized keys
+  lineinfile:
+    dest: ~/.ssh/authorized_keys
+    line: "{{ id_rsa_personal_2c6819cb_public_key }}"
+    create: yes
