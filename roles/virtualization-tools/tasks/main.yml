@@ -1,0 +1,10 @@
+- include: install-virtualbox.yml
+
+- name: check for Vagrant
+  shell: which vagrant
+  register: vagrant_check
+  failed_when: vagrant_check.rc > 1
+  changed_when: False
+
+- include: install-vagrant.yml
+  when: vagrant_check.rc == 1
