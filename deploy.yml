@@ -1,4 +1,10 @@
-- hosts: all
+- hosts: personal_computers
+  roles:
+    - basic-system-config
+    - basic-user-conifg
+    - extra-packages
+
+- hosts: test_vagrant_vms
   roles:
     - basic-system-config
     - basic-user-conifg
