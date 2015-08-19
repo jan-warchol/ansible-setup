@@ -19,6 +19,14 @@
 #  shell: sed -i 's/utopic/trusty/' /etc/apt/sources.list.d/freefilesync*
 #  sudo: yes
 
+- name: Add Google Chrome APT key
+  apt_key: url=https://dl-ssl.google.com/linux/linux_signing_key.pub
+  sudo: yes
+
+- name: add Google Chrome APT repository
+  apt_repository: repo='deb http://dl.google.com/linux/chrome/deb/ stable main'
+  sudo: yes
+
 - name: Install all additional software
   apt:
     name: "{{ item }}"
@@ -35,6 +43,7 @@
     - freefilesync
     - git
     - gitk
+    - google-chrome-stable
     - gparted
     - indicator-multiload
     - ipython
