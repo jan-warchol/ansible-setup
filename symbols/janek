@@ -22,12 +22,12 @@ xkb_symbols "basic" {
     key <LatR> { [ f, F ] };
     key <LatT> { [ comma, less ] };
     key <LatY> { [  ] };
-    key <LatU> { [  ] };
+    key <LatU> { [ equal, plus ] };
     key <LatI> { [ u, U ] };
     key <LatO> { [ i, I, colon, semicolon ] };
     key <LatP> { [ o, O, oacute, Oacute ] };
-    key <AD11> { [ equal, plus ] };
-    key <AD12> { [ j, J ] };
+    key <AD11> { [ j, J ] };
+    key <AD12> { [ b, B ] };
     key <BKSL> { [ minus, underscore ] };
 
     key <LatA> { [ a, A, aogonek, Aogonek ] };
@@ -47,8 +47,8 @@ xkb_symbols "basic" {
     key <LatX> { [ x, X, zacute, Zacute ] };
     key <LatC> { [ c, C, cacute, Cacute ] };
     key <LatV> { [ d, D ] };
-    key <LatB> { [  ] };
-    key <LatN> { [ b, B ] };
+    key <LatB> { [ BackSpace ] };
+    key <LatN> { [ BackSpace ] };
     key <LatM> { [ p, P ] };
     key <AB08> { [ m, M, nacute, Nacute ] };
     key <AB09> { [ k, K ] };
