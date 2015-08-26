@@ -1,5 +1,8 @@
 [personal_computers]
 localhost ansible_connection=local
 
+[work_computers]
+localhost ansible_connection=local
+
 [test_vagrant_vms]
 test-vm-1 ansible_ssh_user=vagrant
