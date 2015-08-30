@@ -1,0 +1,21 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	worktree = /home/janek
+[user]
+	email = jan.warchol@gmail.com
+	name = Jan Warchoł
+[remote "sensible"]
+	url = git@github.com:janek-warchol/sensible-dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/sensible/*
+[remote "personal"]
+	url = git@github.com:janek-warchol/my-dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/personal/*
+[branch "master"]
+	remote = sensible
+	merge = refs/heads/master
+[branch "janek"]
+	remote = personal
+	merge = refs/heads/janek

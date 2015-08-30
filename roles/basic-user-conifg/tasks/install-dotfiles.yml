@@ -14,3 +14,8 @@
     ~/.dotfiles.git/.install-dotfiles.sh
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
+
+- name: install dotfiles git repo configuration
+  copy:
+    src: dotfiles-git-config
+    dest: ~/.dotfiles.git/config
