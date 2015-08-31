@@ -19,7 +19,7 @@
     dest: ~/.config/gtk-3.0/bookmarks
 
 - name: remove unneeded directories
-  shell: rmdir "{{ item }}" || true
+  shell: rmdir "{{ item }}"
   with_items:
     - "{{ ansible_env.HOME }}/Desktop"
     - "{{ ansible_env.HOME }}/Documents"
@@ -31,6 +31,7 @@
     - "{{ ansible_env.HOME }}/Videos"
   register: task_result
   changed_when: task_result.stderr == ''
+  failed_when: '"Directory not empty" in task_result.stderr'
 
 - name: Update xkb files
   copy:
