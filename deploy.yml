@@ -2,7 +2,7 @@
   roles:
     - basic-system-config
     - basic-user-conifg
-    - graphical-desktop-env
+    - graphical-desktop-config
     - extra-packages
     - virtualization-tools
 
