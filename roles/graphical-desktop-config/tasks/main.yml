@@ -17,6 +17,7 @@
   copy:
     src: bookmarks
     dest: ~/.config/gtk-3.0/bookmarks
+    backup: yes
 
 - name: remove unneeded directories
   shell: rmdir "{{ item }}"

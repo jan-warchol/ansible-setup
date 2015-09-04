@@ -19,3 +19,4 @@
   copy:
     src: dotfiles-git-config
     dest: ~/.dotfiles.git/config
+    force: no
