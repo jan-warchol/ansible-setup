@@ -1,12 +1,12 @@
 - name: create XDG directories
   file:
-    path: "{{ item }}"
+    path: "{{ ansible_env.HOME }}/media/{{ item }}"
     state: directory
   with_items:
-    - "{{ ansible_env.HOME }}/media/wymiana"
-    - "{{ ansible_env.HOME }}/media/muzyka"
-    - "{{ ansible_env.HOME }}/media/filmy"
-    - "{{ ansible_env.HOME }}/media/obrazy"
+    - wymiana
+    - muzyka
+    - filmy
+    - obrazy
 
 - name: user-dirs.dirs file
   copy:
@@ -20,16 +20,24 @@
     backup: yes
 
 - name: remove unneeded directories
-  shell: rmdir "{{ item }}"
+  shell: rmdir "{{ ansible_env.HOME }}/{{ item }}"
   with_items:
-    - "{{ ansible_env.HOME }}/Desktop"
-    - "{{ ansible_env.HOME }}/Documents"
-    - "{{ ansible_env.HOME }}/Downloads"
-    - "{{ ansible_env.HOME }}/Music"
-    - "{{ ansible_env.HOME }}/Pictures"
-    - "{{ ansible_env.HOME }}/Public"
-    - "{{ ansible_env.HOME }}/Templates"
-    - "{{ ansible_env.HOME }}/Videos"
+    - Desktop
+    - Documents
+    - Downloads
+    - Music
+    - Pictures
+    - Public
+    - Templates
+    - Videos
+    - Pulpit
+    - Dokumenty
+    - Pobrane
+    - Muzyka
+    - Obrazy
+    - Publiczne
+    - Szablony
+    - Wideo
   register: task_result
   changed_when: task_result.stderr == ''
   failed_when: '"Directory not empty" in task_result.stderr'
