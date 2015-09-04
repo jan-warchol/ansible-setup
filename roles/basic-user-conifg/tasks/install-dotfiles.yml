@@ -7,6 +7,7 @@
     repo: "git://github.com/janek-warchol/my-dotfiles"
     dest: ~/.dotfiles.git
     version: janek
+    force: no
   when: dotfiles_config_file.stat.exists == false
 
 - name: install dotfiles
