@@ -1,8 +1,11 @@
+# apparently I cannot put the same host with different users in different groups,
+# so I had to create an "jwlap-cl" alias for my machine (see /etc/hosts).
+
 [personal_computers]
-localhost ansible_connection=local
+jwlap ansible_ssh_user=janek
 
 [work_computers]
-localhost ansible_connection=local
+jwlap-cl ansible_ssh_user=codilime
 
 [test_vagrant_vms]
 test-vm-1 ansible_ssh_user=vagrant

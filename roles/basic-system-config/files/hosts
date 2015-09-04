@@ -1,5 +1,7 @@
 127.0.0.1	localhost
 127.0.1.1	jwlap
+127.1.1.1	jwlap-cl
+
 10.5.2.103	terminator
 192.168.123.11	test-vm-1
 
