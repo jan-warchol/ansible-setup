@@ -1,11 +1,11 @@
-- name: create .ssh directory
+- name: ensure .ssh directory exists
   file:
     path: ~/.ssh
     state: directory
 
 - name: update ssh config
   copy:
-    src: ssh-config
+    src: ssh-config-{{ ansible_env.USER }}
     dest: ~/.ssh/config
     backup: yes
 

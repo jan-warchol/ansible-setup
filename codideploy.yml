@@ -1,8 +1,0 @@
-- hosts: work_computers
-  roles:
-    - basic-system-config
-    - graphical-desktop-config
-    - extra-packages
-    - virtualization-tools
-    - codilime-networking
-

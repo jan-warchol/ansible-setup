@@ -7,15 +7,16 @@
     - muzyka
     - filmy
     - obrazy
+  when: ansible_env.USER == "janek"
 
 - name: user-dirs.dirs file
   copy:
-    src: user-dirs
+    src: user-dirs-{{ ansible_env.USER }}
     dest: ~/.config/user-dirs.dirs
 
 - name: file manager bookmarks
   copy:
-    src: bookmarks
+    src: bookmarks-{{ ansible_env.USER }}
     dest: ~/.config/gtk-3.0/bookmarks
     backup: yes
 
