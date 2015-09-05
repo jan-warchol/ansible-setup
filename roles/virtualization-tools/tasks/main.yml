@@ -8,3 +8,17 @@
 
 - include: install-vagrant.yml
   when: vagrant_check.rc == 1
+
+- name: install vagrant configuration
+  template:
+    src: global-vagrantfile
+    dest: "{{ ansible_env.HOME }}/.vagrant.d/Vagrantfile"
+
+- name: generate ssh key for vagrant boxes
+  command: >
+    ssh-keygen
+    -f {{ ansible_env.HOME }}/.ssh/custom_vagrant_key
+    -N ""
+    -C custom_vagrant_key
+  args:
+    creates: "{{ ansible_env.HOME }}/.ssh/custom_vagrant_key"
