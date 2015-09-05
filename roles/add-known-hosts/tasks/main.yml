@@ -1,0 +1,4 @@
+- name: add github.com to known_hosts
+  known_hosts:
+    name: github.com
+    key: "{{ github_public_key }}"

@@ -5,5 +5,5 @@
 
 - hosts: all
   roles:
-    - basic-system-config
-    - basic-user-conifg
+    - basic-packages
+    - dotfiles

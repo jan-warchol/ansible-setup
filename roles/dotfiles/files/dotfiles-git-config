@@ -3,7 +3,6 @@
 	filemode = true
 	bare = false
 	logallrefupdates = true
-	worktree = /home/janek
 [user]
 	email = jan.warchol@gmail.com
 	name = Jan Warchoł

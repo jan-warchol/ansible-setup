@@ -3,20 +3,3 @@
     src: hosts
     dest: /etc/hosts
   sudo: yes
-
-- name: install basic software
-  apt:
-    name: "{{ item }}"
-    state: latest
-    install_recommends: no
-    update_cache: yes
-    cache_valid_time: 3600
-  with_items:
-    - git
-    - htop
-    - python-pip
-    - openssh-server
-    - ranger
-    - trash-cli
-    - tree
-  sudo: yes

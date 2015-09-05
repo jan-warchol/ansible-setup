@@ -2,6 +2,9 @@
   stat: path=~/.config/dotfiles-git-dir
   register: dotfiles_config_file
 
+# we must not try cloning the repo if it already exists, because the
+# installation script ran in the next task transforms it and ansible
+# would be confused.
 - name: clone dotfiles
   git:
     repo: "git://github.com/janek-warchol/my-dotfiles"
@@ -16,6 +19,8 @@
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
 
+# provide some basic config of the repo (most importantly remotes),
+# but don't overwrite changes made later (such as new branch info).
 - name: install dotfiles git repo configuration
   copy:
     src: dotfiles-git-config
