@@ -1,0 +1,5 @@
+# this file keeps track of git configuration that is different across
+# my user accounts.
+
+[user]
+    email = jan.warchol@gmail.com

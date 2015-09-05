@@ -23,6 +23,12 @@
 # but don't overwrite changes made later (such as new branch info).
 - name: install dotfiles git repo configuration
   copy:
-    src: dotfiles-git-config
+    src: dotfiles-repo-config
     dest: ~/.dotfiles.git/config
     force: no
+
+- name: install user-specific git configuration
+  copy:
+    src: gitconfig-{{ ansible_env.USER }}
+    dest: ~/.config/git/user-specific-config
+    backup: yes
