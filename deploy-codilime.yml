@@ -1,13 +1,3 @@
-- hosts: personal_computers
-  roles:
-    - basic-packages
-    - basic-system-config
-    - ssh-config
-    - dotfiles
-    - graphical-desktop-config
-    - extra-packages
-    - virtualization-tools
-
 - hosts: work_computers
   roles:
     - basic-packages
