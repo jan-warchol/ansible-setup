@@ -1,0 +1,9 @@
+# This playbook is for default provisioning of my vagrant boxes, so that
+# I always have a familiar environment with necessary tools installed
+# when I work on them.  I have a global Vagrantfile in ~/.vagrant.d/
+# which assigns this playbook to all boxes.
+
+- hosts: all
+  roles:
+    - basic-system-config
+    - basic-user-conifg

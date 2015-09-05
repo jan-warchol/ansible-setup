@@ -14,9 +14,3 @@
     - extra-packages
     - virtualization-tools
     - codilime-networking
-
-- hosts: test_vagrant_vms
-  roles:
-    - basic-system-config
-    - basic-user-conifg
-
