@@ -4,6 +4,7 @@
 # which assigns this playbook to all boxes.
 
 - hosts: all
+  gather_facts: no  # save a couple seconds
   roles:
     - basic-packages
     - dotfiles
