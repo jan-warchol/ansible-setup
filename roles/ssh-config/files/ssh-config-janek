@@ -10,3 +10,12 @@ Host bitbucket.org
     HostName bitbucket.org
     User git
     IdentityFile ~/.ssh/id_rsa_personal_2c:68:19:cb
+
+# Fingerprints of vagrant machines change all the time and it's a nuisance
+# to be warned about it.  So, turn off the check, but only when connecting
+# to user vagrant on localhost or an address in private space.
+Match user vagrant host localhost,192.168.*
+    UserKnownHostsFile /dev/null
+    StrictHostKeyChecking no
+    IdentityFile ~/.ssh/custom_vagrant_key
+

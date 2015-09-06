@@ -51,19 +51,17 @@ Host superslave
 
 # LOCAL (VMs etc.)
 
-Host 91.91.0.11
-    User vagrant
-    StrictHostKeyChecking no
-    UserKnownHostsFile=/dev/null
-
-# ignore changing fingerprints on vagrant vms
-Host 10.0.0.*
-    User vagrant
-    StrictHostKeyChecking no
-    UserKnownHostsFile=/dev/null
-
 # a trick to get passwordless switch to another user
 Host janek
     User janek
     HostName jwlap
     IdentityFile ~/.ssh/id_rsa_personal_2c:68:19:cb
+
+# Fingerprints of vagrant machines change all the time and it's a nuisance
+# to be warned about it.  So, turn off the check, but only when connecting
+# to user vagrant on localhost or an address in private space.
+Match user vagrant host localhost,192.168.*
+    UserKnownHostsFile /dev/null
+    StrictHostKeyChecking no
+    IdentityFile ~/.ssh/custom_vagrant_key
+
