@@ -58,6 +58,7 @@
     - python-scipy
     - python-matplotlib
     - python-tk
+    - sshfs
     - terminator
     - vim
     - vlc
