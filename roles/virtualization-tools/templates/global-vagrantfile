@@ -10,7 +10,7 @@ $copy_pub_key = <<EOF
     fi
 EOF
 
-$playbook_path = "repos/ansible-system-setup/provision-vagrant-vms.yml"
+$playbook_path = ".config/ansible-system-setup/provision-vagrant-vms.yml"
 
 Vagrant.configure(2) do |config|
     config.vm.provision "shell", inline: $copy_pub_key, privileged: false
