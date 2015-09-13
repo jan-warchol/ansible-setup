@@ -24,14 +24,10 @@ copy_data() {
         ".ssh"
         ".bash_history"
         ".config/dotfiles-git-dir"
-        ".config/terminator"
         ".config/monitors.xml"
-        ".config/system-setup-todo"
         #".kde/share/apps/kate"
         #".kde/share/config/katerc"
         ".vagrant.d"
-        ".vim"
-        ".vimrc"
         #.chrome
         #virtualbox vms
     )
