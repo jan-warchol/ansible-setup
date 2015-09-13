@@ -12,5 +12,8 @@
 - name: add my personal key to authorized keys
   lineinfile:
     dest: ~/.ssh/authorized_keys
-    line: "{{ id_rsa_personal_2c6819cb_public_key }}"
+    line: "{{ item }}"
     create: yes
+  with_items:
+    - "{{ id_rsa_personal_2c6819cb_public_key }}"
+    - "{{ id_rsa_codilime_5260631d_public_key }}"
