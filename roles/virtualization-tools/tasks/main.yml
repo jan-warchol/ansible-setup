@@ -9,6 +9,11 @@
 - include: install-vagrant.yml
   when: vagrant_check.rc == 1
 
+- name: create vagrant.d directory
+  file:
+    dest: "{{ ansible_env.HOME }}/.vagrant.d"
+    state: directory
+
 - name: install vagrant configuration
   template:
     src: global-vagrantfile
