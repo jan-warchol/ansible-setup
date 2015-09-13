@@ -19,13 +19,12 @@
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
 
-# provide some basic config of the repo (most importantly remotes),
-# but don't overwrite changes made later (such as new branch info).
+# provide initial config of the repo (most importantly remotes).
 - name: install dotfiles git repo configuration
   copy:
     src: dotfiles-repo-config
     dest: ~/.dotfiles.git/config
-    force: no
+  when: dotfiles_config_file.stat.exists == false
 
 - name: install user-specific git configuration
   copy:
