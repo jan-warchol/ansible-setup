@@ -4,12 +4,12 @@
 Host github.com
     HostName github.com
     User git
-    IdentityFile ~/.ssh/id_rsa_personal_2c:68:19:cb
+    IdentityFile ~/.ssh/id_rsa_personal_2c6819cb
 
 Host bitbucket.org
     HostName bitbucket.org
     User git
-    IdentityFile ~/.ssh/id_rsa_personal_2c:68:19:cb
+    IdentityFile ~/.ssh/id_rsa_personal_2c6819cb
 
 # Fingerprints of vagrant machines change all the time and it's a nuisance
 # to be warned about it.  So, turn off the check, but only when connecting

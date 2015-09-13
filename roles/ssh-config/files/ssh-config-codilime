@@ -6,22 +6,22 @@
 Host github.com
     HostName github.com
     User git
-    IdentityFile ~/.ssh/id_rsa_codilime_52:60:63:1d
+    IdentityFile ~/.ssh/id_rsa_codilime_5260631d
 
 Host bitbucket.org
     HostName bitbucket.org
     User git
-    IdentityFile ~/.ssh/id_rsa_codilime_52:60:63:1d
+    IdentityFile ~/.ssh/id_rsa_codilime_5260631d
 
 Host github-personal
     HostName github.com
     User git
-    IdentityFile ~/.ssh/id_rsa_personal_2c:68:19:cb
+    IdentityFile ~/.ssh/id_rsa_personal_2c6819cb
 
 Host bitbucket-personal
     HostName bitbucket.org
     User git
-    IdentityFile ~/.ssh/id_rsa_personal_2c:68:19:cb
+    IdentityFile ~/.ssh/id_rsa_personal_2c6819cb
 
 
 
@@ -30,7 +30,7 @@ Host bitbucket-personal
 Host gerrit.codilime.com
     HostName gerrit.codilime.com
     User jwarchol
-    IdentityFile ~/.ssh/id_rsa_codilime_52:60:63:1d
+    IdentityFile ~/.ssh/id_rsa_codilime_5260631d
 
 
 
@@ -45,7 +45,7 @@ Host bitbucket.org-esi
 Host superslave
     HostName superslave
     User root
-    IdentityFile ~/.ssh/id_rsa_codilime_52:60:63:1d
+    IdentityFile ~/.ssh/id_rsa_codilime_5260631d
 
 
 
@@ -55,7 +55,7 @@ Host superslave
 Host janek
     User janek
     HostName jwlap
-    IdentityFile ~/.ssh/id_rsa_personal_2c:68:19:cb
+    IdentityFile ~/.ssh/id_rsa_personal_2c6819cb
 
 # Fingerprints of vagrant machines change all the time and it's a nuisance
 # to be warned about it.  So, turn off the check, but only when connecting
