@@ -32,3 +32,18 @@
       shell: ansible-galaxy install yaegashi.blockinfile
       when: blockinfile_check.rc == 1
       sudo: yes
+
+    - name: create directory for ansible plugins
+      file: path=/usr/share/ansible_plugins/{{ item }} state=directory
+      with_items:
+        - callback_plugins
+        - vars_plugins
+      sudo: yes
+
+    - name: download ansible-profile plugin
+      # I don't use get_url module because it's slower.
+      command: >
+        wget https://raw.githubusercontent.com/jlafon/ansible-profile/master/callback_plugins/profile_tasks.py
+        chdir=/usr/share/ansible_plugins/callback_plugins/
+        creates=/usr/share/ansible_plugins/callback_plugins/profile_tasks.py
+      sudo: yes
