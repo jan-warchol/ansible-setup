@@ -3,24 +3,28 @@
 
 # INTERNET
 
-Host github.com
+Host github-codilime
     HostName github.com
     User git
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_codilime_5260631d
 
-Host bitbucket.org
+Host bitbucket-codilime
     HostName bitbucket.org
     User git
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_codilime_5260631d
 
 Host github-personal
     HostName github.com
     User git
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_personal_2c6819cb
 
 Host bitbucket-personal
     HostName bitbucket.org
     User git
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_rsa_personal_2c6819cb
 
 
