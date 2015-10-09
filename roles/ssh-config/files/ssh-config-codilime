@@ -64,7 +64,7 @@ Host janek
 # Fingerprints of vagrant machines change all the time and it's a nuisance
 # to be warned about it.  So, turn off the check, but only when connecting
 # to user vagrant on localhost or an address in private space.
-Match user vagrant host localhost,192.168.*
+Match user vagrant host localhost,127.0.0.*,192.168.*
     UserKnownHostsFile /dev/null
     StrictHostKeyChecking no
     IdentityFile ~/.ssh/custom_vagrant_key
