@@ -1,5 +1,6 @@
-- name: SETUP ANSIBLE ON CONTROL MACHINE
-  hosts: ansible_control_machines
+- name: SETUP ANSIBLE ON THIS MACHINE
+  hosts: localhost
+  connection: local
   tasks:
     # Ansible from official repos is ancient - use PPA
     - name: add ansible PPA

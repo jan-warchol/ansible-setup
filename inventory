@@ -14,9 +14,3 @@ test-vm-1 ansible_ssh_user=vagrant
 [my_computers:children]
 personal_computers
 work_computers
-
-# this is an exceptional case when it actually makes sense to use localhost,
-# as we *do* want the "setup-ansible-itself" playbook to apply to whatever
-# machine it was ran from.
-[ansible_control_machines]
-localhost ansible_connection=local
