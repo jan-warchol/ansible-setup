@@ -2,7 +2,5 @@
 # it should not require sudo.
 - hosts: my_computers
   roles:
-    - misc-user-config
-    - ssh-config
     - dotfiles
-    - graphical-desktop-config
+    - user-configuration
