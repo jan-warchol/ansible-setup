@@ -1,4 +1,4 @@
-- hosts: personal_computers
+- hosts: my_computers
   roles:
     - basic-packages
     - basic-system-config
@@ -8,4 +8,3 @@
     - graphical-desktop-config
     - extra-packages
     - virtualization-tools
-
