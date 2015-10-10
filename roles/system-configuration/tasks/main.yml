@@ -1,0 +1,21 @@
+- include: install-packages.yml
+
+- include: install-virtualbox.yml
+
+- name: check whether Vagrant is installed
+  shell: which vagrant
+  register: vagrant_check
+  failed_when: vagrant_check.rc > 1
+  changed_when: False
+
+- include: install-vagrant.yml
+  when: vagrant_check.rc == 1
+
+- name: check whether xcape is installed
+  stat: path=~/bin/xcape
+  register: xcape_executable
+
+- include: install-xcape.yml
+  when: xcape_executable.stat.exists == false
+
+- include: misc-configuration.yml

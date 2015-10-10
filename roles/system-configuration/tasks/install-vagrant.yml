@@ -10,7 +10,7 @@
   failed_when: vagrant_latest_deb_url.rc > 0
   changed_when: False
 
-- name: download Vagrant .deb
+- name: download .deb file
   get_url:
     url: "{{ vagrant_latest_deb_url.stdout }}"
     dest: /tmp/vagrant.deb
@@ -19,7 +19,7 @@
   apt: deb=/tmp/vagrant.deb
   sudo: yes
 
-- name: remove vagrant.deb file
+- name: remove .deb file
   file:
     path: /tmp/vagrant.deb
     state: absent

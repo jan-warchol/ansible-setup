@@ -19,15 +19,7 @@
 #  shell: sed -i 's/utopic/trusty/' /etc/apt/sources.list.d/freefilesync*
 #  sudo: yes
 
-- name: Add Google Chrome APT key
-  apt_key: url=https://dl-ssl.google.com/linux/linux_signing_key.pub
-  sudo: yes
-
-- name: add Google Chrome APT repository
-  apt_repository: repo='deb http://dl.google.com/linux/chrome/deb/ stable main'
-  sudo: yes
-
-- name: Install all additional software
+- name: Install latest versions of apt packages
   apt:
     name: "{{ item }}"
     state: latest
@@ -43,8 +35,8 @@
     - freefilesync
     - git
     - gitk
-    - google-chrome-stable
     - gparted
+    - htop
     - indicator-multiload
     - ipython
     - kate
@@ -52,14 +44,19 @@
     - xdotool   # library for auto-type in keepass
     - libdvdread4   # DVD decryption
     - openjdk-7-jre
+    - openssh-server
+    - python-pip
     - python-dev
     - python-virtualenv
     - python-numpy
     - python-scipy
     - python-matplotlib
     - python-tk
+    - ranger
     - sshfs
     - terminator
+    - trash-cli
+    - tree
     - vim
     - vlc
     - xbacklight   # changing screen brightness
@@ -74,10 +71,3 @@
 #- name: Finish DVD decryption installation
 #  shell: /usr/share/doc/libdvdread4/install-css.sh
 #  sudo: yes
-
-- name: check whether xcape is installed
-  stat: path=~/bin/xcape
-  register: xcape_executable
-
-- include: install-xcape.yml
-  when: xcape_executable.stat.exists == false

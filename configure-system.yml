@@ -1,7 +1,4 @@
 # system-wide configuration, requires administrator privileges
 - hosts: my_computers
   roles:
-    - basic-packages
-    - basic-system-config
-    - extra-packages
-    - virtualization-tools
+    - system-configuration

@@ -4,6 +4,19 @@
 # which assigns this playbook to all boxes.
 
 - hosts: all
+  pre_tasks:
+    - name: install common apt packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 36000
+      with_items:
+        - git
+        - ranger
+        - trash-cli
+      sudo: yes
+
   roles:
-    - basic-packages
     - dotfiles
