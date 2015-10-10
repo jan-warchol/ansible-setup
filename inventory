@@ -3,6 +3,7 @@
 
 [personal_computers]
 jwlap ansible_ssh_user=janek
+domowy ansible_ssh_user=janek
 
 [work_computers]
 jw-cl ansible_ssh_user=codilime
