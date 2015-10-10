@@ -1,2 +1,2 @@
 dependencies:
-  - add-known-hosts
+  - manage-known-hosts
