@@ -1,10 +1,7 @@
+# system-wide configuration, requires administrator privileges
 - hosts: my_computers
   roles:
     - basic-packages
     - basic-system-config
-    - misc-user-config
-    - ssh-config
-    - dotfiles
-    - graphical-desktop-config
     - extra-packages
     - virtualization-tools

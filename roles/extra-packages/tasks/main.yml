@@ -74,3 +74,10 @@
 #- name: Finish DVD decryption installation
 #  shell: /usr/share/doc/libdvdread4/install-css.sh
 #  sudo: yes
+
+- name: check whether xcape is installed
+  stat: path=~/bin/xcape
+  register: xcape_executable
+
+- include: install-xcape.yml
+  when: xcape_executable.stat.exists == false
