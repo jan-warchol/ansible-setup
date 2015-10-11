@@ -1,0 +1,31 @@
+- name: update /etc/hosts - personal
+  lineinfile:
+    line: "{{ item }}"
+    dest: /etc/hosts
+  with_items: "{{ personal_hosts }}"
+  when: ansible_env.USER == "janek"
+  sudo: yes
+
+- name: update /etc/hosts - codilime
+  lineinfile:
+    line: "{{ item }}"
+    dest: /etc/hosts
+  with_items: "{{ codilime_hosts }}"
+  when: ansible_env.USER == "codilime"
+  sudo: yes
+
+- name: Update xkb files
+  copy:
+    src: "{{ ansible_env.HOME }}/.config/xkb/{{ item.src }}"
+    dest: /usr/share/X11/xkb/{{ item.dest }}
+  with_items:
+    - { src: symbols/janek, dest: symbols/janek }
+    - { src: symbols/modifier_keys, dest: symbols/modifier_keys }
+    - { src: keycodes/customThinkPad, dest: keycodes/customThinkPad }
+  sudo: yes
+
+- name: Update xorg.conf
+  copy:
+    src: xorg.conf
+    dest: /etc/X11/xorg.conf
+  sudo: yes

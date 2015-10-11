@@ -1,0 +1,6 @@
+# This playbook is for user-specific configuration.  In particular,
+# it should not require sudo.
+- hosts: my_computers
+  roles:
+    - dotfiles
+    - user-configuration

@@ -1,17 +1,10 @@
-# apparently I cannot put the same host with different users in different groups,
-# so I had to create an "jw-cl" alias for my machine (see /etc/hosts).
-
 [personal_computers]
-jwlap ansible_ssh_user=janek
+thinkpad_personal ansible_ssh_host=jwlap ansible_ssh_user=janek
+domowy ansible_ssh_user=janek
 
 [work_computers]
-jw-cl ansible_ssh_user=codilime
+thinkpad_codilime ansible_ssh_host=jwlap ansible_ssh_user=codilime
 
-[test_vagrant_vms]
-test-vm-1 ansible_ssh_user=vagrant
-
-# this is an exceptional case when it actually makes sense to use localhost,
-# as we *do* want the "setup-ansible-itself" playbook to apply to whatever
-# machine it was ran from.
-[ansible_control_machines]
-localhost ansible_connection=local
+[my_computers:children]
+personal_computers
+work_computers

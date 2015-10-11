@@ -1,0 +1,51 @@
+- name: create XDG directories
+  file:
+    path: "{{ ansible_env.HOME }}/media/{{ item }}"
+    state: directory
+  with_items:
+    - wymiana
+    - muzyka
+    - filmy
+    - obrazy
+  when: ansible_env.USER == "janek"
+
+- name: user-dirs.dirs file
+  copy:
+    src: user-dirs-{{ ansible_env.USER }}
+    dest: ~/.config/user-dirs.dirs
+
+- name: file manager bookmarks
+  copy:
+    src: bookmarks-{{ ansible_env.USER }}
+    dest: ~/.config/gtk-3.0/bookmarks
+    force: no
+
+- name: remove unneeded directories
+  shell: rmdir "{{ ansible_env.HOME }}/{{ item }}"
+  with_items:
+    - Desktop
+    - Documents
+    - Downloads
+    - Music
+    - Pictures
+    - Public
+    - Templates
+    - Videos
+    - Pulpit
+    - Dokumenty
+    - Pobrane
+    - Muzyka
+    - Obrazy
+    - Publiczne
+    - Szablony
+    - Wideo
+  register: task_result
+  changed_when: task_result.stderr == ''
+  failed_when: '"Directory not empty" in task_result.stderr'
+
+- name: set Terminator as default system terminal
+  shell: >
+    gsettings get org.cinnamon.desktop.default-applications.terminal exec;
+    gsettings set org.cinnamon.desktop.default-applications.terminal exec 'terminator'
+  register: previous_default
+  changed_when: '"terminator" not in previous_default.stdout'

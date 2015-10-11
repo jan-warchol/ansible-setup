@@ -1,2 +1,3 @@
 dependencies:
+  - yaegashi.blockinfile
   - manage-known-hosts

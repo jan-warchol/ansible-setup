@@ -1,0 +1,81 @@
+# FIXME
+# Ansible's apt_repository module doesn't work correcty with Linux Mint,
+# see https://github.com/ansible/ansible/issues/4587
+# Also, the filenames that are checked for existence are hardcoded :(
+
+- name: Add official git PPA
+  command: >
+    add-apt-repository --yes ppa:git-core/ppa
+    creates=/etc/apt/sources.list.d/git-core-ppa-trusty.list
+  register: git_ppa_status
+  sudo: yes
+
+- name: Add FreeFileSync PPA
+  command: >
+    add-apt-repository --yes ppa:freefilesync/ffs
+    creates=/etc/apt/sources.list.d/freefilesync-ffs-trusty.list
+  register: ffs_ppa_status
+  sudo: yes
+
+#- name: FreeFileSync wasn't available in Utopic Unicorn repos
+#  shell: sed -i 's/utopic/trusty/' /etc/apt/sources.list.d/freefilesync*
+#  sudo: yes
+
+- name: update apt cache
+  apt: update_cache=yes
+  when: git_ppa_status.changed or ffs_ppa_status.changed
+  sudo: yes
+
+- name: Install latest versions of apt packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    install_recommends: no
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+    - baobab
+    - build-essential
+    - dconf-cli
+    - dconf-editor   # desktop environment configuration
+    - flip
+    - freefilesync
+    - git
+    - gitk
+    - gparted
+    - htop
+    - indicator-multiload
+    - ipython
+    - kate
+    - keepass2
+    - xdotool   # library for auto-type in keepass
+    - libdvdread4   # DVD decryption
+    - openjdk-7-jre
+    - openssh-server
+    - python-pip
+    - python-dev
+    - python-virtualenv
+    - python-numpy
+    - python-scipy
+    - python-matplotlib
+    - python-tk
+    - ranger
+    - sshfs
+    - terminator
+    - trash-cli
+    - tree
+    - vim
+    - vlc
+    - xbacklight   # changing screen brightness
+    #- gimp
+    #- guake
+    #- imagemagick
+    #- kompare
+  sudo: yes
+
+# TODO
+# I think this is not needed anymore...
+#- name: Finish DVD decryption installation
+#  shell: /usr/share/doc/libdvdread4/install-css.sh
+#  sudo: yes
+
