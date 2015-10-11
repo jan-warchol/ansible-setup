@@ -2,15 +2,7 @@
   lineinfile:
     dest: ~/.config/ansible-system-setup/.git/config
     regexp: url = .*ansible-system-setup
-    line: "	url = git@github.com:janek-warchol/ansible-system-setup.git"
-  when: ansible_env.USER == "janek"
-
-- name: update ansible-system-setup remote
-  lineinfile:
-    dest: ~/.config/ansible-system-setup/.git/config
-    regexp: url = .*ansible-system-setup
-    line: "	url = git@github-personal:janek-warchol/ansible-system-setup.git"
-  when: ansible_env.USER == "codilime"
+    line: "	url = {{ this_repo_remote }}"
 
 - name: set commit authorship metadata in ansible-system-setup
   blockinfile:
