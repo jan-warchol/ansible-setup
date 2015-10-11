@@ -1,0 +1,21 @@
+- name: update ansible-system-setup remote
+  lineinfile:
+    dest: ~/.config/ansible-system-setup/.git/config
+    regexp: url = .*ansible-system-setup
+    line: "	url = git@bitbucket.org:janek-warchol/ansible-system-setup.git"
+  when: ansible_env.USER == "janek"
+
+- name: update ansible-system-setup remote
+  lineinfile:
+    dest: ~/.config/ansible-system-setup/.git/config
+    regexp: url = .*ansible-system-setup
+    line: "	url = git@bitbucket-personal:janek-warchol/ansible-system-setup.git"
+  when: ansible_env.USER == "codilime"
+
+- name: set commit authorship metadata in ansible-system-setup
+  blockinfile:
+    dest: ~/.config/ansible-system-setup/.git/config
+    block: |
+      [user]
+      	name = Jan Warchoł
+      	email = jan.warchol@gmail.com

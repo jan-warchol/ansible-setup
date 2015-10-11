@@ -36,7 +36,7 @@ Host gerrit.codilime.com
 
 # NTTi3
 
-# idk what's this for...
+# idk what this one is for...
 Host bitbucket.org-esi
     HostName bitbucket.org
     User git
@@ -50,6 +50,10 @@ Host superslave
 
 
 # LOCAL (VMs etc.)
+
+# I have no idea why, but I cannot ssh to localhost if I don't specify key...
+Host jw-cl localhost
+    IdentityFile ~/.ssh/id_rsa_codilime_5260631d
 
 # a trick to get passwordless switch to another user
 Host janek

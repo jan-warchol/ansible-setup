@@ -18,7 +18,7 @@
   copy:
     src: bookmarks-{{ ansible_env.USER }}
     dest: ~/.config/gtk-3.0/bookmarks
-    backup: yes
+    force: no
 
 - name: remove unneeded directories
   shell: rmdir "{{ ansible_env.HOME }}/{{ item }}"

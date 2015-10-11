@@ -19,13 +19,12 @@
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
 
-# provide some basic config of the repo (most importantly remotes),
-# but don't overwrite changes made later (such as new branch info).
+# provide initial config of the repo (most importantly remotes).
 - name: install dotfiles git repo configuration
   copy:
     src: dotfiles-repo-config
     dest: ~/.dotfiles.git/config
-    force: no
+  when: dotfiles_config_file.stat.exists == false
 
 - name: install user-specific git configuration
   copy:
@@ -33,3 +32,13 @@
     dest: ~/.config/git/user-specific-config
     backup: yes
   when: ansible_env.USER != "vagrant"
+
+- name: create .vim/autoload
+  file:
+    dest: ~/.vim/autoload
+    state: directory
+
+- name: download plug.vim
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: ~/.vim/autoload/plug.vim

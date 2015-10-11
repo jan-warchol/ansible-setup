@@ -3,9 +3,6 @@
 	filemode = true
 	bare = false
 	logallrefupdates = true
-[user]
-	email = jan.warchol@gmail.com
-	name = Jan Warchoł
 [remote "sensible"]
 	url = git@github.com:janek-warchol/sensible-dotfiles.git
 	fetch = +refs/heads/*:refs/remotes/sensible/*
@@ -18,3 +15,6 @@
 [branch "janek"]
 	remote = personal
 	merge = refs/heads/janek
+[user]
+	email = jan.warchol@gmail.com
+	name = Jan Warchoł

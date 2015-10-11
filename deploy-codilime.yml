@@ -2,6 +2,7 @@
   roles:
     - basic-packages
     - basic-system-config
+    - misc-user-config
     - ssh-config
     - dotfiles
     - graphical-desktop-config

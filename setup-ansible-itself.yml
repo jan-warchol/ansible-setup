@@ -1,0 +1,49 @@
+- name: SETUP ANSIBLE ON CONTROL MACHINE
+  hosts: ansible_control_machines
+  tasks:
+    # Ansible from official repos is ancient - use PPA
+    - name: add ansible PPA
+      command: >
+        add-apt-repository --yes ppa:ansible/ansible
+        creates=/etc/apt/sources.list.d/ansible-ansible-trusty.list
+      register: ansible_ppa_status
+      sudo: yes
+
+    - name: update apt cache
+      apt: update_cache=yes
+      when: ansible_ppa_status.changed == true
+      sudo: yes
+
+    - name: install latest Ansible
+      apt: name=ansible state=latest
+      sudo: yes
+
+    - name: create directory for roles from ansible galaxy
+      file: path=/etc/ansible/roles state=directory
+      sudo: yes
+
+    - name: check for blockinfile role
+      shell: ansible-galaxy list | grep yaegashi.blockinfile
+      register: blockinfile_check
+      changed_when: false
+      failed_when: blockinfile_check.rc > 1
+
+    - name: install blockinfile role
+      shell: ansible-galaxy install yaegashi.blockinfile
+      when: blockinfile_check.rc == 1
+      sudo: yes
+
+    - name: create directory for ansible plugins
+      file: path=/usr/share/ansible_plugins/{{ item }} state=directory
+      with_items:
+        - callback_plugins
+        - vars_plugins
+      sudo: yes
+
+    - name: download ansible-profile plugin
+      # I don't use get_url module because it's slower.
+      command: >
+        wget https://raw.githubusercontent.com/jlafon/ansible-profile/master/callback_plugins/profile_tasks.py
+        chdir=/usr/share/ansible_plugins/callback_plugins/
+        creates=/usr/share/ansible_plugins/callback_plugins/profile_tasks.py
+      sudo: yes
