@@ -8,3 +8,6 @@ thinkpad_codilime ansible_ssh_host=jwlap ansible_ssh_user=codilime
 [my_computers:children]
 personal_computers
 work_computers
+
+[family_computers]
+ciasteczko ansible_ssh_user=janek

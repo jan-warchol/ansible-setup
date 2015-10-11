@@ -11,14 +11,15 @@ Usage
 On a completely fresh system, run
 
     sudo apt-get --yes install git
-    git clone https://janek-warchol@bitbucket.org/janek-warchol/ansible-system-setup.git
+    cd ~/.config
+    git clone https://github.com/janek-warchol/ansible-system-setup.git
     ./ansible-system-setup/bootstrap.sh
 
 to have everything that is needed for running provisioning. After that, just
 run appropriate playbooks (assuming you added the host you want to configure
 to the inventory file).
 
-    time ansible-playbook -i inventory deploy.yml --ask-sudo-pass
+    time ansible-playbook -i inventory configure-system.yml --ask-sudo-pass
 
 
 

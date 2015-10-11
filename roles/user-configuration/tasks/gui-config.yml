@@ -7,16 +7,16 @@
     - muzyka
     - filmy
     - obrazy
-  when: ansible_env.USER == "janek"
+  when: inventory_hostname in groups.personal_computers
 
-- name: user-dirs.dirs file
+- name: update user-dirs.dirs
   copy:
-    src: user-dirs-{{ ansible_env.USER }}
+    src: "{{ user_dirs_file }}"
     dest: ~/.config/user-dirs.dirs
 
-- name: file manager bookmarks
+- name: initialize file manager bookmarks
   copy:
-    src: bookmarks-{{ ansible_env.USER }}
+    src: "{{ fm_bookmarks_file }}"
     dest: ~/.config/gtk-3.0/bookmarks
     force: no
 

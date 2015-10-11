@@ -1,0 +1,15 @@
+- name: Update xkb files
+  copy:
+    src: "xkb/{{ item.src }}"
+    dest: /usr/share/X11/xkb/{{ item.dest }}
+  with_items:
+    - { src: symbols/janek, dest: symbols/janek }
+    - { src: symbols/modifier_keys, dest: symbols/modifier_keys }
+    - { src: keycodes/customThinkPad, dest: keycodes/customThinkPad }
+  sudo: yes
+
+- name: Update xorg.conf
+  copy:
+    src: xorg.conf
+    dest: /etc/X11/xorg.conf
+  sudo: yes

@@ -1,0 +1,32 @@
+- hosts: family_computers
+  remote_user: janek
+
+  handlers:
+    - name: restart ssh
+      shell: sudo service ssh restart
+
+  tasks:
+    - name: enable autologin for ewa user
+      lineinfile:
+        dest: /etc/lxdm/default.conf
+        regexp: autologin
+        line: autologin=ewa
+        follow: yes
+      sudo: yes
+
+    - name: disable ssh root login
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: .*PermitRootLogin.*
+        line: PermitRootLogin no
+      sudo: yes
+      changed_when: true
+      notify: restart ssh
+
+    - name: allow only key-based ssh authentication
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: .*PasswordAuthentication.*
+        line: PasswordAuthentication no
+      sudo: yes
+      notify: restart ssh

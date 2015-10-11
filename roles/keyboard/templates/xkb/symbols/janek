@@ -1,0 +1,58 @@
+default
+xkb_symbols "basic" {
+    include "modifier_keys"
+
+    key <TLDE> { [ grave, asciitilde ] };
+    key <AE01> { [ 1 ] };
+    key <AE02> { [ 2, at ] };
+    key <AE03> { [ 3, numbersign, 9 ] };
+    key <AE04> { [ 4, dollar, 0 ] };
+    key <AE05> { [ 5, percent ] };
+    key <AE06> { [ 6, asciicircum ] };
+    key <AE07> { [ 7, ampersand ] };
+    key <AE08> { [ 8, asterisk ] };
+    key <AE09> { [ Left ] };
+    key <AE10> { [ Down ] };
+    key <AE11> { [ Up ] };
+    key <AE12> { [ Right ] };
+
+    key <LatQ> { [ q, Q, exclam ] };
+    key <LatW> { [ w, W, bracketleft, braceleft ] };
+    key <LatE> { [ NoSymbol, NoSymbol, bracketright, braceright ] };
+    key <LatR> { [ f, F ] };
+    key <LatT> { [ comma, less ] };
+    key <LatY> { [  ] };
+    key <LatU> { [ equal, plus ] };
+    key <LatI> { [ u, U ] };
+    key <LatO> { [ i, I, colon, semicolon ] };
+    key <LatP> { [ o, O, oacute, Oacute ] };
+    key <AD11> { [ j, J ] };
+    key <AD12> { [ b, B ] };
+    key <BKSL> { [ minus, underscore ] };
+
+    key <LatA> { [ a, A, aogonek, Aogonek ] };
+    key <LatS> { [ s, S, sacute, Sacute ] };
+    key <LatD> { [ e, E, eogonek, Eogonek ] };
+    key <LatF> { [ t, T ] };
+    key <LatG> { [ g, G ] };
+    key <LatH> { [  ] };
+    key <LatJ> { [ y, Y ] };
+    key <LatK> { [ n, N, parenright ] };
+    key <LatL> { [ r, R, parenleft ] };
+    key <AC10> { [ l, L, lstroke, Lstroke ] };
+    key <AC11> { [ h, H, apostrophe, quotedbl ] };
+
+    key <LFSH> { [ backslash, bar ] };
+    key <LatZ> { [ z, Z, zabovedot, Zabovedot ] };
+    key <LatX> { [ x, X, zacute, Zacute ] };
+    key <LatC> { [ c, C, cacute, Cacute ] };
+    key <LatV> { [ d, D ] };
+    key <LatB> { [ v, V ] };
+    key <LatN> { [ BackSpace ] };
+    key <LatM> { [ p, P ] };
+    key <AB08> { [ m, M, nacute, Nacute ] };
+    key <AB09> { [ k, K ] };
+    key <AB10> { [ period, greater ] };
+    key <RTSH> { [ slash, question ] };
+};
+

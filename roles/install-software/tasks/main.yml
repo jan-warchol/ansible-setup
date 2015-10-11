@@ -19,5 +19,3 @@
 
 - include: install-xcape.yml
   when: xcape_executable.stat.exists == false
-
-- include: misc-configuration.yml
