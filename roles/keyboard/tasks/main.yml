@@ -1,6 +1,6 @@
 - name: Update xkb files
   copy:
-    src: "{{ ansible_env.HOME }}/.config/xkb/{{ item.src }}"
+    src: "xkb/{{ item.src }}"
     dest: /usr/share/X11/xkb/{{ item.dest }}
   with_items:
     - { src: symbols/janek, dest: symbols/janek }
