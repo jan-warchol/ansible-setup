@@ -11,13 +11,3 @@
       [user]
       	name = Jan Warchoł
       	email = jan.warchol@gmail.com
-
-- name: create vagrant.d directory
-  file:
-    dest: "{{ ansible_env.HOME }}/.vagrant.d"
-    state: directory
-
-- name: install vagrant configuration
-  template:
-    src: global-vagrantfile
-    dest: "{{ ansible_env.HOME }}/.vagrant.d/Vagrantfile"
