@@ -1,17 +1,16 @@
 - name: create XDG directories
   file:
-    path: "{{ ansible_env.HOME }}/media/{{ item }}"
+    path: "{{ ansible_env.HOME }}/{{ item }}"
     state: directory
   with_items:
-    - wymiana
-    - muzyka
-    - filmy
-    - obrazy
-  when: inventory_hostname in groups.personal_computers
+    - "{{ xdg_documents_dir }}"
+    - "{{ xdg_music_dir }}"
+    - "{{ xdg_pictures_dir }}"
+    - "{{ xdg_videos_dir }}"
 
 - name: update user-dirs.dirs
-  copy:
-    src: user-dirs-{{ config_variant }}
+  template:
+    src: user-dirs.j2
     dest: ~/.config/user-dirs.dirs
 
 - name: initialize file manager bookmarks
