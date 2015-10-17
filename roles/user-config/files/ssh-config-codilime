@@ -75,5 +75,3 @@ Host janek
 Match user vagrant host localhost,127.0.0.*,192.168.*
     UserKnownHostsFile /dev/null
     StrictHostKeyChecking no
-    IdentityFile ~/.ssh/custom_vagrant_key
-
