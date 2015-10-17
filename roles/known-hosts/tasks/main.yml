@@ -1,4 +1,9 @@
-- name: add github.com to known_hosts
+- name: update known_hosts
   known_hosts:
-    name: github.com
-    key: "{{ lookup('file', 'github-public-key') }}"
+    name: "{{ item.host }}"
+    key: "{{ lookup('file', item.key_file) }}"
+  with_items:
+    - host: github.com
+      key_file: github-public-key
+    - host: bitbucket.org
+      key_file: bitbucket-public-key
