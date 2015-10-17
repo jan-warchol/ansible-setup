@@ -4,6 +4,7 @@ domowy ansible_ssh_user=janek
 
 [work_computers]
 thinkpad_codilime ansible_ssh_host=jwlap ansible_ssh_user=codilime
+jw-dell ansible_ssh_user=janek
 
 [my_computers:children]
 personal_computers
