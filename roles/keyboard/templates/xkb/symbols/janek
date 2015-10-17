@@ -24,7 +24,7 @@ xkb_symbols "basic" {
 
     key <LatQ> { [ q, Q, exclam ] };
     key <LatW> { [ w, W, bracketleft, braceleft ] };
-    key <LatE> { [ NoSymbol, NoSymbol, bracketright, braceright ] };
+    key <LatE> { [ d, D, bracketright, braceright ] };
     key <LatR> { [ f, F ] };
     key <LatT> { [ comma, less ] };
     key <LatY> { [  ] };
@@ -52,8 +52,8 @@ xkb_symbols "basic" {
     key <LatZ> { [ z, Z, zabovedot, Zabovedot ] };
     key <LatX> { [ x, X, zacute, Zacute ] };
     key <LatC> { [ c, C, cacute, Cacute ] };
-    key <LatV> { [ d, D ] };
-    key <LatB> { [ v, V ] };
+    key <LatV> { [ v, V ] };
+    key <LatB> { [  ] };
     key <LatN> { [ BackSpace ] };
     key <LatM> { [ p, P ] };
     key <AB08> { [ m, M, nacute, Nacute ] };
