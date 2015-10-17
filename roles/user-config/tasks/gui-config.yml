@@ -11,12 +11,12 @@
 
 - name: update user-dirs.dirs
   copy:
-    src: "{{ user_dirs_file }}"
+    src: user-dirs-{{ config_variant }}
     dest: ~/.config/user-dirs.dirs
 
 - name: initialize file manager bookmarks
   copy:
-    src: "{{ fm_bookmarks_file }}"
+    src: bookmarks-{{ config_variant }}
     dest: ~/.config/gtk-3.0/bookmarks
     force: no
 

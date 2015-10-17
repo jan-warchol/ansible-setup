@@ -5,7 +5,7 @@
 
 - name: update ssh config
   copy:
-    src: "{{ ssh_config_file }}"
+    src: ssh-config-{{ config_variant }}
     dest: ~/.ssh/config
     backup: yes
 

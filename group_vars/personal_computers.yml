@@ -1,4 +1,2 @@
-user_dirs_file: user-dirs-personal
-ssh_config_file: ssh-config-personal
-fm_bookmarks_file: bookmarks-personal
+config_variant: personal
 this_repo_remote: "git@github.com:janek-warchol/ansible-system-setup.git"

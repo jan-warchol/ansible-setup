@@ -1,3 +1,5 @@
+config_variant: default
+
 # keyboard settings
 xkb_keycodes: customThinkPad
 xkb_lctrl_key: SPCE
