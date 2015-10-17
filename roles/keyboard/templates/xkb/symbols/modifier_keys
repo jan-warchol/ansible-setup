@@ -1,6 +1,7 @@
 default partial alphanumeric_keys modifier_keys
 xkb_symbols "pc105" {
     include "srvr_ctrl(fkey2vt)"
+    include "keypad(x11)"
 
     key <TVAN> { [ XF86Sleep ] };
     key <BACK> { [ XF86MonBrightnessDown ] };
@@ -14,6 +15,7 @@ xkb_symbols "pc105" {
         symbols[Group1]= [ Print, Sys_Req ]
     };
     key <SCLK> { [ Scroll_Lock ] };
+    key <NMLK> { [ Num_Lock ] };
     key <PAUS> {
         type= "PC_CONTROL_LEVEL2",
         symbols[Group1]= [ Pause, Break ]
