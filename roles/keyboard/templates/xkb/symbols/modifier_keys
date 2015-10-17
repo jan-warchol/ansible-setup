@@ -25,13 +25,8 @@ xkb_symbols "pc105" {
 
     key <FK11> { [ Home, Home, F11 ] };
     key <FK12> { [ End, End, F12 ] };
-
-    key <HOME> { [  ] };
-    key <END> { [ Return ] };
     key <PGUP> { [ Prior ] };
     key <PGDN> { [ Next ] };
-    key <INS> { [ Insert ] };
-    key <DELE> { [ Delete ] };
 
     key <UP> { [ Up ] };
     key <LEFT> { [ Left ] };
@@ -55,16 +50,16 @@ xkb_symbols "pc105" {
         symbols[Group1] = [ Shift_L, Caps_Lock ]
     };
 
-    key <LCTL> { [  ] };
     key <LWIN> { [ Super_L ] };
-    key <LALT> { [ Alt_L, Meta_L ] };
-
-    key <SPCE> { [ Control_L ] };
-
-    key <RALT> { [ space ] };
-    key <MENU> { [ ISO_Level3_Shift ] };
-    key <RWIN> { [ Super_R ] };
     key <RCTL> { [ Control_R ] };
+
+    key <{{ xkb_lctrl_key }}> { [ Control_L ] };
+    key <{{ xkb_lalt_key }}> { [ Alt_L, Meta_L ] };
+    key <{{ xkb_space_key }}> { [ space ] };
+    key <{{ xkb_ralt_key }}> { [ ISO_Level3_Shift ] };
+
+    key <{{ xkb_return_key }}> { [ Return ] };
+    key <{{ xkb_delete_key }}> { [ Delete ] };
 
     // Beginning of modifier mappings.
     modifier_map Shift { Shift_L, Shift_R };

@@ -1,5 +1,5 @@
 xkb_keymap {
-    xkb_keycodes { include "customThinkPad+aliases(qwerty)" };
+    xkb_keycodes { include "{{ xkb_keycodes }}+aliases(qwerty)" };
     xkb_types    { include "complete" };
     xkb_compat   { include "complete" };
     xkb_symbols  { include "janek" };
