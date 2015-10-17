@@ -3,4 +3,3 @@
   connection: local
   roles:
     - install-software
-    - keyboard

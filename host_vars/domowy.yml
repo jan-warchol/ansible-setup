@@ -1,0 +1,8 @@
+# keyboard settings
+xkb_keycodes: evdev
+xkb_lctrl_key: LALT
+xkb_lalt_key: RWIN
+xkb_space_key: SPCE
+xkb_ralt_key: RALT
+xkb_return_key: DELE
+xkb_delete_key: END
