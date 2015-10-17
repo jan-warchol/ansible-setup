@@ -2,19 +2,25 @@ default
 xkb_symbols "basic" {
     include "modifier_keys"
 
+    # this is really weird, but let me explain:
+    # 90-= are best keys to put arrows on, so I had to put some digits under
+    # right alt.  To make typing numbers with both remapped digits and the ones
+    # that stayed in their place, I doubled the lower ones (1-6) under alt as well.
+    # Why not just put all digits under right alt?  Because that would make some
+    # keyboard shortcuts unnecessarily awkward.
     key <TLDE> { [ grave, asciitilde ] };
-    key <AE01> { [ 1 ] };
-    key <AE02> { [ 2, at ] };
-    key <AE03> { [ 3, numbersign, 9 ] };
-    key <AE04> { [ 4, dollar, 0 ] };
-    key <AE05> { [ 5, percent ] };
-    key <AE06> { [ 6, asciicircum ] };
-    key <AE07> { [ 7, ampersand ] };
-    key <AE08> { [ 8, asterisk ] };
-    key <AE09> { [ Left ] };
-    key <AE10> { [ Down ] };
-    key <AE11> { [ Up ] };
-    key <AE12> { [ Right ] };
+    key <AE01> { [ 1, NoSymbol, 1 ] };
+    key <AE02> { [ 2, at, 2 ] };
+    key <AE03> { [ 3, numbersign, 3 ] };
+    key <AE04> { [ 4, dollar, 4 ] };
+    key <AE05> { [ 5, percent, 5 ] };
+    key <AE06> { [ 6, asciicircum, 6 ] };
+    key <AE07> { [ NoSymbol, ampersand ] };
+    key <AE08> { [ 8, asterisk, 6 ] };
+    key <AE09> { [ Left, Left, 7 ] };
+    key <AE10> { [ Down, Down, 8 ] };
+    key <AE11> { [ Up, Up, 9 ] };
+    key <AE12> { [ Right, Right, 0 ] };
 
     key <LatQ> { [ q, Q, exclam ] };
     key <LatW> { [ w, W, bracketleft, braceleft ] };
