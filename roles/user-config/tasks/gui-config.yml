@@ -14,10 +14,11 @@
     dest: ~/.config/user-dirs.dirs
 
 - name: initialize file manager bookmarks
-  copy:
-    src: bookmarks-{{ config_variant }}
+  template:
+    src: bookmarks-{{ config_variant }}.j2
     dest: ~/.config/gtk-3.0/bookmarks
     force: no
+  when: config_variant != "default"
 
 - name: remove unneeded directories
   shell: rmdir "{{ ansible_env.HOME }}/{{ item }}"
