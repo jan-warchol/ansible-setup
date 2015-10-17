@@ -3,5 +3,5 @@
 - hosts: my_computers
   roles:
     - dotfiles
-    - user-configuration
+    - user-config
     - keyboard
