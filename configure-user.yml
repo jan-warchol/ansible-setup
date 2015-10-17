@@ -4,3 +4,4 @@
   roles:
     - dotfiles
     - user-configuration
+    - keyboard
