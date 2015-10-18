@@ -1,14 +1,28 @@
-[personal_computers]
-thinkpad_personal ansible_ssh_host=jwlap ansible_ssh_user=janek
-domowy ansible_ssh_user=janek
+# Start by listing all hosts with login information.
 
-[work_computers]
+# I need to manage two different user accounts on my T430s, and it seems the
+# easiest solution is to have separate inventory hostnames for them - see
+# http://serverfault.com/q/720042/309478
+thinkpad_personal ansible_ssh_host=jwlap ansible_ssh_user=janek
 thinkpad_codilime ansible_ssh_host=jwlap ansible_ssh_user=codilime
 jw-dell ansible_ssh_user=janek
+domowy ansible_ssh_user=janek
+ciasteczko ansible_ssh_user=janek
+
+
+# Now assign hosts to groups.
+
+[personal_computers]
+thinkpad_personal
+domowy
+
+[work_computers]
+thinkpad_codilime
+jw-dell
 
 [my_computers:children]
 personal_computers
 work_computers
 
 [family_computers]
-ciasteczko ansible_ssh_user=janek
+ciasteczko
