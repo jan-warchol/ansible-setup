@@ -26,13 +26,6 @@
     dest: ~/.dotfiles.git/config
   when: dotfiles_config_file.stat.exists == false
 
-- name: install user-specific git configuration
-  copy:
-    src: gitconfig-{{ ansible_env.USER }}
-    dest: ~/.config/git/user-specific-config
-    backup: yes
-  when: ansible_env.USER != "vagrant"
-
 - name: create .vim/autoload
   file:
     dest: ~/.vim/autoload
