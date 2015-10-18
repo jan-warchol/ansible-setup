@@ -1,0 +1,5 @@
+# user directories (relative to $HOME)
+xdg_documents_dir: ""
+xdg_music_dir: ""
+xdg_pictures_dir: ""
+xdg_videos_dir: ""

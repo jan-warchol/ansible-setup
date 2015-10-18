@@ -1,4 +1,2 @@
-user_dirs_file: user-dirs-codilime
-ssh_config_file: ssh-config-codilime
-fm_bookmarks_file: bookmarks-codilime
+config_variant: codilime
 this_repo_remote: "git@github-personal:janek-warchol/ansible-system-setup.git"

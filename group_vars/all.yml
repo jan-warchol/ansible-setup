@@ -1,8 +1,1 @@
-# keyboard settings
-xkb_keycodes: customThinkPad
-xkb_lctrl_key: SPCE
-xkb_lalt_key: LALT
-xkb_space_key: RALT
-xkb_ralt_key: MENU
-xkb_return_key: END
-xkb_delete_key: DELE
+config_variant: default

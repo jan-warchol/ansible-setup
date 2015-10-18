@@ -1,0 +1,54 @@
+- name: create XDG directories
+  file:
+    path: "{{ ansible_env.HOME }}/{{ item }}"
+    state: directory
+  with_items:
+    - "{{ xdg_documents_dir }}"
+    - "{{ xdg_music_dir }}"
+    - "{{ xdg_pictures_dir }}"
+    - "{{ xdg_videos_dir }}"
+
+- name: update user-dirs.dirs
+  template:
+    src: user-dirs.j2
+    dest: ~/.config/user-dirs.dirs
+
+- name: remove default XDG directories
+  # cannot use file module because I want to delete only empty directories
+  shell: >
+    rmdir
+    Desktop
+    Documents
+    Downloads
+    Music
+    Pictures
+    Public
+    Templates
+    Videos
+    Pulpit
+    Dokumenty
+    Pobrane
+    Muzyka
+    Obrazy
+    Publiczne
+    Szablony
+    Wideo
+  args:
+    chdir: "{{ ansible_env.HOME }}"
+  register: task_result
+  changed_when: task_result.stderr == ''
+  failed_when: '"Directory not empty" in task_result.stderr'
+
+- name: initialize file manager bookmarks
+  template:
+    src: bookmarks-{{ config_variant }}.j2
+    dest: ~/.config/gtk-3.0/bookmarks
+    force: no
+  when: config_variant != "default"
+
+- name: set Terminator as default system terminal
+  shell: >
+    gsettings get org.cinnamon.desktop.default-applications.terminal exec;
+    gsettings set org.cinnamon.desktop.default-applications.terminal exec 'terminator'
+  register: previous_default
+  changed_when: '"terminator" not in previous_default.stdout'
