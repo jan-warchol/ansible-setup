@@ -63,3 +63,20 @@
     gsettings set org.cinnamon.desktop.default-applications.terminal exec 'terminator'
   register: previous_default
   changed_when: '"terminator" not in previous_default.stdout'
+
+  # FIXME this doesn't work! When in run this command myself in a shell, the
+  # setting is changed, but when ran as Ansible task it has no effect.
+- name: disable Cinnamon login sound
+  shell: >
+    gsettings get org.cinnamon.sounds login-enabled;
+    gsettings set org.cinnamon.sounds login-enabled 'false'
+  register: previous_default
+  changed_when: '"true" in previous_default.stdout'
+
+- name: make nemo open scripts in editor by default
+  shell: >
+    gsettings get org.nemo.preferences executable-text-activation;
+    gsettings set org.nemo.preferences executable-text-activation 'display'
+  register: previous_default
+  changed_when: '"display" not in previous_default.stdout'
+
