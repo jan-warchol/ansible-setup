@@ -1,3 +1,4 @@
-xkb_lctrl_key: SPCE
-xkb_space_key: RALT
-xkb_ralt_key: RCTL
+xkb_lctrl_key: LALT
+xkb_lalt_key: RWIN
+xkb_return_key: DELE
+xkb_delete_key: END
