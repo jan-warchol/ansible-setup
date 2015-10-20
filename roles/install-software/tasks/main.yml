@@ -1,5 +1,7 @@
 - include: install-ansible.yml
 
+- include: install-chrome.yml
+
 - include: install-packages.yml
 
 - include: install-virtualbox.yml
