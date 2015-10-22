@@ -41,7 +41,7 @@ xkb_symbols "basic" {
     key <LatD> { [ e, E, eogonek, Eogonek ] };
     key <LatF> { [ t, T ] };
     key <LatG> { [ g, G ] };
-    key <LatH> { [  ] };
+    key <LatH> { [ Return ] };
     key <LatJ> { [ y, Y ] };
     key <LatK> { [ n, N, parenright ] };
     key <LatL> { [ r, R, parenleft ] };
