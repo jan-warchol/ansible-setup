@@ -50,6 +50,11 @@ Host bitbucket.org-esi
     User git
     IdentityFile ~/.ssh/id_rsa_esi
 
+Host newslave
+    HostName newslave
+    User root
+    IdentityFile ~/.ssh/id_rsa_codilime_5260631d
+
 Host superslave
     HostName superslave
     User root
