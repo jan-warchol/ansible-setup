@@ -6,7 +6,7 @@
   apt_repository: repo='deb http://dl.google.com/linux/chrome/deb/ stable main'
   sudo: yes
 
-- name: install VirtualBox
+- name: install Google Chrome
   apt:
     name: google-chrome-stable
     state: latest

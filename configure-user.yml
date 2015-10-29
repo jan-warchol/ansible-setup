@@ -1,5 +1,8 @@
-# This playbook is for user-specific configuration.  In particular,
-# it should not require sudo.
+# This playbook is for all user-level configuration.  In particular,
+# it should not require sudo to run (that's why I separated it from
+# software-installation playbook - to avoid having to type sudo password
+# and to save time).
+ 
 - hosts: my_computers
   roles:
     - dotfiles

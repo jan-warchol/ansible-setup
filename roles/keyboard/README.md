@@ -1,4 +1,9 @@
+Custom keyboard layout
+----------------------
+
 This role copies my custom XKB keyboard layout to `~/.config/xkb`, from
-where it is read by my `.bashrc`.
+where it is read by my `.bashrc`.  Note that the layout is parameterized
+to take into account the physical differences between various keyboards.
 
 **TODO:** install the layout as a regular, system-wide keyboard layout.
+

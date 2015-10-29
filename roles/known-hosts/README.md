@@ -1,3 +1,6 @@
+Manage known hosts
+------------------
+
 This role adds fingerprints of the following servers to known_hosts:
 - github.com
 - bitbucket.org
@@ -9,3 +12,4 @@ defeat the purpose of using host fingerprints for verifying host identity.
 By taking public keys from files *stored permanently in this repository*
 I can be sure that they are correct and that I'm really connecting to
 correct servers.
+

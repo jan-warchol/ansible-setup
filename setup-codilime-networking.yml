@@ -1,3 +1,5 @@
+# configure VPNs etc
+
 - hosts: work_computers
   roles:
     - codilime-networks
