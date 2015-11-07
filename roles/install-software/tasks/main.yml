@@ -14,10 +14,3 @@
 
 - include: install-vagrant.yml
   when: vagrant_check.rc == 1
-
-- name: check whether xcape is installed
-  stat: path=~/bin/xcape
-  register: xcape_executable
-
-- include: install-xcape.yml
-  when: xcape_executable.stat.exists == false
