@@ -46,6 +46,17 @@
     force: no
   when: config_variant != "default"
 
+- name: ensure .config/terminator directory exists
+  file:
+    path: ~/.config/terminator
+    state: directory
+
+- name: update Terminator configuration
+  template:
+    src: terminator-config.j2
+    dest: ~/.config/terminator/config
+    backup: yes
+
 - name: set Terminator as default system terminal
   shell: >
     gsettings get org.cinnamon.desktop.default-applications.terminal exec;

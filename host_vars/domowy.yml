@@ -2,3 +2,5 @@ xkb_lctrl_key: LALT
 xkb_lalt_key: RWIN
 xkb_return_key: DELE
 xkb_delete_key: END
+
+terminator_font_size: 10
