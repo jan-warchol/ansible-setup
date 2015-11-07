@@ -62,11 +62,13 @@
     - ranger
     - sshfs
     - terminator
+    - tmux
     - trash-cli
     - tree
     - vim
     - vlc
     - xbacklight   # changing screen brightness
+    - xsel   # copying and pasting from middle-mouse-button clipboard
     #- gimp
     #- guake
     #- imagemagick
