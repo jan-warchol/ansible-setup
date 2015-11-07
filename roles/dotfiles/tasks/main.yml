@@ -19,12 +19,15 @@
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
 
-# provide initial config of the repo (most importantly remotes).
-- name: install dotfiles git repo configuration
-  copy:
-    src: dotfiles-repo-config
+  # I don't want to accidentally commit something with my work email.
+- name: override git authorship setting in dotfiles repo
+  blockinfile:
     dest: ~/.dotfiles.git/config
-  when: dotfiles_config_file.stat.exists == false
+    block: |
+      [user]
+      	name = Jan Warchoł
+      	email = jan.warchol@gmail.com
+  when: inventory_hostname in groups.work_computers
 
 - name: create .vim/autoload
   file:
