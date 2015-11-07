@@ -39,6 +39,11 @@
   changed_when: task_result.stderr == ''
   failed_when: '"Directory not empty" in task_result.stderr'
 
+- name: ensure file manager bookmarks directory exists
+  file:
+    path: ~/.config/gtk-3.0
+    state: directory
+
 - name: initialize file manager bookmarks
   template:
     src: bookmarks-{{ config_variant }}.j2
