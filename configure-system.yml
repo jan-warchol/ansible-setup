@@ -1,5 +1,0 @@
-# system-wide configuration, requires administrator privileges
-- hosts: localhost
-  connection: local
-  roles:
-    - install-software
