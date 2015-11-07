@@ -1,8 +1,11 @@
 xkb_keycodes: evdev
 
 xkb_lctrl_key: LCTL
+xkb_lwin_key: LWIN
 xkb_lalt_key: LALT
 xkb_space_key: SPCE
 xkb_ralt_key: RALT
+xkb_rwin_key: RWIN
+xkb_rctrl_key: RCTL
 xkb_return_key: END
 xkb_delete_key: DELE

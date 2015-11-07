@@ -50,13 +50,13 @@ xkb_symbols "pc105" {
         symbols[Group1] = [ Shift_L, Caps_Lock ]
     };
 
-    key <LWIN> { [ Super_L ] };
-    key <RCTL> { [ Control_R ] };
-
     key <{{ xkb_lctrl_key }}> { [ Control_L ] };
-    key <{{ xkb_lalt_key }}> { [ Alt_L, Meta_L ] };
+    key <{{ xkb_lwin_key }}>  { [ Super_L ] };
+    key <{{ xkb_lalt_key }}>  { [ Alt_L, Meta_L ] };
     key <{{ xkb_space_key }}> { [ space ] };
-    key <{{ xkb_ralt_key }}> { [ ISO_Level3_Shift ] };
+    key <{{ xkb_ralt_key }}>  { [ ISO_Level3_Shift ] };
+    key <{{ xkb_rwin_key }}>  { [ Super_R ] };
+    key <{{ xkb_rctrl_key }}> { [ Control_R ] };
 
     key <{{ xkb_return_key }}> { [ Return ] };
     key <{{ xkb_delete_key }}> { [ Delete ] };

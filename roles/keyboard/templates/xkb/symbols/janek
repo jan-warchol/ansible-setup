@@ -15,7 +15,7 @@ xkb_symbols "basic" {
     key <AE04> { [ 4, dollar, 4 ] };
     key <AE05> { [ 5, percent, 5 ] };
     key <AE06> { [ 6, asciicircum, 6 ] };
-    key <AE07> { [ NoSymbol, ampersand ] };
+    key <AE07> { [ 7, ampersand ] };
     key <AE08> { [ 8, asterisk, 6 ] };
     key <AE09> { [ Left, Left, 7 ] };
     key <AE10> { [ Down, Down, 8 ] };
@@ -41,8 +41,8 @@ xkb_symbols "basic" {
     key <LatD> { [ e, E, eogonek, Eogonek ] };
     key <LatF> { [ t, T ] };
     key <LatG> { [ g, G ] };
-    key <LatH> { [  ] };
-    key <LatJ> { [ y, Y ] };
+    key <LatH> { [ Return ] };
+    key <LatJ> { [ y, Y, ampersand ] };
     key <LatK> { [ n, N, parenright ] };
     key <LatL> { [ r, R, parenleft ] };
     key <AC10> { [ l, L, lstroke, Lstroke ] };
@@ -53,7 +53,7 @@ xkb_symbols "basic" {
     key <LatX> { [ x, X, zacute, Zacute ] };
     key <LatC> { [ c, C, cacute, Cacute ] };
     key <LatV> { [ v, V ] };
-    key <LatB> { [  ] };
+    key <LatB> { [ BackSpace ] };
     key <LatN> { [ BackSpace ] };
     key <LatM> { [ p, P ] };
     key <AB08> { [ m, M, nacute, Nacute ] };
