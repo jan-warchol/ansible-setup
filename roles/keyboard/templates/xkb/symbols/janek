@@ -53,7 +53,7 @@ xkb_symbols "basic" {
     key <LatX> { [ x, X, zacute, Zacute ] };
     key <LatC> { [ c, C, cacute, Cacute ] };
     key <LatV> { [ v, V ] };
-    key <LatB> { [  ] };
+    key <LatB> { [ BackSpace ] };
     key <LatN> { [ BackSpace ] };
     key <LatM> { [ p, P ] };
     key <AB08> { [ m, M, nacute, Nacute ] };
