@@ -3,7 +3,7 @@ User configuration
 
 This role manages configuration that differs across my accounts
 or is otherwise infeasible to track as part of my [dotfiles repository]
-(github.com/janek-warchol/my-dotfiles).  For example:
+(https://github.com/janek-warchol/my-dotfiles).  For example:
 
 * I need different ssh config for personal and work accounts,
 

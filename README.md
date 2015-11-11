@@ -26,11 +26,19 @@ If you have more than two machines... you know the answer already :-)
 Interesting features
 --------------------
 
-- installing remembered network configuration
-- support for both personal and work user
-- installing latest version of Vagrant from website (scraping instead of apt)
-- (in-progess) keyboard configuration changes
-- (planned) integration with `pass` password management
+- different [configuration variants](roles/user-config) for personal and work user,
+- automated installation of some programs that are not readily available from
+  apt repositories (e.g.
+  [Vagrant](roles/install-software/tasks/install-vagrant.yml) which has to be
+  downloaded from its website,
+  [Ansible itself](roles/install-software/tasks/install-ansible.yml) which I
+  install from a PPA and add a couple of plugins),
+- tasks that can manage desktop environment settings
+  [without access to X server](roles/user-config/tasks/gui-config.yml#L65),
+- [custom keyboard configuration](roles/keyboard) with variations for each
+  machine,
+- (planned) integration with [`pass`](http://www.passwordstore.org/) password
+  manager
 
 
 
