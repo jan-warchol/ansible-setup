@@ -60,6 +60,9 @@ xkb_symbols "pc105" {
 
     key <{{ xkb_return_key }}> { [ Return ] };
     key <{{ xkb_delete_key }}> { [ Delete ] };
+    {% if "custom_keyboard" in group_names %}
+    key <SPCE> { [ space ] };
+    {% endif %}
 
     // Beginning of modifier mappings.
     modifier_map Shift { Shift_L, Shift_R };
