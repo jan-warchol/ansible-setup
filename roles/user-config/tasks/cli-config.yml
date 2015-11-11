@@ -1,7 +1,9 @@
-- name: ensure .ssh directory exists
+- name: ensure .ssh directory exists and is private
   file:
     path: ~/.ssh
     state: directory
+    recurse: yes
+    mode: og-rwx
 
 - name: update ssh config
   copy:
