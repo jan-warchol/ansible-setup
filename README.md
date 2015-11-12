@@ -19,7 +19,8 @@ If you have two machines - or two user accounts, for work and personal stuff,
 as I do - synchronizing configuration becomes an issue and it may be worth
 the effort to automate it.
 
-If you have more than two machines... you know the answer already :-)
+If you have more than two machines (or accounts)... you know the answer already
+:-)
 
 
 
@@ -59,7 +60,7 @@ There are two kinds of machines:
 
 * masters: my own computers.  Each of them has a clone of this repository and
   can run ansible playbooks to configure itself and other hosts (*including
-  other masters*)
+  other masters*).
 
 * slaves: servers I have access to, my family's computers, my accounts on other
   people's computers.  I don't run ansible from them.
@@ -74,8 +75,8 @@ To bootstrap a completely new machine, run:
     git clone https://github.com/janek-warchol/ansible-system-setup
     ./ansible-system-setup/bootstrap.sh
 
-`bootstrap.sh` script ensures that the machine can ssh into itself and that it
-has Ansible installed.
+[`bootstrap.sh`](bootstrap.sh) ensures that the machine can ssh into itself and
+that it has Ansible installed.
 
 After that, update the `inventory` file and you're ready to run Ansible
 playbooks.
@@ -83,7 +84,7 @@ playbooks.
 
 ### Setting up a new slave
 
-1. Add it to the `inventory` file (and `/etc/hosts` if appropriate)
+1. Add it to the `inventory` file (and master(s)' `/etc/hosts` if appropriate)
 2. Install an SSH server, e.g. `sudo apt-get install openssh-server`
 3. Copy your public key to authorized keys e.g. using `ssh-copy-id`
 
