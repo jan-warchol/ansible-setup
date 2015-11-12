@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# THIS SCRIPT IS OBSOLETE!
+# I had copied it from my earlier setup that didn't use Ansible.
+# It will have to be translated to a playbook.
+
 set -o nounset
 set -o errexit
 
