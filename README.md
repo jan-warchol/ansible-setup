@@ -103,12 +103,19 @@ and I'm too lazy for that.
 
 
 
-License & Forking
------------------
+Forking
+-------
 
-You are welcome to fork this repo and use it as a basis for your own system
-provisioning.  Some things that you will have to change:
+You are encouraged to fork this repo and use it as a basis for your own system
+provisioning!  Some things that you will have to change:
 
 - replace information about my hosts in `inventory` file with your own
 - replace public keys installed by `user-config` role
+
+
+
+License
+-------
+
+MIT license.
 
