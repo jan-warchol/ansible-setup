@@ -1,12 +1,12 @@
 
   # I prefer not to keep my keys etc. in ~/.ssh, because one day
   # I may forget to copy it when moving from one computer to another...
-- name: put ssh directory together with my other data
+- name: update ssh directory location
   command: >
     mv -n ~/.ssh {{ ssh_home }}
     creates={{ ssh_home }}
 
-- name: create links to ~/.ssh
+- name: create links to ssh_home
   file:
     src: "{{ ssh_home }}"
     dest: "{{ item }}"
@@ -17,7 +17,7 @@
     - ~/.config/ssh   # I like to see ssh when I'm browsing .config
   when: item != ssh_home   # in case ssh_home is set to one of the above
 
-- name: ensure only I can acess my ssh directory
+- name: ensure only I can acess my ssh_home
   file:
     path: "{{ ssh_home }}"
     state: directory
