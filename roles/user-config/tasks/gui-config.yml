@@ -42,6 +42,23 @@
   changed_when: task_result.stderr == ''
   failed_when: '"Directory not empty" in task_result.stderr'
 
+  # I prefer to keep installed fonts in another location
+- name: update fonts directory location
+  shell: >
+    if [ -d ~/.fonts ]; then
+        mv -n ~/.fonts ~/zasoby/czcionki
+    else
+        mkdir ~/zasoby/czcionki
+    fi
+    creates=~/zasoby/czcionki
+
+- name: create link to ~/.fonts
+  file:
+    src: ~/zasoby/czcionki
+    dest: ~/.fonts
+    state: link
+    force: no
+
 - name: ensure file manager bookmarks directory exists
   file:
     path: ~/.config/gtk-3.0
