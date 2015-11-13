@@ -1,0 +1,34 @@
+# Dropbox' website (https://www.dropbox.com/install?os=lnx) lists two methods
+# for installing Dropbox on Linux - either from a deb/rpm package, or from
+# a tar.gz.  As far as I understand, the distinction is not about installing
+# via GUI or installing via CLI, but rather about installing on a machine that
+# has a GUI vs one that hasn't.  In other words, to install dropbox from
+# command line on a normal desktop one should use the first method.  See also:
+# http://www.dropboxwiki.com/tips-and-tricks/install-dropbox-in-an-entirely-text-based-linux-environment)
+
+- name: get dropbox version
+  shell: >
+    wget https://linux.dropbox.com/packages/ubuntu/ -O- |
+    grep -P "\d+\.\d+\.\d+" -o |
+    sort -n |
+    tail -1
+  register: dropbox_latest_version
+  failed_when: dropbox_latest_version.rc > 0
+  changed_when: False
+
+- name: download Dropbox deb
+  get_url:
+    url="https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_{{dropbox_latest_version.stdout}}_amd64.deb"
+    dest=/tmp/dropbox.deb
+
+- name: install Dropbox
+  apt:
+    deb=/tmp/dropbox.deb
+  sudo: yes
+
+- name: remove Dropbox deb
+  file:
+    path: /tmp/dropbox.deb
+    state: absent
+
+
