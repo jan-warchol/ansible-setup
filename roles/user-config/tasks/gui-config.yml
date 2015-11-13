@@ -108,3 +108,10 @@
   register: previous_default
   changed_when: '"display" not in previous_default.stdout'
 
+- name: disable dimming the screen on battery
+  shell: >
+    gsettings get org.cinnamon.settings-daemon.plugins.power idle-dim-battery;
+    dbus-launch --exit-with-session \
+    gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-battery false;
+  register: previous_default
+  changed_when: '"true" in previous_default.stdout'
