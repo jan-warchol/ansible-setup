@@ -52,7 +52,7 @@ xkb_symbols "basic" {
     key <LatZ> { [ z, Z, zabovedot, Zabovedot ] };
     key <LatX> { [ x, X, zacute, Zacute ] };
     key <LatC> { [ c, C, cacute, Cacute ] };
-    key <LatV> { [ v, V ] };
+    key <LatV> { [ v, V, asciicircum ] };
     key <LatB> { [ BackSpace ] };
     key <LatN> { [ BackSpace ] };
     key <LatM> { [ p, P ] };
