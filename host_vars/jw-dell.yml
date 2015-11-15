@@ -1,7 +1,6 @@
 xkb_lctrl_key: LALT
 xkb_lwin_key: LCTL
 xkb_lalt_key: LWIN
-xkb_return_key: DELE
 xkb_delete_key: END
 
 ssh_home: ~/.ssh
