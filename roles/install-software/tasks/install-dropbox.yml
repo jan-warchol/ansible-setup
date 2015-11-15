@@ -6,6 +6,9 @@
 # command line on a normal desktop one should use the first method.  See also:
 # http://www.dropboxwiki.com/tips-and-tricks/install-dropbox-in-an-entirely-text-based-linux-environment)
 
+# update: actually, this doesn't install dropbox but rather an installer that
+# will install Dropbox later.
+
 - name: get dropbox version
   shell: >
     wget https://linux.dropbox.com/packages/ubuntu/ -O- |
@@ -20,6 +23,10 @@
   get_url:
     url="https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_{{dropbox_latest_version.stdout}}_amd64.deb"
     dest=/tmp/dropbox.deb
+
+- name: install package for verifying Dropbox signature
+  apt: name=python-gpgme state=installed
+  sudo: yes
 
 - name: install Dropbox
   apt:
