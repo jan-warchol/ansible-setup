@@ -15,6 +15,15 @@
 - include: install-vagrant.yml
   when: vagrant_check.rc == 1
 
+- name: check whether fasd is installed
+  shell: which fasd
+  register: fasd_check
+  failed_when: fasd_check.rc > 1
+  changed_when: fasd_check.rc = 1
+
+- include: install-fasd.yml
+  when: fasd_check.rc == 1
+
 - name: check whether xcape is installed
   stat: path=~/bin/xcape
   register: xcape_executable
