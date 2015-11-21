@@ -45,7 +45,7 @@ xkb_symbols "pc105" {
     //     type[Group1]="TWO_LEVEL",
     //     symbols[Group1] = [ Shift_R, Caps_Lock ]
     // then right shift only works when Caps_Lock is on...
-    key <RTRN> {
+    key <AC11> {
         type[Group1]="TWO_LEVEL",
         symbols[Group1] = [ Shift_L, Caps_Lock ]
     };
@@ -53,16 +53,14 @@ xkb_symbols "pc105" {
     key <{{ xkb_lctrl_key }}> { [ Control_L ] };
     key <{{ xkb_lwin_key }}>  { [ Super_L ] };
     key <{{ xkb_lalt_key }}>  { [ Alt_L, Meta_L ] };
-    key <{{ xkb_space_key }}> { [ space ] };
+    key <SPCE> { [ space, Return ] };
     key <{{ xkb_ralt_key }}>  { [ ISO_Level3_Shift ] };
     key <{{ xkb_rwin_key }}>  { [ Super_R ] };
     key <{{ xkb_rctrl_key }}> { [ Control_R ] };
 
-    key <{{ xkb_return_key }}> { [ Return ] };
     key <{{ xkb_delete_key }}> { [ Delete ] };
-    {% if "custom_keyboard" in group_names %}
-    key <SPCE> { [ space ] };
-    {% endif %}
+    key <RTRN> { [ Return ] };
+    key <BKSL> { [ Return ] };
 
     // Beginning of modifier mappings.
     modifier_map Shift { Shift_L, Shift_R };

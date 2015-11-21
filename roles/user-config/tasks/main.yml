@@ -1,2 +1,2 @@
-- include: cli-config.yml
 - include: gui-config.yml
+- include: cli-config.yml

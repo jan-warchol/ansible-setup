@@ -1,4 +1,4 @@
-- name: create XDG directories
+- name: create XDG and other directories
   file:
     path: "{{ ansible_env.HOME }}/{{ item }}"
     state: directory
@@ -7,6 +7,9 @@
     - "{{ xdg_music_dir }}"
     - "{{ xdg_pictures_dir }}"
     - "{{ xdg_videos_dir }}"
+    - janek
+    - repos
+    - zasoby
 
 - name: update user-dirs.dirs
   template:
@@ -38,6 +41,23 @@
   register: task_result
   changed_when: task_result.stderr == ''
   failed_when: '"Directory not empty" in task_result.stderr'
+
+  # I prefer to keep installed fonts in another location
+- name: update fonts directory location
+  shell: >
+    if [ -d ~/.fonts ]; then
+        mv -n ~/.fonts ~/zasoby/czcionki
+    else
+        mkdir ~/zasoby/czcionki
+    fi
+    creates=~/zasoby/czcionki
+
+- name: create link to ~/.fonts
+  file:
+    src: ~/zasoby/czcionki
+    dest: ~/.fonts
+    state: link
+    force: no
 
 - name: ensure file manager bookmarks directory exists
   file:
@@ -88,3 +108,10 @@
   register: previous_default
   changed_when: '"display" not in previous_default.stdout'
 
+- name: disable dimming the screen on battery
+  shell: >
+    gsettings get org.cinnamon.settings-daemon.plugins.power idle-dim-battery;
+    dbus-launch --exit-with-session \
+    gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-battery false;
+  register: previous_default
+  changed_when: '"true" in previous_default.stdout'

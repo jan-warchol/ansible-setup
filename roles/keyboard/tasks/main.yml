@@ -1,10 +1,3 @@
-- name: check whether xcape is installed
-  stat: path=~/bin/xcape
-  register: xcape_executable
-
-- include: install-xcape.yml
-  when: xcape_executable.stat.exists == false
-
 - name: Ensure xkb directories exist
   file:
     path: "{{ item }}"
