@@ -12,27 +12,27 @@
 - name: clone dotfiles
   git:
     repo: "https://github.com/janek-warchol/my-dotfiles"
-    dest: ~/.dotfiles.git
+    dest: "{{ dotfiles_dir }}"
     version: janek
     force: no
   when: dotfiles_config_file.stat.exists == false
 
 - name: install dotfiles
   shell: >
-    ~/.dotfiles.git/.install-dotfiles.sh
+    {{ dotfiles_dir }}/.install-dotfiles.sh
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
 
 - name: update remote url to use SSH protocol
   lineinfile:
-    dest: ~/.dotfiles.git/config
+    dest: "{{ dotfiles_dir }}/config"
     line: "	url = {{ dotfiles_remote_url }}"
     regexp: url =
 
   # I don't want to accidentally commit something with my work email.
 - name: override git authorship setting in dotfiles repo
   blockinfile:
-    dest: ~/.dotfiles.git/config
+    dest: "{{ dotfiles_dir }}/config"
     block: |
       [user]
       	name = Jan Warchoł
