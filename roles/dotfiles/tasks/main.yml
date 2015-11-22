@@ -22,6 +22,11 @@
     {{ dotfiles_dir }}/.install-dotfiles.sh
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
+  register: dotfiles_installation
+
+- name: report installation results
+  debug: var=dotfiles_installation.stdout_lines
+  when: dotfiles_installation.changed
 
 - name: update remote url to use SSH protocol
   lineinfile:
