@@ -5,9 +5,13 @@
 # we must not try cloning the repo if it already exists, because the
 # installation script ran in the next task transforms it and ansible
 # would be confused.
+# TODO
+# Note that I initially clone using https and later change the protocol
+# to SSH.  This is because my SSH keys may not be present when cloning,
+# and because I need different urls for work account SSH configuration.
 - name: clone dotfiles
   git:
-    repo: "git://github.com/janek-warchol/my-dotfiles"
+    repo: "https://github.com/janek-warchol/my-dotfiles"
     dest: ~/.dotfiles.git
     version: janek
     force: no
@@ -18,6 +22,12 @@
     ~/.dotfiles.git/.install-dotfiles.sh
     creates=~/.config/dotfiles-git-dir
   when: dotfiles_config_file.stat.exists == false
+
+- name: update remote url to use SSH protocol
+  lineinfile:
+    dest: ~/.dotfiles.git/config
+    line: "	url = {{ dotfiles_remote_url }}"
+    regexp: url =
 
   # I don't want to accidentally commit something with my work email.
 - name: override git authorship setting in dotfiles repo
