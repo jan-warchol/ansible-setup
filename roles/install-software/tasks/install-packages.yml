@@ -38,6 +38,8 @@
     - build-essential
     - dconf-cli
     - dconf-editor   # desktop environment configuration
+    - firefox   # make sure firefox is updated - my package manager
+                # didn't want to update it on its own
     - flip
     - freefilesync
     - git
