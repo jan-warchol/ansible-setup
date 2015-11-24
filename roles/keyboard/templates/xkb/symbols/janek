@@ -15,12 +15,11 @@ xkb_symbols "basic" {
     key <AE04> { [ 4, dollar, 4 ] };
     key <AE05> { [ 5, percent, 5 ] };
     key <AE06> { [ 6, asciicircum, 6 ] };
-    key <AE07> { [ 7, ampersand, 7 ] };
-    key <AE08> { [ Left, Left, 7 ] };
-    key <AE09> { [ Down, Down, 8 ] };
-    key <AE10> { [ Up, Up, 9 ] };
-    key <AE11> { [ Right, Right, 0 ] };
-    key <AE12> { [ asterisk ] };
+    key <AE07> { [ Left, Left, 6 ] };
+    key <AE08> { [ Down, Down, 7 ] };
+    key <AE09> { [ Up, Up, 8 ] };
+    key <AE10> { [ Right, Right, 9 ] };
+    key <AE11> { [ asterisk, 0, 0 ] };
 
     key <LatQ> { [ q, Q, exclam ] };
     key <LatW> { [ w, W, bracketleft, braceleft ] };
