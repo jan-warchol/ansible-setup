@@ -23,3 +23,18 @@
   when: xcape_executable.stat.exists == false
 
 - include: install-dropbox.yml
+
+# I want Cinnamon 2.8 because I need shortcuts for moving window to another display.
+- name: include packages from Linux Mint Romeo release
+  lineinfile:
+    regexp: "deb http://packages.linuxmint.com rebecca main upstream"
+    line: "deb http://packages.linuxmint.com rebecca main upstream import romeo"
+    dest: /etc/apt/sources.list.d/official-package-repositories.list
+  sudo: yes
+  register: mint_apt_repo
+
+- name: update Cinnamon
+  apt: package=cinnamon state=latest update_cache=yes
+  sudo: yes
+  when: mint_apt_repo.changed
+
