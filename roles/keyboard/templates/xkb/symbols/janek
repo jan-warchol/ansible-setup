@@ -32,7 +32,8 @@ xkb_symbols "basic" {
     key <LatO> { [ o, O, oacute, Oacute ] };
     key <LatP> { [ j, J ] };
     key <AD11> { [ b, B ] };
-    key <AD12> { [ minus, underscore ] };
+    // I change the type so that this key will be affected by Caps Lock
+    key <AD12> { type="FOUR_LEVEL_ALPHABETIC", [ minus, underscore ] };
 
     key <LatA> { [ a, A, aogonek, Aogonek ] };
     key <LatS> { [ s, S, sacute, Sacute ] };
