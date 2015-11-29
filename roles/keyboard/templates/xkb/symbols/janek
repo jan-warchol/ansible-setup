@@ -22,8 +22,8 @@ xkb_symbols "basic" {
     key <AE11> { [ asterisk, 0, 0 ] };
 
     key <LatQ> { [ q, Q, exclam ] };
-    key <LatW> { [ w, W, bracketleft, braceleft ] };
-    key <LatE> { [ d, D, bracketright, braceright ] };
+    key <LatW> { [ w, W ] };
+    key <LatE> { [ d, D ] };
     key <LatR> { [ f, F ] };
     key <LatT> { [ comma, less ] };
     key <LatY> { [ equal, plus ] };
@@ -31,9 +31,9 @@ xkb_symbols "basic" {
     key <LatI> { [ i, I, colon, semicolon ] };
     key <LatO> { [ o, O, oacute, Oacute ] };
     key <LatP> { [ j, J ] };
-    key <AD11> { [ b, B ] };
+    key <AD11> { [ b, B, bracketleft ] };
     // I change the type so that this key will be affected by Caps Lock
-    key <AD12> { type="FOUR_LEVEL_ALPHABETIC", [ minus, underscore ] };
+    key <AD12> { type="FOUR_LEVEL_ALPHABETIC", [ minus, underscore, bracketright ] };
 
     key <LatA> { [ a, A, aogonek, Aogonek ] };
     key <LatS> { [ s, S, sacute, Sacute ] };
@@ -53,8 +53,8 @@ xkb_symbols "basic" {
     key <LatV> { [ v, V, asciicircum ] };
     key <LatB> { [ BackSpace ] };
     key <LatN> { [ p, P, nacute, Nacute ] };
-    key <LatM> { [ m, M ] };
-    key <AB08> { [ k, K ] };
+    key <LatM> { [ m, M, braceleft ] };
+    key <AB08> { [ k, K, braceright ] };
     key <AB09> { [ period, greater ] };
     key <AB10> { [ slash, question ] };
 };
