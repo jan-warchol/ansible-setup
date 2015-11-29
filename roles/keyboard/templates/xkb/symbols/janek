@@ -38,7 +38,7 @@ xkb_symbols "basic" {
     key <LatA> { [ a, A, aogonek, Aogonek ] };
     key <LatS> { [ s, S, sacute, Sacute ] };
     key <LatD> { [ e, E, eogonek, Eogonek ] };
-    key <LatF> { [ t, T ] };
+    key <LatF> { [ t, T, asciitilde ] };
     key <LatG> { [ g, G ] };
     key <LatH> { [ y, Y, ampersand ] };
     key <LatJ> { [ n, N, parenright ] };
