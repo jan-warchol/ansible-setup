@@ -1,3 +1,7 @@
 config_variant: codilime
 this_repo_remote: "git@github-personal:janek-warchol/ansible-system-setup.git"
+dotfiles_remote_url: "git@github-personal:janek-warchol/my-dotfiles.git"
 git_config_email: jan.warchol@codilime.com
+
+prompt_color: $GREEN
+

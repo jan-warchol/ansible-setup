@@ -5,7 +5,6 @@
 # http://serverfault.com/q/720042/309478
 thinkpad_personal ansible_ssh_host=jw-t430s ansible_ssh_user=janek
 thinkpad_codilime ansible_ssh_host=jw-t430s ansible_ssh_user=codilime
-jw-dell ansible_ssh_user=janek
 domowy ansible_ssh_user=janek
 ciasteczko ansible_ssh_user=janek
 
@@ -18,7 +17,6 @@ domowy
 
 [work_computers]
 thinkpad_codilime
-jw-dell
 
 [my_computers:children]
 personal_computers

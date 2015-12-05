@@ -15,6 +15,13 @@ or is otherwise infeasible to track as part of my [dotfiles repository]
   make sense to track these files, but rather track the commands that produce
   the effects I want (e.g. `gsetttings set org.gnome.foo bar`).
 
+* Some settings are too casual to keep them in version control (for example
+  file manager bookmarks), but I still don't want to loose them accidentally.
+  In such cases I move them to my private data directory so that they are
+  backed up (I don't backup my whole HOME dir because there's too much stuff
+  there, like git repositories, large binary files etc.) and set up symlinks
+  to their original locations.
+
 
 
 Requirements

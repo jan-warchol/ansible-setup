@@ -59,17 +59,21 @@
     state: link
     force: no
 
-- name: ensure file manager bookmarks directory exists
-  file:
-    path: ~/.config/gtk-3.0
-    state: directory
+- name: update file manager bookmarks location
+  shell: >
+    if [ -e ~/.config/gtk-3.0/bookmarks ]; then
+        mv -n ~/.config/gtk-3.0/bookmarks ~/janek/gtk-bookmarks
+    else
+        touch ~/janek/gtk-bookmarks
+    fi
+    creates=~/janek/gtk-bookmarks
 
-- name: initialize file manager bookmarks
-  template:
-    src: bookmarks-{{ config_variant }}.j2
+- name: create link to file manager bookmarks
+  file:
+    src: ~/janek/gtk-bookmarks
     dest: ~/.config/gtk-3.0/bookmarks
+    state: link
     force: no
-  when: config_variant != "default"
 
 - name: ensure .config/terminator directory exists
   file:

@@ -13,23 +13,27 @@
     background_image = None
     word_chars = "-A-Za-z0-9,./?%&#_"
     use_system_font = False
-    cursor_color = "#808080"
+    cursor_color = "#ffffff"
     foreground_color = "#b4b9bd"
     scroll_on_output = False
     font = Ubuntu Mono {{ terminator_font_size }}
     background_color = "#1d3954"
     scrollback_infinite = True
+    use_custom_command = True
+    custom_command = TERM=xterm-256color bash  # let bash know that 256 colors are supported
   [[solarized-light]]
     palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
     background_image = None
     word_chars = "-A-Za-z0-9,./?%&#_"
     use_system_font = False
-    cursor_color = "#808080"
+    cursor_color = "#000000"
     foreground_color = "#657b83"
     scroll_on_output = False
     font = Ubuntu Mono {{ terminator_font_size }}
     background_color = "#fdf6e3"
     scrollback_infinite = True
+    use_custom_command = True
+    custom_command = TERM=xterm-256color bash  # let bash know that 256 colors are supported
 [layouts]
   [[default]]
     [[[child1]]]

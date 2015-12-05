@@ -7,3 +7,5 @@ xdg_videos_dir: ""
 terminator_font_size: 12
 
 ssh_home: ~/janek/ssh
+
+prompt_color: $BLUE

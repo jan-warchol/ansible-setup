@@ -15,30 +15,30 @@ xkb_symbols "basic" {
     key <AE04> { [ 4, dollar, 4 ] };
     key <AE05> { [ 5, percent, 5 ] };
     key <AE06> { [ 6, asciicircum, 6 ] };
-    key <AE07> { [ 7, ampersand, 7 ] };
-    key <AE08> { [ Left, Left, 7 ] };
-    key <AE09> { [ Down, Down, 8 ] };
-    key <AE10> { [ Up, Up, 9 ] };
-    key <AE11> { [ Right, Right, 0 ] };
-    key <AE12> { [ asterisk ] };
+    key <AE07> { [ Left, Left ] };
+    key <AE08> { [ Down, Down ] };
+    key <AE09> { [ Up, Up ] };
+    key <AE10> { [ Right, Right ] };
+    key <AE11> { [ asterisk ] };
 
     key <LatQ> { [ q, Q, exclam ] };
-    key <LatW> { [ w, W, bracketleft, braceleft ] };
-    key <LatE> { [ d, D, bracketright, braceright ] };
-    key <LatR> { [ f, F ] };
-    key <LatT> { [ comma, less ] };
+    key <LatW> { [ w, W, 7 ] };
+    key <LatE> { [ d, D, 8 ] };
+    key <LatR> { [ f, F, 9 ] };
+    key <LatT> { [ comma, less, 0 ] };
     key <LatY> { [ equal, plus ] };
     key <LatU> { [ u, U ] };
     key <LatI> { [ i, I, colon, semicolon ] };
     key <LatO> { [ o, O, oacute, Oacute ] };
     key <LatP> { [ j, J ] };
-    key <AD11> { [ b, B ] };
-    key <AD12> { [ minus, underscore ] };
+    key <AD11> { [ b, B, bracketleft ] };
+    // I change the type so that this key will be affected by Caps Lock
+    key <AD12> { type="FOUR_LEVEL_ALPHABETIC", [ minus, underscore, bracketright ] };
 
     key <LatA> { [ a, A, aogonek, Aogonek ] };
     key <LatS> { [ s, S, sacute, Sacute ] };
     key <LatD> { [ e, E, eogonek, Eogonek ] };
-    key <LatF> { [ t, T ] };
+    key <LatF> { [ t, T, asciitilde ] };
     key <LatG> { [ g, G ] };
     key <LatH> { [ y, Y, ampersand ] };
     key <LatJ> { [ n, N, parenright ] };
@@ -52,10 +52,10 @@ xkb_symbols "basic" {
     key <LatC> { [ c, C, cacute, Cacute ] };
     key <LatV> { [ v, V, asciicircum ] };
     key <LatB> { [ BackSpace ] };
-    key <LatN> { [ p, P ] };
-    key <LatM> { [ m, M, nacute, Nacute ] };
-    key <AB08> { [ k, K ] };
-    key <AB09> { [ period, greater ] };
+    key <LatN> { [ p, P, nacute, Nacute ] };
+    key <LatM> { [ m, M, braceleft ] };
+    key <AB08> { [ k, K, braceright ] };
+    key <AB09> { [ period, greater, period ] };
     key <AB10> { [ slash, question ] };
 };
 

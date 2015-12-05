@@ -10,10 +10,28 @@
   shell: which vagrant
   register: vagrant_check
   failed_when: vagrant_check.rc > 1
-  changed_when: False
+  changed_when: vagrant_check.rc = 1
 
 - include: install-vagrant.yml
   when: vagrant_check.rc == 1
+
+- name: check whether fasd is installed
+  shell: which fasd
+  register: fasd_check
+  failed_when: fasd_check.rc > 1
+  changed_when: fasd_check.rc = 1
+
+- include: install-fasd.yml
+  when: fasd_check.rc == 1
+
+- name: check whether dropbox is installed
+  shell: which dropbox
+  register: dropbox_check
+  failed_when: dropbox_check.rc > 1
+  changed_when: dropbox_check.rc = 1
+
+- include: install-dropbox.yml
+  when: dropbox_check.rc == 1
 
 - name: check whether xcape is installed
   stat: path=~/bin/xcape
@@ -22,4 +40,17 @@
 - include: install-xcape.yml
   when: xcape_executable.stat.exists == false
 
-- include: install-dropbox.yml
+# I want Cinnamon 2.8 because I need shortcuts for moving window to another display.
+- name: include packages from Linux Mint Romeo release
+  lineinfile:
+    regexp: "deb http://packages.linuxmint.com rebecca main upstream"
+    line: "deb http://packages.linuxmint.com rebecca main upstream import romeo"
+    dest: /etc/apt/sources.list.d/official-package-repositories.list
+  sudo: yes
+  register: mint_apt_repo
+
+- name: update Cinnamon
+  apt: package=cinnamon state=latest update_cache=yes
+  sudo: yes
+  when: mint_apt_repo.changed
+
