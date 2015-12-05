@@ -2,9 +2,8 @@
   stat: path=~/.config/dotfiles-git-dir
   register: dotfiles_config_file
 
-# we must not try cloning the repo if it already exists, because the
-# installation script ran in the next task transforms it and ansible
-# would be confused.
+# My dotfiles installation script is not idempotent, so we must skip
+# installation tasks if the dotfiles are already present.
 # TODO
 # Note that I initially clone using https and later change the protocol
 # to SSH.  This is because my SSH keys may not be present when cloning,
@@ -46,12 +45,18 @@
   # because it fails when group xxx is not defined.  This is better.
   when: "'work_computers' in group_names"
 
-- name: create .vim/autoload
+- name: vim - create .vim/autoload
   file:
     dest: ~/.vim/autoload
     state: directory
 
-- name: download plug.vim
+# The nice thing about vim-plug (https://github.com/junegunn/vim-plug)
+# is that it can be installed just by downloading one file.
+- name: vim - install plugin manager
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: ~/.vim/autoload/plug.vim
+
+# TODO: detect task status (changed/unchanged)
+- name: vim - install plugins
+  shell: vim +PlugInstall +qall
