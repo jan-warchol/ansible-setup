@@ -42,6 +42,8 @@
 - include: install-xcape.yml
   when: xcape_executable.stat.exists == false
 
+- include: install-smartless.yml
+
 # I want Cinnamon 2.8 because I need shortcuts for moving window to another display.
 - name: include packages from Linux Mint Romeo release
   lineinfile:
