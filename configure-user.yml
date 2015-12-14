@@ -7,4 +7,6 @@
   roles:
     - dotfiles
     - user-config
-    - keyboard
+    - role: keyboard
+      tags:
+        - keyboard
