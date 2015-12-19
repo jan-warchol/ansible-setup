@@ -73,6 +73,7 @@
     - trash-cli
     - tree
     - vim
+    - vim-gnome
     - vlc
     - xbacklight   # changing screen brightness
     - xsel   # copying and pasting from middle-mouse-button clipboard
