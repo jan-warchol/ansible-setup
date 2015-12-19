@@ -72,7 +72,7 @@
   file:
     src: ~/janek/gtk-bookmarks
     dest: ~/.config/gtk-3.0/bookmarks
-    state: link
+    state: hard
     force: no
 
 - name: ensure .config/terminator directory exists
