@@ -17,6 +17,7 @@ accounts live in `user-config` role.
 Requirements
 ------------
 
-git installed on the machine - use `install-software` role/playbook to get
-it first.
-
+- git installed on the machine - use `install-software` role/playbook to get
+  it first.
+  
+- gvim for copying to system clipboard and using remote option.
