@@ -59,37 +59,35 @@
     state: link
     force: no
 
-- name: update file manager bookmarks location
+- name: move config files to new locations
   shell: >
-    if [ -e ~/.config/gtk-3.0/bookmarks ]; then
-        mv -n ~/.config/gtk-3.0/bookmarks ~/janek/gtk-bookmarks
+    if [ -e {{item.dest}} ]; then
+        mv -n {{item.dest}} {{item.src}}
     else
-        touch ~/janek/gtk-bookmarks
+        touch {{item.src}}
     fi
-    creates=~/janek/gtk-bookmarks
+    creates={{item.src}}
+  with_items: 
+    - src: ~/janek/gtk-bookmarks
+      dest: ~/.config/gtk-3.0/bookmarks
+    - src: ~/janek/monitors.xml
+      dest: ~/.config/monitors.xml
+    - src: ~/janek/fasd
+      dest: ~/.fasd
 
-- name: create link to file manager bookmarks
+- name: create links to config files
   file:
-    src: ~/janek/gtk-bookmarks
-    dest: ~/.config/gtk-3.0/bookmarks
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     state: hard
     force: yes
-
-- name: update monitor config file location
-  shell: >
-    if [ -e ~/.config/monitors.xml ]; then
-        mv -n ~/.config/monitors.xml ~/janek/monitors.xml
-    else
-        touch ~/janek/monitors.xml
-    fi
-    creates=~/janek/monitors.xml
-
-- name: create link to monitor config file
-  file:
-    src: ~/janek/monitors.xml
-    dest: ~/.config/monitors.xml
-    state: hard
-    force: yes
+  with_items: 
+    - src: ~/janek/gtk-bookmarks
+      dest: ~/.config/gtk-3.0/bookmarks
+    - src: ~/janek/monitors.xml
+      dest: ~/.config/monitors.xml
+    - src: ~/janek/fasd
+      dest: ~/.fasd
 
 - name: ensure .config/terminator directory exists
   file:
