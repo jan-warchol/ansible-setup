@@ -1,0 +1,26 @@
+
+- name: clone ansible-system-setup repository
+  git: 
+    repo=https://github.com/janek-warchol/ansible-system-setup/
+    dest=~/.config/ansible-system-setup/
+    version=devel
+  register: task_result
+  failed_when: task_result | failed and "Local modifications exist in repository" not in task_result.msg
+
+- name: update ansible-system-setup remote
+  lineinfile:
+    dest: ~/.config/ansible-system-setup/.git/config
+    regexp: url = .*ansible-system-setup
+    line: "	url = {{ this_repo_remote }}"
+
+  # I don't want to accidentally commit something with my work email.
+- name: override git authorship setting in ansible-system-setup
+  blockinfile:
+    dest: ~/.config/ansible-system-setup/.git/config
+    block: |
+      [user]
+      	name = Jan Warchoł
+      	email = jan.warchol@gmail.com
+  # don't use "inventory_hostname in groups.xxx" construct
+  # because it fails when group xxx is not defined.  This is better.
+  when: "'work_computers' in group_names"
