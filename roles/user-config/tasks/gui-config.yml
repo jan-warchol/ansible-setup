@@ -74,6 +74,8 @@
       dest: ~/.config/monitors.xml
     - src: ~/janek/fasd
       dest: ~/.fasd
+    - src: ~/janek/viminfo
+      dest: ~/.viminfo
 
 - name: create links to config files
   file:
@@ -88,6 +90,8 @@
       dest: ~/.config/monitors.xml
     - src: ~/janek/fasd
       dest: ~/.fasd
+    - src: ~/janek/viminfo
+      dest: ~/.viminfo
 
 - name: ensure .config/terminator directory exists
   file:
