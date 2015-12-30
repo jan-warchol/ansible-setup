@@ -1,0 +1,4 @@
+- name: clear xkb cache
+  shell: dpkg-reconfigure xkb-data
+  sudo: yes
+

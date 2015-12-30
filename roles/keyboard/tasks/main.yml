@@ -1,17 +1,70 @@
-- name: Ensure xkb directories exist
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - ~/.config/xkb/symbols
-    - ~/.config/xkb/keycodes
-
-- name: Update xkb files
+    
+- name: Install janek keybord layout
   template:
     src: xkb/{{ item }}
-    dest: ~/.config/xkb/{{ item }}
+    dest: /usr/share/X11/xkb/{{ item }}
   with_items:
     - janek.xkb
     - symbols/janek
     - symbols/modifier_keys
     - keycodes/customThinkPad
+  notify:
+    - clear xkb cache
+
+# Without this, xkb would automatically include "pc" symbols, thus breaking my own mappings.
+- name: add janek layout to rules
+  lineinfile:
+    dest: /usr/share/X11/xkb/rules/evdev
+    insertafter: "! model		layout				=	symbols"
+    line:   "  *		janek			=	janek"
+
+- name: create xorg directory
+  file: 
+    dest: /etc/X11/xorg.conf.d
+    state: directory
+  sudo: yes
+
+# This config file makes my layout the default system-wide. Unfortunately, gnome overrides
+# it right after logging in to my user account and I'm not able to prevent that :(
+- name: Update xorg.conf
+  copy:
+    src: xorg.conf
+    dest: /etc/X11/xorg.conf.d/90-janeklayout.conf
+  sudo: yes
+
+# This is necessary to be able to choose my layout in gnome graphical preferences.
+- name: add janek layout declaration
+  blockinfile:
+    dest: /usr/share/X11/xkb/rules/evdev.xml
+    insertafter: "  <layoutList>"
+    block: |
+      <layout>
+        <configItem>
+          <name>janek</name>
+
+          <shortDescription>janek</shortDescription>
+          <description>janek</description>
+          <languageList>
+                   <iso639Id>eng</iso639Id>
+                   <iso639Id>fra</iso639Id>
+                   <iso639Id>pol</iso639Id>
+          </languageList>
+        </configItem>
+        <variantList>
+        </variantList>
+      </layout>
+    marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+  notify:
+    - clear xkb cache
+  when: false
+
+# gsettings needs access to dbus which is not ran by default when connected over SSH
+# http://askubuntu.com/questions/276509/change-gsettings-without-running-x-and-unity
+- name: Set keyboard layout in graphical settings
+  shell: >
+    gsettings get org.gnome.libgnomekbd.keyboard layouts;
+    dbus-launch --exit-with-session \
+    gsettings set org.gnome.libgnomekbd.keyboard layouts "['pl', 'janek']"
+  register: previous_default
+  changed_when: '"janek" not in previous_default.stdout'
+
