@@ -35,6 +35,7 @@
   with_items:
     - callback_plugins
     - vars_plugins
+    - lookup_plugins
   sudo: yes
 
 - name: download ansible-profile plugin
@@ -43,4 +44,10 @@
     wget https://raw.githubusercontent.com/jlafon/ansible-profile/master/callback_plugins/profile_tasks.py
     chdir=/usr/share/ansible_plugins/callback_plugins/
     creates=/usr/share/ansible_plugins/callback_plugins/profile_tasks.py
+  sudo: yes
+  
+- name: install passwordstore plugin
+  copy:
+    src: passwordstore.py
+    dest: /usr/share/ansible_plugins/lookup_plugins/passwordstore.py
   sudo: yes
