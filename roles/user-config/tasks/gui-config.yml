@@ -59,30 +59,19 @@
     state: link
     force: no
 
-- name: move config files to new locations
+- name: make links between config files in HOME and data dir
   shell: >
-    if [ -e {{item.dest}} ]; then
-        mv -n {{item.dest}} {{item.src}}
-    else
-        touch {{item.src}}
+    if [ -e {{item.dest}} -a ! -e {{item.src}} ]; then
+        ln {{item.dest}} {{item.src}}
+        echo "link created"
+    elif [ -e {{item.src}} -a ! -e {{item.dest}} ]; then
+        ln {{item.src}} {{item.dest}}
+        echo "link created"
+    elif [ -e {{item.src}} -a -e {{item.dest}} ]; then
+        diff {{item.src}} {{item.dest}} 1>&2
     fi
-    creates={{item.src}}
-  with_items: 
-    - src: ~/janek/gtk-bookmarks
-      dest: ~/.config/gtk-3.0/bookmarks
-    - src: ~/janek/monitors.xml
-      dest: ~/.config/monitors.xml
-    - src: ~/janek/fasd
-      dest: ~/.fasd
-    - src: ~/janek/viminfo
-      dest: ~/.viminfo
-
-- name: create links to config files
-  file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    state: hard
-    force: yes
+  register: task_result
+  changed_when: '"link created" in task_result.stdout'
   with_items: 
     - src: ~/janek/gtk-bookmarks
       dest: ~/.config/gtk-3.0/bookmarks
