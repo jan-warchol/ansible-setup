@@ -77,8 +77,6 @@
       dest: ~/.config/gtk-3.0/bookmarks
     - src: ~/janek/monitors.xml
       dest: ~/.config/monitors.xml
-    - src: ~/janek/fasd
-      dest: ~/.fasd
     - src: ~/janek/viminfo
       dest: ~/.viminfo
 
