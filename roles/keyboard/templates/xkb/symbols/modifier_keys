@@ -53,7 +53,7 @@ xkb_symbols "pc105" {
     key <{{ xkb_lctrl_key }}> { [ Control_L ] };
     key <{{ xkb_lwin_key }}>  { [ Super_L ] };
     key <{{ xkb_lalt_key }}>  { [ Alt_L, Meta_L ] };
-    key <SPCE> { [ space, Return ] };
+    key <SPCE> { [ space, Return, Return ] };
     key <{{ xkb_ralt_key }}>  { [ ISO_Level3_Shift ] };
     key <{{ xkb_rwin_key }}>  { [ Super_R ] };
     key <{{ xkb_rctrl_key }}> { [ Control_R ] };

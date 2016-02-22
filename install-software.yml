@@ -4,7 +4,6 @@
 # different sudo passwords (and most have different passwords, since
 # they are personal workstations).
 
-- hosts: localhost
-  connection: local
+- hosts: my_computers
   roles:
     - install-software

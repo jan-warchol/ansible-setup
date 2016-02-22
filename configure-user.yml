@@ -6,6 +6,7 @@
 - hosts: my_computers
   roles:
     - dotfiles
+    - install-ansible-setup  
     - user-config
     - role: keyboard
       tags:

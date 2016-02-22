@@ -1,0 +1,10 @@
+- name: clone smartless repository
+  git:
+    repo: "https://github.com/janek-warchol/smartless.git"
+    dest: "~/bin/smartless.git"
+
+- name: create symlink to smartless
+  file:
+    src: ~/bin/smartless.git/smartless
+    dest: ~/bin/smartless
+    state: link

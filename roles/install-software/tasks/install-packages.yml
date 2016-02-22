@@ -48,6 +48,7 @@
     - htop
     - indicator-multiload
     - ipython
+    - gnupg
     - kate
     - keepass2
     - xdotool   # library for auto-type in keepass
@@ -59,6 +60,7 @@
     - okular
     - openjdk-7-jre
     - openssh-server
+    - pass
     - python-pip
     - python-dev
     - python-virtualenv
@@ -73,6 +75,7 @@
     - trash-cli
     - tree
     - vim
+    - vim-gnome
     - vlc
     - xbacklight   # changing screen brightness
     - xsel   # copying and pasting from middle-mouse-button clipboard
