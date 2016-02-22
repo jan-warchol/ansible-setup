@@ -12,6 +12,8 @@
     dest: ~/.config/xkb/{{ item }}
   with_items:
     - janek.xkb
+    - janek-shifted.xkb
     - symbols/janek
     - symbols/modifier_keys
     - keycodes/customThinkPad
+    - keycodes/evdev-shifted
