@@ -1,2 +1,1 @@
 config_variant: default
-ansible_sudo_pass: "{{ lookup('passwordstore','{{ ansible_ssh_user }}@{{ ansible_ssh_host }}') }}"
