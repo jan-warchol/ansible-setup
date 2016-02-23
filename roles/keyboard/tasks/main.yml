@@ -16,4 +16,4 @@
     - symbols/janek
     - symbols/modifier_keys
     - keycodes/customThinkPad
-    - keycodes/evdev-shifted
+    - keycodes/freestyle-shifted

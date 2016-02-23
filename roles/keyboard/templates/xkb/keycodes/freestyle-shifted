@@ -66,14 +66,14 @@ default xkb_keycodes "evdev" {
 	<AB09> = 61;
 	<AB10> = 62;
 
-	<LALT> = 64;
+	<LWIN> = 64;
 	<LCTL> = 37;
 	<SPCE> = 65;
 	<RCTL> = 105;
-	<RALT> = 108;
+	<RWIN> = 108;
 	// Microsoft keyboard extra keys
-	<LWIN> = 133;
-	<RWIN> = 134;
+	<LALT> = 133;
+	<RALT> = 134;
 	<COMP> = 135;
 	alias <MENU> = <COMP>;
 
