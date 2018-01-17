@@ -1,0 +1,13 @@
+# This playbook is for user-level cli configuration.  In particular,
+# it should not require sudo to run (that's why I separated it from
+# software-installation playbook - to avoid having to type sudo password
+# and to save time).
+ 
+- hosts: localhost
+  roles:
+    - role: dotfiles
+      tags: dotfiles
+    - role: cli-config
+      tags: cli-config
+    - role: keyboard
+      tags: keyboard
