@@ -19,17 +19,6 @@
   file: path=/etc/ansible/roles state=directory
   become: yes
 
-- name: check for blockinfile role
-  shell: ansible-galaxy list | grep yaegashi.blockinfile
-  register: blockinfile_check
-  changed_when: false
-  failed_when: blockinfile_check.rc > 1
-
-- name: install blockinfile role
-  shell: ansible-galaxy install yaegashi.blockinfile
-  when: blockinfile_check.rc == 1
-  become: yes
-
 - name: create directory for ansible plugins
   file: path=/usr/share/ansible_plugins/{{ item }} state=directory
   with_items:
