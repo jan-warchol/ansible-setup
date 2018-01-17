@@ -10,9 +10,9 @@
 # and because I need different urls for work account SSH configuration.
 - name: clone dotfiles
   git:
-    repo: "https://github.com/janek-warchol/my-dotfiles"
+    repo: "https://github.com/jan-warchol/my-dotfiles"
     dest: "{{ dotfiles_dir }}"
-    version: janek
+    version: devel
     force: no
   when: dotfiles_config_file.stat.exists == false
 
