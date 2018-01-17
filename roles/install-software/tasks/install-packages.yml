@@ -8,23 +8,23 @@
     add-apt-repository --yes ppa:git-core/ppa
     creates=/etc/apt/sources.list.d/git-core-ppa-trusty.list
   register: git_ppa_status
-  sudo: yes
+  become: yes
 
 - name: Add FreeFileSync PPA
   command: >
     add-apt-repository --yes ppa:freefilesync/ffs
     creates=/etc/apt/sources.list.d/freefilesync-ffs-trusty.list
   register: ffs_ppa_status
-  sudo: yes
+  become: yes
 
 #- name: FreeFileSync wasn't available in Utopic Unicorn repos
 #  shell: sed -i 's/utopic/trusty/' /etc/apt/sources.list.d/freefilesync*
-#  sudo: yes
+#  become: yes
 
 - name: update apt cache
   apt: update_cache=yes
   when: git_ppa_status.changed or ffs_ppa_status.changed
-  sudo: yes
+  become: yes
 
 - name: Install latest versions of apt packages
   apt:
@@ -83,11 +83,11 @@
     #- guake
     #- imagemagick
     #- kompare
-  sudo: yes
+  become: yes
 
 # TODO
 # I think this is not needed anymore...
 #- name: Finish DVD decryption installation
 #  shell: /usr/share/doc/libdvdread4/install-css.sh
-#  sudo: yes
+#  become: yes
 

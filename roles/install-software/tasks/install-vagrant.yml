@@ -17,7 +17,7 @@
 
 - name: install Vagrant
   apt: deb=/tmp/vagrant.deb
-  sudo: yes
+  become: yes
 
 - name: remove .deb file
   file:

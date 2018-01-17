@@ -50,11 +50,11 @@
     regexp: "deb http://packages.linuxmint.com rebecca main upstream"
     line: "deb http://packages.linuxmint.com rebecca main upstream import romeo"
     dest: /etc/apt/sources.list.d/official-package-repositories.list
-  sudo: yes
+  become: yes
   register: mint_apt_repo
 
 - name: update Cinnamon
   apt: package=cinnamon state=latest update_cache=yes
-  sudo: yes
+  become: yes
   when: mint_apt_repo.changed
 

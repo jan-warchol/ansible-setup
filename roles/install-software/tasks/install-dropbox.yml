@@ -26,12 +26,12 @@
 
 - name: install package for verifying Dropbox signature
   apt: name=python-gpgme state=installed
-  sudo: yes
+  become: yes
 
 - name: install Dropbox
   apt:
     deb=/tmp/dropbox.deb
-  sudo: yes
+  become: yes
 
 - name: remove Dropbox deb
   file:

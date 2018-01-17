@@ -14,14 +14,14 @@
         regexp: autologin
         line: autologin=ewa
         follow: yes
-      sudo: yes
+      become: yes
 
     - name: disable ssh root login
       lineinfile:
         dest: /etc/ssh/sshd_config
         regexp: .*PermitRootLogin.*
         line: PermitRootLogin no
-      sudo: yes
+      become: yes
       changed_when: true
       notify: restart ssh
 
@@ -30,5 +30,5 @@
         dest: /etc/ssh/sshd_config
         regexp: .*PasswordAuthentication.*
         line: PasswordAuthentication no
-      sudo: yes
+      become: yes
       notify: restart ssh

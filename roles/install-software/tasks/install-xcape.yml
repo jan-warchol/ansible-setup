@@ -3,7 +3,7 @@
   # but using apt directly gives no error...
 - name: install xcape dependencies
   shell: apt-get install --yes git gcc make build-essential pkg-config libx11-dev libxtst-dev libxi-dev
-  sudo: yes
+  become: yes
 
 - name: clone xcape repository
   git:

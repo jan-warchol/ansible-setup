@@ -1,9 +1,9 @@
 - name: add Pulse audio equalizer repository
   apt_repository: repo='deb http://ppa.launchpad.net/nilarimogard/webupd8/ubuntu trusty main'
-  sudo: yes
+  become: yes
 
 - name: install pulse audio equalizer
   apt:
     name: pulseaudio-equalizer
     state: latest
-  sudo: yes
+  become: yes

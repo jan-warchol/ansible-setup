@@ -5,5 +5,5 @@
 
 - name: install fasd
   shell: make install chdir={{ ansible_env.HOME }}/bin/fasd.git
-  sudo: yes
+  become: yes
 

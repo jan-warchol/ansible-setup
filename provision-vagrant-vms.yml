@@ -16,7 +16,7 @@
         - git
         - ranger
         - trash-cli
-      sudo: yes
+      become: yes
 
   roles:
     - dotfiles
