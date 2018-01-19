@@ -1,0 +1,60 @@
+- hosts: localhost
+  tasks:
+
+    # See http://xmodulo.com/how-to-install-or-upgrade-virtualbox-on-ubuntu-or-debian.html
+
+    - name: add VirtualBox repo apt key
+      apt_key: url=http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc
+      become: yes
+
+    - name: add VirtualBox PPA
+      apt_repository:
+        repo='deb http://download.virtualbox.org/virtualbox/debian trusty contrib non-free'
+      become: yes
+
+    - name: install VirtualBox
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - virtualbox-4.3
+        - virtualbox-guest-dkms
+      become: yes
+
+
+
+    - name: check whether Vagrant is installed
+      shell: which vagrant
+      register: vagrant_check
+      failed_when: vagrant_check.rc > 1
+      changed_when: vagrant_check.rc == 1
+
+    - when: vagrant_check.rc == 1
+      block:
+
+        # As of 2015, official apt repos keep serving ancient Vagrant, and there's
+        # no PPA, so we scrape vagrant website and download .deb from there.
+
+        - name: get url pointing to the latest Vagrant .deb
+          shell: >
+            wget --quiet https://www.vagrantup.com/downloads.html -O- |
+            grep -P "\d+\.\d+\.\d+_x86_64\.deb" |
+            cut -d'"' -f2
+          register: vagrant_latest_deb_url
+          failed_when: vagrant_latest_deb_url.rc > 0
+          changed_when: False
+
+        - name: download .deb file
+          get_url:
+            url: "{{ vagrant_latest_deb_url.stdout }}"
+            dest: /tmp/vagrant.deb
+
+        - name: install Vagrant
+          apt: deb=/tmp/vagrant.deb
+          become: yes
+
+        - name: remove .deb file
+          file:
+            path: /tmp/vagrant.deb
+            state: absent
+

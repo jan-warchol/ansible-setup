@@ -6,17 +6,6 @@
 
 - include: install-packages.yml
 
-- include: install-virtualbox.yml
-
-- name: check whether Vagrant is installed
-  shell: which vagrant
-  register: vagrant_check
-  failed_when: vagrant_check.rc > 1
-  changed_when: vagrant_check.rc == 1
-
-- include: install-vagrant.yml
-  when: vagrant_check.rc == 1
-
 - name: check whether dropbox is installed
   shell: which dropbox
   register: dropbox_check
