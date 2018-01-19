@@ -56,44 +56,14 @@ would be interested I'm open to pull requests.
 Usage
 -----
 
-There are two kinds of machines:
-
-* masters: my own computers.  Each of them has a clone of this repository and
-  can run ansible playbooks to configure itself and other hosts (*including
-  other masters*).
-
-* slaves: servers I have access to, my family's computers, my accounts on other
-  people's computers.  I don't run ansible from them.
-
-
-### Setting up a new master
-
-To bootstrap a completely new machine, run:
-
-    sudo apt-get --yes install git
-    cd ~/.config
+    sudo apt-add-repository --yes ppa:ansible/ansible
+    sudo apt-get update
+    sudo apt-get install --yes git ansible
     git clone https://github.com/janek-warchol/ansible-system-setup
-    ./ansible-system-setup/bootstrap.sh
-
-[`bootstrap.sh`](bootstrap.sh) ensures that the machine can ssh into itself and
-that it has Ansible installed.
-
-After that, update the `inventory` file and you're ready to run Ansible
-playbooks.
-
-
-### Setting up a new slave
-
-1. Add it to the `inventory` file (and master(s)' `/etc/hosts` if appropriate)
-2. Install an SSH server, e.g. `sudo apt-get install openssh-server`
-3. Copy your public key to authorized keys e.g. using `ssh-copy-id`
-
-
-### Running ansible
 
 Run Ansible playbooks like this (you can omit sudo prompt for some of them):
 
-    ansible-playbook -i inventory install-software.yml --ask-sudo-pass
+    ansible-playbook install-software.yml --ask-sudo-pass
 
 Note that some roles require packages that are installed by `install-software`
 role, so you should run it first.  In particular, most of the roles require git.
