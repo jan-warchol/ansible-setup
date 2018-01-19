@@ -9,5 +9,3 @@
       tags: dotfiles
     - role: cli-config
       tags: cli-config
-    - role: keyboard
-      tags: keyboard
