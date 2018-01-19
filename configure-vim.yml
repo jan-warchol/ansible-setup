@@ -1,0 +1,29 @@
+- hosts: localhost
+  tasks:
+
+    - name: ensure config directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/.vim/{{ item }}"
+        state: directory
+      with_items:
+        - autoload  # for vim-plug
+        - swap  # global dir for swapfiles
+        - backup  # global dir for backup files
+        - colors  # for colorschemes
+
+    # The nice thing about vim-plug (https://github.com/junegunn/vim-plug)
+    # is that it can be installed just by downloading one file.
+    - name: install vim-plug plugin manager
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+
+    - name: install selenized color palette
+      get_url:
+        url: https://raw.githubusercontent.com/jan-warchol/selenized/master/vim/selenized.vim
+        dest: "{{ ansible_env.HOME }}/.vim/colors/selenized.vim"
+
+    # TODO: detect task status (changed/unchanged)
+    - name: install/update plugins
+      shell: vim +PlugInstall +qall
+

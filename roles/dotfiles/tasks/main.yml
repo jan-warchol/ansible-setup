@@ -44,19 +44,3 @@
   # don't use "inventory_hostname in groups.xxx" construct
   # because it fails when group xxx is not defined.  This is better.
   when: "'work_computers' in group_names"
-
-- name: vim - create .vim/autoload
-  file:
-    dest: ~/.vim/autoload
-    state: directory
-
-# The nice thing about vim-plug (https://github.com/junegunn/vim-plug)
-# is that it can be installed just by downloading one file.
-- name: vim - install plugin manager
-  get_url:
-    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    dest: ~/.vim/autoload/plug.vim
-
-# TODO: detect task status (changed/unchanged)
-- name: vim - install plugins
-  shell: vim +PlugInstall +qall

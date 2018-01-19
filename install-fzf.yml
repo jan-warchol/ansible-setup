@@ -1,5 +1,6 @@
 - hosts: localhost
   tasks:
+
     - name: get customized fzf repo
       git:
         repo: https://github.com/jan-warchol/fzf
