@@ -1,9 +1,0 @@
-- name: clone fasd repository
-  git:
-    repo: "https://github.com/clvv/fasd"
-    dest: "{{ ansible_env.HOME }}/bin/fasd.git"
-
-- name: install fasd
-  shell: make install chdir={{ ansible_env.HOME }}/bin/fasd.git
-  become: yes
-

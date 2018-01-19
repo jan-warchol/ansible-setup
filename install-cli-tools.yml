@@ -1,0 +1,59 @@
+- hosts: localhost
+  tasks:
+
+    - name: check whether fasd is installed
+      shell: which fasd
+      register: fasd_check
+      failed_when: fasd_check.rc > 1
+      changed_when: fasd_check.rc == 1
+
+    - when: fasd_check.rc == 1
+      block:
+
+        - name: clone fasd repository
+          git:
+            repo: "https://github.com/clvv/fasd"
+            dest: "{{ ansible_env.HOME }}/bin/fasd.git"
+
+        - name: install fasd
+          shell: make install chdir={{ ansible_env.HOME }}/bin/fasd.git
+          become: yes
+
+    - name: check whether xcape is installed
+      stat: path=~/bin/xcape
+      register: xcape_executable
+
+    - when: xcape_executable.stat.exists == false
+      block:
+
+          # FIXME
+          # Ansible's apt module says that it cannot find "libx11-dev",
+          # but using apt directly gives no error...
+        - name: install xcape dependencies
+          shell: apt-get install --yes git gcc make build-essential pkg-config libx11-dev libxtst-dev libxi-dev
+          become: yes
+
+        - name: clone xcape repository
+          git:
+            repo: "https://github.com/alols/xcape.git"
+            dest: "~/bin/xcape.git"
+
+        - name: install xcape
+          shell: make chdir=~/bin/xcape.git
+
+        - name: create symlink
+          file:
+            src: ~/bin/xcape.git/xcape
+            dest: ~/bin/xcape
+            state: link
+
+    - name: clone smartless repository
+      git:
+        repo: "https://github.com/janek-warchol/smartless.git"
+        dest: "~/bin/smartless.git"
+
+    - name: create symlink to smartless
+      file:
+        src: ~/bin/smartless.git/smartless
+        dest: ~/bin/smartless
+        state: link
