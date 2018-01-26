@@ -23,13 +23,6 @@
     state: directory
     recurse: yes
     mode: og-rwx
-
-- name: update ssh config
-  copy:
-    src: ssh-config-{{ config_variant }}
-    dest: "{{ ssh_home }}/config"
-    backup: yes
-
 - name: add my keys to authorized keys
   lineinfile:
     dest: "{{ ssh_home }}/authorized_keys"
@@ -39,13 +32,3 @@
     - "{{ id_rsa_personal_2c6819cb_public_key }}"
     - "{{ id_rsa_codilime_5260631d_public_key }}"
 
-- name: install user-specific configuration
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    backup: yes
-  with_items:
-    - src: git-config-local.j2
-      dest: ~/.config/git/config.local
-    - src: bash-config-local.j2
-      dest: ~/.config/bash/config.local
