@@ -32,15 +32,3 @@
     dest: "{{ dotfiles_dir }}/config"
     line: "	url = {{ dotfiles_remote_url }}"
     regexp: url =
-
-  # I don't want to accidentally commit something with my work email.
-- name: override git authorship setting in dotfiles repo
-  blockinfile:
-    dest: "{{ dotfiles_dir }}/config"
-    block: |
-      [user]
-      	name = Jan Warchoł
-      	email = jan.warchol@gmail.com
-  # don't use "inventory_hostname in groups.xxx" construct
-  # because it fails when group xxx is not defined.  This is better.
-  when: "'work_computers' in group_names"
