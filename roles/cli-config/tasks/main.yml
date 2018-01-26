@@ -23,12 +23,3 @@
     state: directory
     recurse: yes
     mode: og-rwx
-- name: add my keys to authorized keys
-  lineinfile:
-    dest: "{{ ssh_home }}/authorized_keys"
-    line: "{{ item }}"
-    create: yes
-  with_items:
-    - "{{ id_rsa_personal_2c6819cb_public_key }}"
-    - "{{ id_rsa_codilime_5260631d_public_key }}"
-
