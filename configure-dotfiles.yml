@@ -1,9 +1,52 @@
-# This playbook is for user-level cli configuration.  In particular,
-# it should not require sudo to run (that's why I separated it from
-# software-installation playbook - to avoid having to type sudo password
-# and to save time).
- 
+# This role installs my [dotfiles](https://github.com/janek-warchol/my-dotfiles).
+# Basically, the dotfiles repository should contain only user configuration
+# that is common to all my accounts, and is reasonable to track as plain
+# text files.  In particular, nothing here should depend on any ansible
+# group_vars or host_vars.
+#
+# Any configs that don't meet these requirements (system-wide settings, GUI
+# settings that live in binary files or unwieldy XMLs, etc.) should be
+# managed by some other means.  In particular, settings that differ between
+# accounts live in `user-config` role.
+
 - hosts: localhost
-  roles:
-    - role: dotfiles
-      tags: dotfiles
+  vars:
+    dotfiles_repo: janek-warchol/my-dotfiles.git
+    dotfiles_dir: ~/.dotfiles.git
+
+  tasks:
+
+    - name: check for dotfiles
+      stat: path=~/.config/dotfiles-git-dir
+      register: dotfiles_config_file
+
+    # My dotfiles installation script is not idempotent, so we must skip
+    # installation tasks if the dotfiles are already present.
+    # TODO
+    # Note that I initially clone using https and later change the protocol
+    # to SSH.  This is because my SSH keys may not be present when cloning,
+    # and because I need different urls for work account SSH configuration.
+    - name: clone dotfiles
+      git:
+        repo: "https://github.com/{{ dotfiles_repo }}"
+        dest: "{{ dotfiles_dir }}"
+        version: devel
+        force: no
+      when: dotfiles_config_file.stat.exists == false
+
+    - name: install dotfiles
+      shell: >
+        {{ dotfiles_dir }}/.install-dotfiles.sh
+        creates=~/.config/dotfiles-git-dir
+      when: dotfiles_config_file.stat.exists == false
+      register: dotfiles_installation
+
+    - name: report installation results
+      debug: var=dotfiles_installation.stdout_lines
+      when: dotfiles_installation.changed
+
+    - name: update remote url to use SSH protocol
+      lineinfile:
+        dest: "{{ dotfiles_dir }}/config"
+        line: "	url = git@github.com:{{ dotfiles_repo }}"
+        regexp: url =
