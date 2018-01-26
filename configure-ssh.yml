@@ -1,0 +1,30 @@
+- hosts: localhost
+  vars:
+    ssh_home: ~/data/ssh-{{ ansible_env.DISAMBIG_SUFFIX }}
+
+  tasks:
+
+      # I prefer not to keep my keys etc. in ~/.ssh, because one day
+      # I may forget to copy it when moving from one computer to another...
+    - name: update ssh directory location
+      command: >
+        mv -n ~/.ssh {{ ssh_home }}
+        creates={{ ssh_home }}
+
+    - name: create links to ssh_home
+      file:
+        src: "{{ ssh_home }}"
+        dest: "{{ item }}"
+        state: link
+        force: no
+      with_items:
+        - ~/.ssh   # for all software that looks there by default
+        - ~/.config/ssh   # I like to see ssh when I'm browsing .config
+      when: item != ssh_home   # in case ssh_home is set to one of the above
+
+    - name: ensure only I can acess my ssh_home
+      file:
+        path: "{{ ssh_home }}"
+        state: directory
+        recurse: yes
+        mode: og-rwx
