@@ -11,7 +11,7 @@
 
 - hosts: localhost
   vars:
-    dotfiles_repo: janek-warchol/my-dotfiles.git
+    dotfiles_repo: jan-warchol/my-dotfiles.git
     dotfiles_dir: ~/.dotfiles.git
 
   tasks:
