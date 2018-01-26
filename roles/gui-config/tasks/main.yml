@@ -80,17 +80,6 @@
     - src: ~/janek/viminfo
       dest: ~/.viminfo
 
-- name: ensure .config/terminator directory exists
-  file:
-    path: ~/.config/terminator
-    state: directory
-
-- name: update Terminator configuration
-  template:
-    src: terminator-config.j2
-    dest: ~/.config/terminator/config
-    backup: yes
-
 # gsettings needs access to dbus which is not ran by default when connected over SSH
 # http://askubuntu.com/questions/276509/change-gsettings-without-running-x-and-unity
 - name: set Terminator as default system terminal
