@@ -20,16 +20,26 @@
         insertbefore: BOF
         block: |
           [global_config]
-            title_receive_bg_color = "#c80003"
-            title_transmit_bg_color = "#0076c9"
+            always_split_with_profile = True
             suppress_multiple_term_dialog = True
             inactive_color_offset = 1.0
+            scroll_tabbar = True
+            title_inactive_bg_color = "#637b86"
+            title_inactive_fg_color = "#072938"
+            title_receive_bg_color = "#12ab9e"
+            title_receive_fg_color = "#072938"
+            title_transmit_bg_color = "#3c8ae6"
+            title_transmit_fg_color = "#072938"
           [keybindings]
+            broadcast_all = None
+            close_term = None
+            close_window = None
             switch_to_tab_1 = <Primary>1
             switch_to_tab_2 = <Primary>2
             switch_to_tab_3 = <Primary>3
             switch_to_tab_4 = <Primary>4
             switch_to_tab_5 = <Primary>5
+            switch_to_tab_6 = <Primary>6
           [layouts]
             [[default]]
               [[[child1]]]
@@ -41,27 +51,14 @@
           [plugins]
           [profiles]
             [[default]]
-              scrollbar_position = hidden
-              palette = "#000000:#f02b2b:#5cba00:#d6ab00:#2d83fa:#e14ee1:#15c9b9:#b4b9bd:#000000:#f02b2b:#5cba00:#d6ab00:#2d83fa:#e14ee1:#15c9b9:#b4b9bd"
+              background_color = "#181818"
               background_image = None
-              word_chars = "-A-Za-z0-9,./?%&#_"
-              use_system_font = False
-              cursor_color = "#ffffff"
-              foreground_color = "#b4b9bd"
-              scroll_on_output = False
+              cursor_color = "#dedede"
               font = Ubuntu Mono 12
-              background_color = "#1d3954"
+              foreground_color = "#b9b9b9"
+              palette = "#252525:#ed4a46:#70b433:#dbb32d:#368aeb:#eb6eb7:#3fc5b7:#777777:#3b3b3b:#ff5e56:#83c746:#efc541:#4f9cfe:#ff81ca:#56d8c9:#dedede"
+              scroll_on_output = False
               scrollback_infinite = True
-            [[solarized-light]]
               scrollbar_position = hidden
-              palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
-              background_image = None
-              word_chars = "-A-Za-z0-9,./?%&#_"
               use_system_font = False
-              cursor_color = "#000000"
-              foreground_color = "#657b83"
-              scroll_on_output = False
-              font = Ubuntu Mono 12
-              background_color = "#fdf6e3"
-              scrollback_infinite = True
-
+              word_chars = "-A-Za-z0-9,./?%&#_"
