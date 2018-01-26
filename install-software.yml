@@ -1,9 +1,0 @@
-# Install software I use (requires administrator privileges, duh)
-# FIXME This playbook doesn't use hosts defined in inventory,
-# because it cannot handle provisioning multiple machines that have
-# different sudo passwords (and most have different passwords, since
-# they are personal workstations).
-
-- hosts: my_computers
-  roles:
-    - install-software
