@@ -1,0 +1,5 @@
+- include: configure-keyboard.yml
+- include: configure-gui.yml
+- include: configure-ssh.yml
+- include: configure-terminator.yml
+- include: install-chrome.yml
