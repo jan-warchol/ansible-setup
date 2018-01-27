@@ -3,6 +3,15 @@ setting up my machine and installing my
 [dotfiles](https://github.com/jan-warchol/my-dotfiles) (which need some
 external apps to work completely).
 
+Playbook organization
+---------------------
+
+- playbooks starting with `cli-` are meant for all machines/accounts (they
+  setup command line environment)
+- playbooks starting with `gui-` are meant only for accounts that have a
+  graphical environment (they install gui packages, keyboard configuration
+  etc.)
+
 
 
 Requirements
