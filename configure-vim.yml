@@ -23,7 +23,6 @@
         url: https://raw.githubusercontent.com/jan-warchol/selenized/master/vim/selenized.vim
         dest: "{{ ansible_env.HOME }}/.vim/colors/selenized.vim"
 
-    # TODO: detect task status (changed/unchanged)
-    - name: install/update plugins
-      shell: vim +PlugInstall +qall &> /dev/null
+    - name: install plugins (only first time)
+      shell: vim +PlugInstall +qall creates={{ ansible_env.HOME }}/.vim/plugged
 
