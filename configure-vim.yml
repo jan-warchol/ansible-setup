@@ -25,5 +25,5 @@
 
     # TODO: detect task status (changed/unchanged)
     - name: install/update plugins
-      shell: vim +PlugInstall +qall
+      shell: vim +PlugInstall +qall &> /dev/null
 
