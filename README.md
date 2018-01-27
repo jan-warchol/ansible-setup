@@ -1,45 +1,7 @@
-Automating my own computer configuration
-----------------------------------------
-
-I have scripted most of my system configuration using [Ansible](http://docs.ansible.com/)
-(a powerful, but surprisingly easy to learn tool for automation,
-remote execution and configuration management).  This allows me
-to setup new workstations easily, and to keep settings of all my accounts in sync.
-
-
-
-Is it worth it?
----------------
-
-It depends.  If you only use one machine, it's nice to have an authoritative
-source of information on what you install and configure on a new system,
-but this only pays off if you reinstall often (say, every couple months?).
-
-If you have two machines - or two user accounts, for work and personal stuff,
-as I do - synchronizing configuration becomes an issue and it may be worth
-the effort to automate it.
-
-If you have more than two machines (or accounts)... you know the answer already
-:-)
-
-
-
-Interesting features
---------------------
-
-- different [configuration variants](roles/user-config) for personal and work user,
-- automated installation of some programs that are not readily available from
-  apt repositories (e.g.
-  [Vagrant](roles/install-software/tasks/install-vagrant.yml) which has to be
-  downloaded from its website,
-  [Ansible itself](roles/install-software/tasks/install-ansible.yml) which I
-  install from a PPA and add a couple of plugins),
-- tasks that can manage desktop environment settings
-  [without access to X server](roles/user-config/tasks/gui-config.yml#L65),
-- [custom keyboard configuration](roles/keyboard) with variations for each
-  machine,
-- (planned) integration with [`pass`](http://www.passwordstore.org/) password
-  manager
+This repository contains [Ansible](http://docs.ansible.com/) scripts for
+setting up my machine and installing my
+[dotfiles](https://github.com/jan-warchol/my-dotfiles) (which need some
+external apps to work completely).
 
 
 
