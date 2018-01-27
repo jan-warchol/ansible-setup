@@ -49,4 +49,4 @@
       lineinfile:
         dest: "{{ dotfiles_dir }}/config"
         line: "	url = git@github.com:{{ dotfiles_repo }}"
-        regexp: url =
+        regexp: "url = .*{{ dotfiles_repo }}"
