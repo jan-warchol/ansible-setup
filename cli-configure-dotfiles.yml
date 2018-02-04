@@ -12,7 +12,7 @@
 - hosts: localhost
   vars:
     dotfiles_repo: jan-warchol/my-dotfiles.git
-    dotfiles_dir: ~/.dotfiles.git
+    dotfiles_dir: "{{ ansible_env.HOME }}/.dotfiles.git"
 
   tasks:
 
@@ -50,3 +50,22 @@
         dest: "{{ dotfiles_dir }}/config"
         line: "	url = git@github.com:{{ dotfiles_repo }}"
         regexp: "url = .*{{ dotfiles_repo }}"
+
+    - name: let git ignore changes in README
+      command: git update-index --assume-unchanged ~/README.md
+      environment:
+        GIT_DIR: "{{ dotfiles_dir }}"
+        GIT_WORK_TREE: "{{ ansible_env.HOME }}"
+      register: git_status
+      failed_when:
+        - git_status|failed
+        - "'Unable to mark file README.md' not in git_status.stderr"
+
+      # I don't want README (meant for github) to pollute my actual home dir
+    - name: hide dotfiles README
+      shell: mv --backup=numbered ~/README.md ~/.README.md
+      register: mv_status
+      changed_when: not mv_status|failed
+      failed_when:
+        - mv_status|failed
+        - "'No such file or directory' not in mv_status.stderr"
