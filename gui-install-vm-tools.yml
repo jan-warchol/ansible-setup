@@ -4,12 +4,14 @@
     # See http://xmodulo.com/how-to-install-or-upgrade-virtualbox-on-ubuntu-or-debian.html
 
     - name: add VirtualBox repo apt key
-      apt_key: url=http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc
+      apt_key:
+        data: "{{ lookup('file', 'oracle_apt_key.asc') }}"
       become: yes
 
+      # https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/
     - name: add VirtualBox PPA
       apt_repository:
-        repo='deb http://download.virtualbox.org/virtualbox/debian trusty contrib non-free'
+        repo='deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib'
       become: yes
 
     - name: install VirtualBox
@@ -17,7 +19,7 @@
         name: "{{ item }}"
         state: latest
       with_items:
-        - virtualbox-4.3
+        - virtualbox-5.2
         - virtualbox-guest-dkms
       become: yes
 
