@@ -1,0 +1,49 @@
+# Based on official docker installation instructions from
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+
+- name: Install Docker from apt repo
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: abort if Linux release not set properly
+      when:
+        - ansible_distribution != 'Ubuntu'
+        - dist_override is not defined
+      fail:
+        msg: >
+          Linux release or distribution not recognized (this playbook assumes
+          Ubuntu). If you use a different distribution, try forcing apt to
+          use repo from the parent distribution by setting dist_override variable.
+
+    - name: set apt distribution release
+      set_fact:
+        apt_dist: "{{ dist_override | default(ansible_distribution_release) }}"
+
+    - name: install prerequirements for apt over https
+      apt:
+        pkg: "{{ item }}"
+        cache_valid_time: 3600
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: add docker apt key
+      apt_key:
+        data: "{{ lookup('file', 'docker_apt_key.asc') }}"
+
+    - name: add docker apt repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ apt_dist }} stable
+
+    - name: install docker
+      apt:
+        pkg: docker-ce
+
+    - name: allow running docker without sudo (re-login to take effect)
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
