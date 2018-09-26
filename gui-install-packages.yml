@@ -2,24 +2,6 @@
   become: yes
   tasks:
 
-    # FIXME
-    # Ansible's apt_repository module doesn't work correcty with Linux Mint,
-    # see https://github.com/ansible/ansible/issues/4587
-    # Also, the filenames that are checked for existence are hardcoded :(
-
-    - name: Add FreeFileSync PPA
-      command: >
-        add-apt-repository --yes ppa:freefilesync/ffs
-        creates=/etc/apt/sources.list.d/freefilesync-ffs-trusty.list
-      register: ffs_ppa_status
-
-    #- name: FreeFileSync wasn't available in Utopic Unicorn repos
-    #  shell: sed -i 's/utopic/trusty/' /etc/apt/sources.list.d/freefilesync*
-
-    - name: update apt cache
-      apt: update_cache=yes
-      when: ffs_ppa_status.changed
-
     - name: Install latest versions of apt packages
       apt:
         name: "{{ item }}"
@@ -33,7 +15,6 @@
         - dconf-editor   # desktop environment configuration
         - firefox   # make sure firefox is updated - my package manager
                     # didn't want to update it on its own
-        - freefilesync
         - gitk
         - gparted
         - indicator-multiload
