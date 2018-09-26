@@ -1,5 +1,5 @@
-- include: configure-keyboard.yml
-- include: configure-gui.yml
-- include: configure-ssh.yml
-- include: configure-terminator.yml
-- include: install-chrome.yml
+- import_playbook: gui-configure-keyboard.yml
+- import_playbook: gui-configure-gui.yml
+- import_playbook: gui-configure-ssh.yml
+- import_playbook: gui-configure-terminator.yml
+- import_playbook: gui-install-chrome.yml

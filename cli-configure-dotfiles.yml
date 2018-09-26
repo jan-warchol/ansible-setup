@@ -58,14 +58,14 @@
         GIT_WORK_TREE: "{{ ansible_env.HOME }}"
       register: git_status
       failed_when:
-        - git_status|failed
+        - git_status is failed
         - "'Unable to mark file README.md' not in git_status.stderr"
 
       # I don't want README (meant for github) to pollute my actual home dir
     - name: hide dotfiles README
       shell: mv --backup=numbered ~/README.md ~/.README.md
       register: mv_status
-      changed_when: not mv_status|failed
+      changed_when: not mv_status is failed
       failed_when:
-        - mv_status|failed
+        - mv_status is failed
         - "'No such file or directory' not in mv_status.stderr"
