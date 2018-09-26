@@ -1,0 +1,4 @@
+- include: cli-configure-dotfiles.yml
+- include: cli-configure-vim.yml
+- include: cli-install-misc-tools.yml
+- include: cli-install-fzf.yml

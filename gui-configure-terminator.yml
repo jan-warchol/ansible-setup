@@ -1,0 +1,64 @@
+# I don't want to put terminator config file directly under version control,
+# because I'm often experimenting with new color palettes and tracking these
+# changes would be too cumbersome. However, I want to have a "seed" version of
+# the config ready for deploying on new machines.
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - name: ensure .config/terminator directory exists
+      file:
+        path: ~/.config/terminator
+        state: directory
+
+    - name: insert seed Terminator configuration
+      blockinfile:
+        dest: ~/.config/terminator/config
+        backup: yes
+        create: yes
+        insertbefore: BOF
+        block: |
+          [global_config]
+            always_split_with_profile = True
+            suppress_multiple_term_dialog = True
+            inactive_color_offset = 1.0
+            scroll_tabbar = True
+            title_inactive_bg_color = "#637b86"
+            title_inactive_fg_color = "#072938"
+            title_receive_bg_color = "#12ab9e"
+            title_receive_fg_color = "#072938"
+            title_transmit_bg_color = "#3c8ae6"
+            title_transmit_fg_color = "#072938"
+          [keybindings]
+            broadcast_all = None
+            close_term = None
+            close_window = None
+            switch_to_tab_1 = <Primary>1
+            switch_to_tab_2 = <Primary>2
+            switch_to_tab_3 = <Primary>3
+            switch_to_tab_4 = <Primary>4
+            switch_to_tab_5 = <Primary>5
+            switch_to_tab_6 = <Primary>6
+          [layouts]
+            [[default]]
+              [[[child1]]]
+                type = Terminal
+                parent = window0
+              [[[window0]]]
+                type = Window
+                parent = ""
+          [plugins]
+          [profiles]
+            [[default]]
+              background_color = "#181818"
+              background_image = None
+              cursor_color = "#dedede"
+              font = Ubuntu Mono 12
+              foreground_color = "#b9b9b9"
+              palette = "#252525:#ed4a46:#70b433:#dbb32d:#368aeb:#eb6eb7:#3fc5b7:#777777:#3b3b3b:#ff5e56:#83c746:#efc541:#4f9cfe:#ff81ca:#56d8c9:#dedede"
+              scroll_on_output = False
+              scrollback_infinite = True
+              scrollbar_position = hidden
+              use_system_font = False
+              word_chars = "-A-Za-z0-9,./?%&#_"

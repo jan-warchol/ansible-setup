@@ -1,0 +1,43 @@
+- hosts: localhost
+  tasks:
+
+    - name: check whether fasd is installed
+      shell: which fasd
+      register: fasd_check
+      failed_when: fasd_check.rc > 1
+      changed_when: fasd_check.rc == 1
+
+    - when: fasd_check.rc == 1
+      block:
+
+        - name: clone fasd repository
+          git:
+            repo: "https://github.com/clvv/fasd"
+            dest: "{{ ansible_env.HOME }}/bin/fasd.git"
+
+        - name: install fasd
+          shell: make install chdir={{ ansible_env.HOME }}/bin/fasd.git
+          become: yes
+
+    - name: clone smartless repository
+      git:
+        repo: "https://github.com/janek-warchol/smartless.git"
+        dest: "{{ ansible_env.HOME }}/bin/smartless.git"
+
+    - name: create symlink to smartless
+      file:
+        src: ~/bin/smartless.git/smartless
+        dest: ~/bin/smartless
+        state: link
+
+    - name: download script for merging ansible vaults
+      get_url:
+        url: https://raw.githubusercontent.com/building5/ansible-vault-tools/master/ansible-vault-merge.sh
+        dest: "{{ ansible_env.HOME }}/bin/ansible-vault-merge"
+        mode: 0755
+
+    - name: download tig commit picker
+      get_url:
+        url: https://raw.githubusercontent.com/jonas/tig/master/contrib/tig-pick
+        dest: "{{ ansible_env.HOME }}/bin/tgp"
+        mode: 0755
