@@ -33,6 +33,7 @@
         - vlc
         - xbacklight   # changing screen brightness
         - xsel   # copying and pasting from middle-mouse-button clipboard
+        - xserver-xorg-input-synaptics  # for managing touchpad
         #- gimp
         #- guake
         #- imagemagick
