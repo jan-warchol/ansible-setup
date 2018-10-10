@@ -1,0 +1,11 @@
+- hosts: all
+  become: yes
+  tasks:
+
+    - name: Remove unwanted parts of MOTD
+      file:
+        dest: "/etc/update-motd.d/{{ item }}"
+        state: absent
+      loop:
+        - 10-help-text
+        - 80-livepatch
