@@ -19,7 +19,7 @@
 #   there, like git repositories, large binary files etc.) and set up symlinks
 #   to their original locations.
 
-- hosts: localhost
+- hosts: all
   vars:
     # user directories (relative to $HOME)
     xdg_documents_dir: ""

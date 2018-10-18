@@ -3,7 +3,7 @@
 # changes would be too cumbersome. However, I want to have a "seed" version of
 # the config ready for deploying on new machines.
 
-- hosts: localhost
+- hosts: all
   gather_facts: no
   tasks:
 

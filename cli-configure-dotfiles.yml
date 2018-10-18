@@ -9,7 +9,7 @@
 # managed by some other means.  In particular, settings that differ between
 # accounts live in `user-config` role.
 
-- hosts: localhost
+- hosts: all
   vars:
     dotfiles_repo: jan-warchol/my-dotfiles.git
     dotfiles_dir: "{{ ansible_env.HOME }}/.dotfiles.git"

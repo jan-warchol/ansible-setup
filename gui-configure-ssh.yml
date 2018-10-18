@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   vars:
     ssh_home: ~/data/ssh-{{ ansible_env.DISAMBIG_SUFFIX }}
 
