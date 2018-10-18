@@ -23,6 +23,7 @@
         - xdotool   # library for auto-type in keepass
         - libdvdread4   # DVD decryption
           # at least one of these 3 packages is needed for okular to open pdfs
+        - libnotify-bin  # for system notifications
         - kdelibs5-plugins
         - kdelibs5-data
         - oxygen-icon-theme
