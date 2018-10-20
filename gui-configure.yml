@@ -39,8 +39,18 @@
         - "{{ xdg_pictures_dir }}"
         - "{{ xdg_videos_dir }}"
         - janek
-        - repos
         - zasoby
+        - bin
+        - data
+        - multimedia
+        - multimedia/obrazy
+        - multimedia/filmy
+        - multimedia/muzyka
+        - multimedia/zdjęcia
+        - secrets
+        - inbox
+        - src
+        - tmp
 
     - name: update user-dirs.dirs
       copy:
