@@ -44,7 +44,7 @@ This requires much more work.
     sudo apt-add-repository --yes ppa:ansible/ansible
     sudo apt-get update
     sudo apt-get install --yes git ansible
-    git clone https://github.com/janek-warchol/ansible-system-setup
+    git clone https://github.com/jan-warchol/ansible-system-setup
 
 And:
 
