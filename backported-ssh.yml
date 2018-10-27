@@ -1,0 +1,39 @@
+# intended for my machine that has older version of Linux Mint. I need this to
+# be able to use `Include` directive in config (available since version 7.3)
+# See also https://help.ubuntu.com/community/UbuntuBackports (unfortunately
+# openssh is not backported)
+
+- name: Install new version of OpenSSH from backports repository
+  hosts: localhost
+  become: yes
+  vars:
+    backport_release: artful
+  tasks:
+
+    - name: add ubuntu {{ backport_release }} repo
+      apt_repository:
+        repo: deb http://archive.ubuntu.com/ubuntu {{ backport_release }} main
+        filename: "ubuntu-{{ backport_release }}"
+
+    - name: configure apt preferences
+      copy:
+        # important! This file has to be first lexicographically
+        # or other settings (e.g. `release o=Ubuntu` set in
+        # official-package-repositories.pref) may override it
+        dest: /etc/apt/preferences.d/01-openssh-backport.pref
+        content: |
+          # prefer openssh version available in Ubuntu {{ backport_release }}
+          Package: openssh-*
+          Pin: release a={{ backport_release }}
+          Pin-Priority: 800
+
+          # but don't try to backport other packages
+          Package: *
+          Pin: release a={{ backport_release }}
+          Pin-Priority: 200
+
+    - name: install ssh from {{ backport_release }} repo
+      apt:
+        package: openssh-client
+        state: latest
+        default_release: "{{ backport_release }}"
