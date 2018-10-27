@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   tasks:
 
     # See http://xmodulo.com/how-to-install-or-upgrade-virtualbox-on-ubuntu-or-debian.html

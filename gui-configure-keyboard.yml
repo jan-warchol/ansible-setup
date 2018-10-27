@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   tasks:
 
     - name: check whether xcape is installed

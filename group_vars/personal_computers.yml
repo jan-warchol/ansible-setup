@@ -1,5 +1,5 @@
 config_variant: personal
-this_repo_remote: "git@github.com:janek-warchol/ansible-system-setup.git"
+this_repo_remote: "git@github.com:jan-warchol/ansible-system-setup.git"
 git_config_email: jan.warchol@gmail.com
 
 # user directories (relative to $HOME)

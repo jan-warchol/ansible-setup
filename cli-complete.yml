@@ -1,4 +1,4 @@
-- include: cli-configure-dotfiles.yml
-- include: cli-configure-vim.yml
-- include: cli-install-misc-tools.yml
-- include: cli-install-fzf.yml
+- import_playbook: cli-configure-dotfiles.yml
+- import_playbook: cli-configure-vim.yml
+- import_playbook: cli-install-misc-tools.yml
+- import_playbook: cli-install-fzf.yml

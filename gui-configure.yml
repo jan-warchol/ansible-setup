@@ -1,6 +1,6 @@
 # This role manages configuration that differs across my accounts
 # or is otherwise infeasible to track as part of my [dotfiles repository]
-# (https://github.com/janek-warchol/my-dotfiles).  For example:
+# (https://github.com/jan-warchol/my-dotfiles).  For example:
 #
 # * I need different ssh config for personal and work accounts,
 #
@@ -19,7 +19,7 @@
 #   there, like git repositories, large binary files etc.) and set up symlinks
 #   to their original locations.
 
-- hosts: localhost
+- hosts: all
   vars:
     # user directories (relative to $HOME)
     xdg_documents_dir: ""
@@ -39,8 +39,18 @@
         - "{{ xdg_pictures_dir }}"
         - "{{ xdg_videos_dir }}"
         - janek
-        - repos
         - zasoby
+        - bin
+        - data
+        - multimedia
+        - multimedia/obrazy
+        - multimedia/filmy
+        - multimedia/muzyka
+        - multimedia/zdjęcia
+        - secrets
+        - inbox
+        - src
+        - tmp
 
     - name: update user-dirs.dirs
       copy:

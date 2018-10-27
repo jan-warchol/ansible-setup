@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   tasks:
 
     - name: check whether fasd is installed
@@ -21,7 +21,7 @@
 
     - name: clone smartless repository
       git:
-        repo: "https://github.com/janek-warchol/smartless.git"
+        repo: "https://github.com/jan-warchol/smartless.git"
         dest: "{{ ansible_env.HOME }}/bin/smartless.git"
 
     - name: create symlink to smartless

@@ -23,14 +23,37 @@ Adapting this to work on OSX as well would require some work, but if anyone
 would be interested I'm open to pull requests.
 
 
+Prep - remote installation
+---------------------------
 
-Usage
------
+On target machine:
+
+    sudo apt install openssh-server
+    # show host fingerprint for verification
+    ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub
+
+On control machine:
+
+    ssh-copy-id <target machine>
+
+Prep - local installation
+--------------------------
+
+This requires much more work.
 
     sudo apt-add-repository --yes ppa:ansible/ansible
     sudo apt-get update
     sudo apt-get install --yes git ansible
-    git clone https://github.com/janek-warchol/ansible-system-setup
+    git clone https://github.com/jan-warchol/ansible-system-setup
+
+And:
+
+- install ssh key to be able to access private repos on bitbucket
+- clone password store repo
+- install GPG key to be able to unlock password store
+
+Usage
+-----
 
 Run Ansible playbooks like this (you can omit sudo prompt for some of them):
 

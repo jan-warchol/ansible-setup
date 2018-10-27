@@ -1,24 +1,6 @@
-- hosts: localhost
+- hosts: all
   become: yes
   tasks:
-
-    # FIXME
-    # Ansible's apt_repository module doesn't work correcty with Linux Mint,
-    # see https://github.com/ansible/ansible/issues/4587
-    # Also, the filenames that are checked for existence are hardcoded :(
-
-    - name: Add FreeFileSync PPA
-      command: >
-        add-apt-repository --yes ppa:freefilesync/ffs
-        creates=/etc/apt/sources.list.d/freefilesync-ffs-trusty.list
-      register: ffs_ppa_status
-
-    #- name: FreeFileSync wasn't available in Utopic Unicorn repos
-    #  shell: sed -i 's/utopic/trusty/' /etc/apt/sources.list.d/freefilesync*
-
-    - name: update apt cache
-      apt: update_cache=yes
-      when: ffs_ppa_status.changed
 
     - name: Install latest versions of apt packages
       apt:
@@ -33,7 +15,6 @@
         - dconf-editor   # desktop environment configuration
         - firefox   # make sure firefox is updated - my package manager
                     # didn't want to update it on its own
-        - freefilesync
         - gitk
         - gparted
         - indicator-multiload
@@ -42,16 +23,18 @@
         - xdotool   # library for auto-type in keepass
         - libdvdread4   # DVD decryption
           # at least one of these 3 packages is needed for okular to open pdfs
+        - libnotify-bin  # for system notifications
         - kdelibs5-plugins
         - kdelibs5-data
         - oxygen-icon-theme
         - okular
-        - openjdk-7-jre
         - terminator
         - vim-gnome
         - vlc
         - xbacklight   # changing screen brightness
         - xsel   # copying and pasting from middle-mouse-button clipboard
+        - xclip   # accessing clipboard from cli, needed by pass
+        - xserver-xorg-input-synaptics  # for managing touchpad
         #- gimp
         #- guake
         #- imagemagick

@@ -3,18 +3,38 @@
 # changes would be too cumbersome. However, I want to have a "seed" version of
 # the config ready for deploying on new machines.
 
-- hosts: localhost
-  gather_facts: no
+- name: Ensure terminator config contains desired settings
+  hosts: all
+  gather_facts: yes
+  vars:
+    conf_dir: "{{ ansible_env.HOME }}/.config/terminator"
   tasks:
 
     - name: ensure .config/terminator directory exists
       file:
-        path: ~/.config/terminator
+        path: "{{ conf_dir }}"
         state: directory
 
-    - name: insert seed Terminator configuration
+      # Inserting block with my settings into default config would not work
+      # (terminator wouldn't parse that).
+    - name: check whether the config has proper format
+      command: grep 'ANSIBLE MANAGED BLOCK' "{{ conf_dir }}/config"
+      register: grep_result
+      changed_when: grep_result.rc == 1
+      failed_when: false  # missing config is not a problem
+
+      # If this is the first ansible run, replace config file
+    - name: backup incompatible config
+      command: >
+        mv
+        "{{ conf_dir }}/config"
+        "{{ conf_dir }}/.config.{{ ansible_date_time.iso8601 }}"
+      when: grep_result.rc == 1
+      failed_when: false  # missing config is not a problem
+
+    - name: template seed Terminator configuration
       blockinfile:
-        dest: ~/.config/terminator/config
+        dest: "{{ conf_dir }}/config"
         backup: yes
         create: yes
         insertbefore: BOF

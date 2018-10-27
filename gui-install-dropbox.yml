@@ -9,7 +9,7 @@
 # update: actually, this doesn't install dropbox but rather an installer that
 # will install Dropbox later.
 
-- hosts: localhost
+- hosts: all
   become: yes
   tasks:
 
