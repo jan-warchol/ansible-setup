@@ -1,0 +1,30 @@
+- name: install stuff needed for codility work (packages, repos)
+  hosts: all
+  tasks: 
+
+    - name: clone infrastructure repository
+      git:
+        repo: git@gitlab.codility.net:codility/infrastructure.git
+        dest: "{{ ansible_env.HOME }}/src/infrastructure"
+        update: no
+
+    - name: clone codility repository
+      git:
+        repo: git@gitlab.codility.net:codility/codility.git
+        dest: "{{ ansible_env.HOME }}/src/codility"
+        update: no
+
+    - name: ensure directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/src/infrastructure/.chef"
+        state: directory
+
+    - name: install chef client key
+      copy:
+        dest: "{{ ansible_env.HOME }}/src/infrastructure/.chef/client.pem"
+        content: "{{ lookup('passwordstore', 'codility-chef-user-key returnall=true') }}"
+        mode: 0600
+      no_log: true
+
+    # - name: install chef
+
