@@ -21,7 +21,7 @@ copy_data() {
     PATHS_TO_COPY=(
         "janek"
         "media"
-        "repos"
+        "src"
         "zasoby"
         ".fonts"
         ".mozilla"
