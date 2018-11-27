@@ -2,6 +2,10 @@
   become: yes
   tasks:
 
+    - name: add redshift PPA
+      apt_repository:
+        repo: ppa:dobey/redshift-daily
+
     - name: Install latest versions of apt packages
       apt:
         name: "{{ item }}"
@@ -28,6 +32,7 @@
         - kdelibs5-data
         - oxygen-icon-theme
         - okular
+        - redshift   # for adjusting screen color temperature
         - terminator
         - vim-gnome
         - vlc
