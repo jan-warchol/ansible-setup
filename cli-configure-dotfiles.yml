@@ -1,4 +1,4 @@
-# This role installs my [dotfiles](https://github.com/jan-warchol/my-dotfiles).
+# This role installs my [dotfiles](https://github.com/jan-warchol/dotfiles).
 # Basically, the dotfiles repository should contain only user configuration
 # that is common to all my accounts, and is reasonable to track as plain
 # text files.  In particular, nothing here should depend on any ansible
@@ -11,7 +11,7 @@
 
 - hosts: all
   vars:
-    dotfiles_repo: jan-warchol/my-dotfiles.git
+    dotfiles_repo: jan-warchol/dotfiles.git
     dotfiles_dir: "{{ ansible_env.HOME }}/.dotfiles.git"
 
   tasks:

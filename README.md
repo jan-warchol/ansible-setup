@@ -1,6 +1,6 @@
 This repository contains [Ansible](http://docs.ansible.com/) scripts for
 setting up my machine and installing my
-[dotfiles](https://github.com/jan-warchol/my-dotfiles) (which need some
+[dotfiles](https://github.com/jan-warchol/dotfiles) (which need some
 external apps to work completely).
 
 Playbook organization
