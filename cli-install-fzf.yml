@@ -11,7 +11,7 @@
         block: |
           [remote "upstream"]
               url = https://github.com/junegunn/fzf.git
-              fetch = +refs/heads/master:refs/remotes/upstream/master
+              fetch = +refs/heads/*:refs/remotes/upstream/*
         dest: "{{ ansible_env.HOME }}/.fzf/.git/config"
 
     - name: download fzf binary
