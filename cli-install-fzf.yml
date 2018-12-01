@@ -4,23 +4,23 @@
     - name: get customized fzf repo
       git:
         repo: https://github.com/jan-warchol/fzf
-        dest: "{{ ansible_env.HOME }}/.fzf"
+        dest: "{{ fzf_home }}"
 
     - name: add upstream to fzf repo
       blockinfile:
         block: |
           [remote "upstream"]
-              url = https://github.com/junegunn/fzf.git
-              fetch = +refs/heads/*:refs/remotes/upstream/*
-        dest: "{{ ansible_env.HOME }}/.fzf/.git/config"
+                  url = https://github.com/junegunn/fzf.git
+                  fetch = +refs/heads/*:refs/remotes/upstream/*
+        dest: "{{ fzf_home }}/.git/config"
 
     - name: download fzf binary
-      shell: "{{ ansible_env.HOME }}/.fzf/install --bin"
+      shell: "{{ fzf_home }}/install --bin"
       args:
-        creates: "{{ ansible_env.HOME }}/.fzf/bin/fzf"
+        creates: "{{ fzf_home }}/bin/fzf"
 
     - name: ensure fzf history file exists
       copy:
-        dest: "{{ ansible_env.HOME }}/.fzf/pattern_history"
+        dest: "{{ fzf_home }}/pattern_history"
         content: ""
         force: no

@@ -12,7 +12,6 @@
 - hosts: all
   vars:
     dotfiles_repo: jan-warchol/dotfiles.git
-    dotfiles_dir: "{{ ansible_env.HOME }}/.dotfiles.git"
 
   tasks:
 
