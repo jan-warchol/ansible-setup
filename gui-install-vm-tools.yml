@@ -19,7 +19,7 @@
         name: "{{ item }}"
         state: latest
       with_items:
-        - virtualbox-5.2
+        - virtualbox-6.0
         - virtualbox-guest-dkms
       become: yes
 
