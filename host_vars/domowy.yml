@@ -4,5 +4,3 @@ xkb_lalt_key: LWIN
 xkb_delete_key: END
 
 terminator_font_size: 10
-
-prompt_color: $YELLOW
