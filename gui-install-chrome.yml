@@ -3,7 +3,8 @@
   tasks:
 
     - name: Add Google Chrome APT key
-      apt_key: url=https://dl-ssl.google.com/linux/linux_signing_key.pub
+      apt_key:
+        data: "{{ lookup('file', 'files/chrome-linux-signing-key.pub') }}"
 
     - name: add Google Chrome APT repository
       apt_repository:
