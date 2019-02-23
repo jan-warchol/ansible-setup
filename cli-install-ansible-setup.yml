@@ -1,7 +1,5 @@
 - name: Install ansible and download my playbooks for system management
   hosts: all
-  vars:
-    ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-system-setup"
   tasks:
       # Ansible from official repos is ancient - use PPA
     - name: add ansible PPA
