@@ -1,5 +1,9 @@
 - name: install stuff needed for codility work (packages, repos)
   hosts: all
+
+  roles:
+    - known-hosts
+
   tasks: 
 
     - name: clone infrastructure repository
