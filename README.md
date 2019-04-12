@@ -65,6 +65,8 @@ I could have added git installation task to the roles that need it, but doing
 so would require me to type my sudo password every time I wanted to run them -
 and I'm too lazy for that.
 
+See also `os-reinstallation-checklist.md` for some manual steps that may need
+to be done.
 
 
 Forking

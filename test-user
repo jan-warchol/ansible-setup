@@ -1,0 +1,1 @@
+test-account ansible_host=localhost ansible_user=ansible-test

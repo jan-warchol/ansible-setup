@@ -7,3 +7,5 @@
       key_file: github-public-key
     - host: bitbucket.org
       key_file: bitbucket-public-key
+    - host: gitlab.codility.net
+      key_file: codility-gitlab-public-key

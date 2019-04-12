@@ -19,30 +19,29 @@
 
     - name: Install latest versions of apt packages
       apt:
-        name: "{{ item }}"
+        name:
+          - build-essential
+          - flip
+          - git
+          - htop
+          - ipython
+          - gnupg
+          - openssh-server
+          - pass
+          - python-pip
+          - python-dev
+          - python-virtualenv
+          - python-numpy
+          - python-scipy
+          - python-matplotlib
+          - python-tk
+          - sshfs
+          - ranger
+          - tmux
+          - trash-cli
+          - tree
+          - vim
         state: latest
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
-      with_items:
-        - build-essential
-        - flip
-        - git
-        - htop
-        - ipython
-        - gnupg
-        - openssh-server
-        - pass
-        - python-pip
-        - python-dev
-        - python-virtualenv
-        - python-numpy
-        - python-scipy
-        - python-matplotlib
-        - python-tk
-        - sshfs
-        - ranger
-        - tmux
-        - trash-cli
-        - tree
-        - vim
