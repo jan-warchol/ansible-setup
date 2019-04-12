@@ -33,11 +33,13 @@
       
     - name: clone ansible-system-setup repository
       git: 
-        repo=https://github.com/jan-warchol/ansible-system-setup/
-        dest="{{ ansible_setup_path }}"
-        version=devel
+        repo: https://github.com/jan-warchol/ansible-system-setup/
+        dest: "{{ ansible_setup_path }}"
+        version: devel
       register: task_result
-      failed_when: task_result | failed and "Local modifications exist in repository" not in task_result.msg
+      failed_when:
+        - task_result is failed
+        - '"Local modifications exist in repository" not in task_result.msg'
 
     - name: update ansible-system-setup remote
       lineinfile:
