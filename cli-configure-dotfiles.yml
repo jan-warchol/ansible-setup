@@ -28,14 +28,14 @@
     - name: clone dotfiles
       git:
         repo: "https://github.com/{{ dotfiles_repo }}"
-        dest: "{{ dotfiles_dir }}"
+        dest: "{{ dotfiles_home }}"
         version: devel
         force: no
       when: dotfiles_config_file.stat.exists == false
 
     - name: install dotfiles
       shell: >
-        {{ dotfiles_dir }}/.install-dotfiles.sh
+        {{ dotfiles_home }}/.install-dotfiles.sh
         creates=~/.config/dotfiles-git-dir
       when: dotfiles_config_file.stat.exists == false
       register: dotfiles_installation
@@ -46,14 +46,24 @@
 
     - name: update remote url to use SSH protocol
       lineinfile:
-        dest: "{{ dotfiles_dir }}/config"
+        dest: "{{ dotfiles_home }}/config"
         line: "	url = git@github.com:{{ dotfiles_repo }}"
         regexp: "url = .*{{ dotfiles_repo }}"
+
+    - name: template locations file
+      copy:
+        content: |
+          export FZF_HOME={{ fzf_home }}
+          export DOTFILES_HOME={{ dotfiles_home }}
+          export ANSIBLE_SETUP_PATH={{ ansible_setup_path }}
+          export PASSWORDSTORE_PATH={{ passwordstore_path }}
+          export INFRA_REPO_PATH={{ INFRA_REPO_PATH }}
+        dest: ~/.config/bash/00-paths-override.sh
 
     - name: let git ignore changes in README
       command: git update-index --assume-unchanged ~/README.md
       environment:
-        GIT_DIR: "{{ dotfiles_dir }}"
+        GIT_DIR: "{{ dotfiles_home }}"
         GIT_WORK_TREE: "{{ ansible_env.HOME }}"
       register: git_status
       failed_when:
