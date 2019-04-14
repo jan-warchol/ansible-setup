@@ -16,8 +16,8 @@
   tasks:
 
     - name: check for dotfiles
-      stat: path=~/.config/dotfiles-git-dir
-      register: dotfiles_config_file
+      stat: path={{ dotfiles_home }}
+      register: dotfiles
 
     # My dotfiles installation script is not idempotent, so we must skip
     # installation tasks if the dotfiles are already present.
@@ -31,13 +31,13 @@
         dest: "{{ dotfiles_home }}"
         version: devel
         force: no
-      when: dotfiles_config_file.stat.exists == false
+      when: dotfiles.stat.exists == false
 
     - name: install dotfiles
       shell: >
         {{ dotfiles_home }}/.install-dotfiles.sh
         creates=~/.config/dotfiles-git-dir
-      when: dotfiles_config_file.stat.exists == false
+      when: dotfiles.stat.exists == false
       register: dotfiles_installation
 
     - name: report installation results
