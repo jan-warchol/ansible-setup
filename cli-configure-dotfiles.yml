@@ -54,6 +54,8 @@
       copy:
         content: |
           export FZF_HOME={{ fzf_home }}
+          export FZF_HISTORY={{ fzf_history }}
+          export FZF_VIM_HISTORY={{ fzf_vim_history }}
           export DOTFILES_HOME={{ dotfiles_home }}
           export ANSIBLE_SETUP_PATH={{ ansible_setup_path }}
           export PASSWORDSTORE_PATH={{ passwordstore_path }}

@@ -3,6 +3,8 @@ id_rsa_codilime_5260631d_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDM7JX
 
 # locations
 fzf_home:           "{{ ansible_env.HOME }}/src/fzf"
+fzf_history:        "{{ ansible_env.HOME }}/data/fzf/history"
+fzf_vim_history:    "{{ ansible_env.HOME }}/data/fzf/vim"
 dotfiles_home:      "{{ ansible_env.HOME }}/src/dotfiles.git"
 ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-system-setup"
 passwordstore_path: "{{ ansible_env.HOME }}/src/password-store"

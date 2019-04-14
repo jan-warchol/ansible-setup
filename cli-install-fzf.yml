@@ -19,8 +19,14 @@
       args:
         creates: "{{ fzf_home }}/bin/fzf"
 
+    - name: ensure directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/data/fzf/"
+        state: directory
+        mode: 0700
+
     - name: ensure fzf history file exists
       copy:
-        dest: "{{ fzf_home }}/pattern_history"
+        dest: "{{ fzf_history }}"
         content: ""
         force: no
