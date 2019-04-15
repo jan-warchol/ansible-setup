@@ -58,7 +58,7 @@
           export FZF_VIM_HISTORY={{ fzf_vim_history }}
           export DOTFILES_HOME={{ dotfiles_home }}
           export ANSIBLE_SETUP_PATH={{ ansible_setup_path }}
-          export PASSWORDSTORE_PATH={{ passwordstore_path }}
+          export PASSWORD_STORE_DIR={{ passwordstore_path }}
           export INFRA_REPO_PATH={{ INFRA_REPO_PATH }}
         dest: ~/.config/bash/00-paths-override.sh
 
