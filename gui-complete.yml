@@ -1,5 +1,4 @@
 - import_playbook: gui-configure-keyboard.yml
 - import_playbook: gui-configure.yml
-- import_playbook: gui-configure-ssh.yml
 - import_playbook: gui-configure-terminator.yml
 - import_playbook: gui-install-chrome.yml
