@@ -12,26 +12,6 @@
       apt: name=ansible state=latest
       become: yes
 
-    - name: create directory for roles from ansible galaxy
-      file: path=/etc/ansible/roles state=directory
-      become: yes
-
-    - name: create directory for ansible plugins
-      file: path=/usr/share/ansible_plugins/{{ item }} state=directory
-      with_items:
-        - callback_plugins
-        - vars_plugins
-        - lookup_plugins
-      become: yes
-
-    - name: download ansible-profile plugin
-      # I don't use get_url module because it's slower.
-      command: >
-        wget https://raw.githubusercontent.com/jlafon/ansible-profile/master/callback_plugins/profile_tasks.py
-        chdir=/usr/share/ansible_plugins/callback_plugins/
-        creates=/usr/share/ansible_plugins/callback_plugins/profile_tasks.py
-      become: yes
-      
     - name: clone ansible-system-setup repository
       git: 
         repo: https://github.com/jan-warchol/ansible-system-setup/
