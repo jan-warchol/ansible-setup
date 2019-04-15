@@ -40,7 +40,7 @@
           - tmux
           - trash-cli
           - tree
-          - vim
+          - vim-gnome  # `vim` package doesn't have clipboard support
         state: latest
         install_recommends: no
         update_cache: yes
