@@ -45,3 +45,7 @@
         #- imagemagick
         #- kompare
 
+    - name: set terminator as default terminal
+      alternatives:
+        name: x-terminal-emulator
+        path: /usr/bin/terminator

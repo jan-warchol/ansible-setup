@@ -114,24 +114,3 @@
         dest: ~/.fonts
         state: link
         force: no
-
-    - name: make links between config files in HOME and data dir
-      shell: >
-        if [ -e {{item.dest}} -a ! -e {{item.src}} ]; then
-            ln {{item.dest}} {{item.src}}
-            echo "link created"
-        elif [ -e {{item.src}} -a ! -e {{item.dest}} ]; then
-            ln {{item.src}} {{item.dest}}
-            echo "link created"
-        elif [ -e {{item.src}} -a -e {{item.dest}} ]; then
-            diff {{item.src}} {{item.dest}} 1>&2
-        fi
-      register: task_result
-      changed_when: '"link created" in task_result.stdout'
-      with_items: 
-        - src: ~/janek/gtk-bookmarks
-          dest: ~/.config/gtk-3.0/bookmarks
-        - src: ~/janek/monitors.xml
-          dest: ~/.config/monitors.xml
-        - src: ~/janek/viminfo
-          dest: ~/.viminfo
