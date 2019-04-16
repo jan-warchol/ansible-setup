@@ -20,14 +20,49 @@
 
     - name: ensure directories exist
       file:
-        dest: "{{ ansible_env.HOME }}/src/infrastructure/.chef"
+        dest: "{{ item }}"
         state: directory
+      loop:
+        - "{{ INFRA_REPO_PATH }}/.chef"
+        - "{{ ansible_env.HOME }}/.aws"
 
     - name: install chef client key
       copy:
-        dest: "{{ ansible_env.HOME }}/src/infrastructure/.chef/client.pem"
-        content: "{{ lookup('passwordstore', 'codility-chef-user-key returnall=true') }}"
+        dest: "{{ INFRA_REPO_PATH }}/.chef/client.pem"
+        content: "{{ lookup('passwordstore', 'codility/chef-user-key returnall=true') }}"
         mode: 0600
+      no_log: true
+
+    - name: install AWS keys for rake
+      copy:
+        dest: "{{ INFRA_REPO_PATH }}/.chef/knife-secrets.rb"
+        content: |
+          knife[:aws_access_key_id] = {{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}
+          knife[:aws_secret_access_key] = {{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}
+        mode: 0600
+      no_log: true
+
+    - name: install AWS config
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/config"
+        content: |
+          [default]
+          region = us-east-1
+
+          [codility-dev]
+          region = eu-central-1
+
+    - name: install AWS credentials
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/credentials"
+        content: |
+          [default]
+          aws_access_key_id = {{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}
+          aws_secret_access_key = {{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}
+
+          [codility-dev]
+          aws_access_key_id = {{ lookup('passwordstore', 'codility/aws-dev-access-key-id returnall=true') }}
+          aws_secret_access_key = {{ lookup('passwordstore', 'codility/aws-dev-secret-access-key returnall=true') }}
       no_log: true
 
     # - name: install chef
