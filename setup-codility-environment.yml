@@ -74,3 +74,9 @@
         deb: "{{ chefdk_package_url }}"
       become: yes
 
+    - name: install additional packages
+      apt:
+        name:
+          - postgresql-client-common  # required by specific client package
+          - postgresql-client-10  # postgresql-client-10
+      become: yes
