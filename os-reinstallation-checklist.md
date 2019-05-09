@@ -10,6 +10,7 @@ check home dir
 
 make backup of the data
 - history (encrypt it)
+- ssh private key
 - .gnupg trustdb - but how? How to manage two databases from separate machines?
   Should they use the same database? and sync it?
 
