@@ -8,43 +8,42 @@
 
     - name: Install latest versions of apt packages
       apt:
-        name: "{{ item }}"
+        name:
+          - baobab
+          - dconf-cli
+          - dconf-editor   # desktop environment configuration
+          - firefox   # make sure firefox is updated - my package manager
+                      # didn't want to update it on its own
+          - gitk
+          - gparted
+          - indicator-multiload
+          - kate
+          - keepass2
+          - xdotool   # library for auto-type in keepass
+          - libdvdread4   # DVD decryption
+            # at least one of these 3 packages is needed for okular to open pdfs
+          - libnotify-bin  # for system notifications
+          - kdelibs5-plugins
+          - kdelibs5-data
+          - oxygen-icon-theme
+          - okular
+          - redshift   # for adjusting screen color temperature
+          - terminator
+          - usb-creator-gtk  # for creating USB drives for OS installation
+          - vim-gnome
+          - vlc
+          - xbacklight   # changing screen brightness
+          - xsel   # copying and pasting from middle-mouse-button clipboard
+          - xclip   # accessing clipboard from cli, needed by pass
+          - xserver-xorg-input-synaptics  # for managing touchpad
+          #- gimp
+          #- guake
+          #- imagemagick
+          #- kompare
         state: latest
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
-      with_items:
-        - baobab
-        - dconf-cli
-        - dconf-editor   # desktop environment configuration
-        - firefox   # make sure firefox is updated - my package manager
-                    # didn't want to update it on its own
-        - gitk
-        - gparted
-        - indicator-multiload
-        - kate
-        - keepass2
-        - xdotool   # library for auto-type in keepass
-        - libdvdread4   # DVD decryption
-          # at least one of these 3 packages is needed for okular to open pdfs
-        - libnotify-bin  # for system notifications
-        - kdelibs5-plugins
-        - kdelibs5-data
-        - oxygen-icon-theme
-        - okular
-        - redshift   # for adjusting screen color temperature
-        - terminator
-        - usb-creator-gtk  # for creating USB drives for OS installation
-        - vim-gnome
-        - vlc
-        - xbacklight   # changing screen brightness
-        - xsel   # copying and pasting from middle-mouse-button clipboard
-        - xclip   # accessing clipboard from cli, needed by pass
-        - xserver-xorg-input-synaptics  # for managing touchpad
-        #- gimp
-        #- guake
-        #- imagemagick
-        #- kompare
 
     - name: set terminator as default terminal
       alternatives:
