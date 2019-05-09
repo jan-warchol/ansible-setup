@@ -26,3 +26,20 @@ Notes for OS installation
 
 Use separate partitions for `/` and `/home`. System should have at least 16 GB
 space (preferably 32 GB)
+
+
+Procedure
+---------
+
+- install OS (use English so that any errors can be shared with others)
+- install openssh-server
+- add my public key
+- refresh known hosts on control machine (if applicable)
+
+Run Ansible playbooks:
+
+- cli-complete
+- gui-complete
+- secret setup
+- ansible setup
+- codility setup
