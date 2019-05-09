@@ -38,7 +38,6 @@
         - "{{ xdg_music_dir }}"
         - "{{ xdg_pictures_dir }}"
         - "{{ xdg_videos_dir }}"
-        - janek
         - zasoby
         - bin
         - data
@@ -47,7 +46,6 @@
         - multimedia/filmy
         - multimedia/muzyka
         - multimedia/zdjęcia
-        - secrets
         - inbox
         - src
         - tmp
