@@ -7,7 +7,7 @@
   hosts: all
   become: yes
   vars:
-    backport_release: artful
+    backport_release: bionic
   tasks:
 
     - name: add ubuntu {{ backport_release }} repo
