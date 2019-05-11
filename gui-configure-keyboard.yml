@@ -18,7 +18,7 @@
         - name: clone xcape repository
           git:
             repo: "https://github.com/alols/xcape.git"
-            dest: "~/bin/xcape.git"
+            dest: "{{ ansible_env.HOME }}/bin/xcape.git"
 
         - name: install xcape
           shell: make chdir=~/bin/xcape.git
@@ -32,4 +32,4 @@
     - name: clone keyboard repository
       git:
         repo: "https://github.com/jan-warchol/keyboard-layout.git"
-        dest: "{{ ansible_env.HOME }}/.config/xkb/"
+        dest: "{{ ansible_env.HOME }}/src/xkb-layout/"
