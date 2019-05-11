@@ -87,6 +87,6 @@
     - name: install additional packages
       apt:
         name:
-          - postgresql-client-common  # required by specific client package
-          - postgresql-client-10  # postgresql-client-10
+          - postgresql-client-common
+          - postgresql-client-9.5
       become: yes
