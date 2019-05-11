@@ -6,7 +6,11 @@
 
   vars:
     chefdk_version: 3.8.14  # TODO: fetch latest version automatically
-    chefdk_package_url: "https://packages.chef.io/files/stable/chefdk/{{ chefdk_version }}/ubuntu/18.04/chefdk_{{ chefdk_version }}-1_amd64.deb"
+    chefdk_package_url:
+      "https://packages.chef.io/files/stable/\
+       chefdk/{{ chefdk_version }}/\
+       ubuntu/{{ ansible_lsb.release }}/\
+       chefdk_{{ chefdk_version }}-1_amd64.deb"
 
   tasks: 
 
@@ -69,9 +73,15 @@
           aws_secret_access_key = {{ lookup('passwordstore', 'codility/aws-dev-secret-access-key returnall=true') }}
       no_log: true
 
-    - name: install chefdk ubuntu apt packages
+      # separate download step because apt module times out on chef website
+    - name: download chefdk
+      get_url:
+        url: "{{ chefdk_package_url }}"
+        dest: "chefdk_{{ chefdk_version }}-1_amd64.deb"
+
+    - name: install chefdk
       apt:
-        deb: "{{ chefdk_package_url }}"
+        deb: "/tmp/chefdk_{{ chefdk_version }}-1_amd64.deb"
       become: yes
 
     - name: install additional packages
