@@ -1,6 +1,11 @@
 - hosts: all
   tasks:
 
+    - name: Install vim
+      apt:
+        name: vim-gnome  # default `vim` package doesn't have clipboard support
+      become: yes
+
     - name: ensure config directories exist
       file:
         dest: "{{ ansible_env.HOME }}/.vim/{{ item }}"

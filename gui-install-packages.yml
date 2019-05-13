@@ -28,7 +28,6 @@
           - oxygen-icon-theme
           - okular
           - redshift   # for adjusting screen color temperature
-          - terminator
           - usb-creator-gtk  # for creating USB drives for OS installation
           - vim-gnome
           - vlc
