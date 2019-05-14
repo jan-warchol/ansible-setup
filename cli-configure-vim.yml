@@ -1,9 +1,14 @@
 - hosts: all
   tasks:
 
-    - name: Install vim
+    - name: add neovim PPA
+      apt_repository:
+        repo: ppa:neovim-ppa/stable
+      become: yes
+
+    - name: Install neovim
       apt:
-        name: vim-gnome  # default `vim` package doesn't have clipboard support
+        name: neovim
       become: yes
 
     - name: ensure config directories exist
