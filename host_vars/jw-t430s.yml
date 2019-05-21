@@ -1,0 +1,2 @@
+ansible_sudo_pass: "{{ lookup('passwordstore', 'jw-t430s-system-user') }}"
+
