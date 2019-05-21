@@ -78,11 +78,13 @@
       get_url:
         url: "{{ chefdk_package_url }}"
         dest: "chefdk_{{ chefdk_version }}-1_amd64.deb"
+      tags: chef-installation
 
     - name: install chefdk
       apt:
         deb: "/tmp/chefdk_{{ chefdk_version }}-1_amd64.deb"
       become: yes
+      tags: chef-installation
 
     - name: install additional packages
       apt:
