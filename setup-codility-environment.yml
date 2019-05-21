@@ -92,3 +92,22 @@
           - postgresql-client-common
           - postgresql-client-9.5
       become: yes
+
+    - block:
+        # As of 2019 there's no PPA, so we scrape packer website and download
+        # .zip from there.
+
+        - name: get url pointing to the latest packer .zip
+          shell: >
+            wget --quiet https://www.packer.io/downloads.html -O- |
+            grep -P "\d+\.\d+\.\d+_linux_amd64\.zip" |
+            cut -d'"' -f2
+          register: packer_latest_url
+          failed_when: packer_latest_url.rc > 0
+          changed_when: False
+
+        - name: download and unarchive packer binary
+          unarchive:
+            src: "{{ packer_latest_url.stdout }}"
+            dest: "{{ ansible_env.HOME }}/bin"
+            remote_src: yes
