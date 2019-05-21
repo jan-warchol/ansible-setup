@@ -1,1 +1,1 @@
-dell ansible_host=192.168.43.191 ansible_user=jan ansible_python_interpreter=/usr/bin/python3
+dell ansible_host=192.168.0.129 ansible_user=jan ansible_python_interpreter=/usr/bin/python3
