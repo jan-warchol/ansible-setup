@@ -42,8 +42,15 @@
       apt:
         pkg: docker-ce
 
-    - name: allow running docker without sudo (re-login to take effect)
+      # see https://jvns.ca/blog/2017/11/20/groups/ for info about group membership
+    - name: allow running docker without sudo (re-login to apply session-wide)
       user:
         name: "{{ ansible_user }}"
         groups: docker
         append: yes
+
+    - debug:
+        msg:
+          - "To avoid having to re-login, you can:"
+          - "* run `newgrp docker` to start a new shell with refreshed group membership"
+          - "* use `sg docker <commands>` for single commands"
