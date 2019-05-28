@@ -38,7 +38,6 @@
         - "{{ xdg_music_dir }}"
         - "{{ xdg_pictures_dir }}"
         - "{{ xdg_videos_dir }}"
-        - janek
         - zasoby
         - bin
         - data
@@ -47,7 +46,6 @@
         - multimedia/filmy
         - multimedia/muzyka
         - multimedia/zdjęcia
-        - secrets
         - inbox
         - src
         - tmp
@@ -75,28 +73,30 @@
     - name: remove default XDG directories
       # cannot use file module because I want to delete only empty directories
       shell: >
-        rmdir
-        Desktop
-        Documents
-        Downloads
-        Music
-        Pictures
-        Public
-        Templates
-        Videos
-        Pulpit
-        Dokumenty
-        Pobrane
-        Muzyka
-        Obrazy
-        Publiczne
-        Szablony
-        Wideo
+        rmdir {{ item }}
       args:
         chdir: "{{ ansible_env.HOME }}"
+        warn: False
       register: task_result
       changed_when: task_result.stderr == ''
       failed_when: '"Directory not empty" in task_result.stderr'
+      loop:
+        - Desktop
+        - Documents
+        - Downloads
+        - Music
+        - Pictures
+        - Public
+        - Templates
+        - Videos
+        - Pulpit
+        - Dokumenty
+        - Pobrane
+        - Muzyka
+        - Obrazy
+        - Publiczne
+        - Szablony
+        - Wideo
 
       # I prefer to keep installed fonts in another location
     - name: update fonts directory location

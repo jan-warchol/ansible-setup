@@ -4,10 +4,10 @@
 # openssh is not backported)
 
 - name: Install new version of OpenSSH from backports repository
-  hosts: localhost
+  hosts: all
   become: yes
   vars:
-    backport_release: artful
+    backport_release: bionic
   tasks:
 
     - name: add ubuntu {{ backport_release }} repo

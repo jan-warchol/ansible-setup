@@ -10,6 +10,11 @@
     conf_dir: "{{ ansible_env.HOME }}/.config/terminator"
   tasks:
 
+    - name: Install terminator
+      apt:
+        name: terminator
+      become: yes
+
     - name: ensure .config/terminator directory exists
       file:
         path: "{{ conf_dir }}"

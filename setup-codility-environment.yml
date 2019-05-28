@@ -4,6 +4,14 @@
   roles:
     - known-hosts
 
+  vars:
+    chefdk_version: 3.8.14  # TODO: fetch latest version automatically
+    chefdk_package_url:
+      "https://packages.chef.io/files/stable/\
+       chefdk/{{ chefdk_version }}/\
+       ubuntu/{{ ansible_lsb.release }}/\
+       chefdk_{{ chefdk_version }}-1_amd64.deb"
+
   tasks: 
 
     - name: clone infrastructure repository
@@ -20,15 +28,86 @@
 
     - name: ensure directories exist
       file:
-        dest: "{{ ansible_env.HOME }}/src/infrastructure/.chef"
+        dest: "{{ item }}"
         state: directory
+      loop:
+        - "{{ INFRA_REPO_PATH }}/.chef"
+        - "{{ ansible_env.HOME }}/.aws"
 
     - name: install chef client key
       copy:
-        dest: "{{ ansible_env.HOME }}/src/infrastructure/.chef/client.pem"
-        content: "{{ lookup('passwordstore', 'codility-chef-user-key returnall=true') }}"
+        dest: "{{ INFRA_REPO_PATH }}/.chef/client.pem"
+        content: "{{ lookup('passwordstore', 'codility/chef-user-key returnall=true') }}"
         mode: 0600
       no_log: true
 
-    # - name: install chef
+    - name: install AWS keys for rake
+      copy:
+        dest: "{{ INFRA_REPO_PATH }}/.chef/knife-secrets.rb"
+        content: |
+          knife[:aws_access_key_id] = "{{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}"
+          knife[:aws_secret_access_key] = "{{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}"
+        mode: 0600
+      no_log: true
 
+    - name: install AWS config
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/config"
+        content: |
+          [default]
+          region = us-east-1
+
+          [codility-dev]
+          region = eu-central-1
+
+    - name: install AWS credentials
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/credentials"
+        content: |
+          [default]
+          aws_access_key_id = {{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}
+          aws_secret_access_key = {{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}
+
+          [codility-dev]
+          aws_access_key_id = {{ lookup('passwordstore', 'codility/aws-dev-access-key-id returnall=true') }}
+          aws_secret_access_key = {{ lookup('passwordstore', 'codility/aws-dev-secret-access-key returnall=true') }}
+      no_log: true
+
+      # separate download step because apt module times out on chef website
+    - name: download chefdk
+      get_url:
+        url: "{{ chefdk_package_url }}"
+        dest: "chefdk_{{ chefdk_version }}-1_amd64.deb"
+      tags: chef-installation
+
+    - name: install chefdk
+      apt:
+        deb: "/tmp/chefdk_{{ chefdk_version }}-1_amd64.deb"
+      become: yes
+      tags: chef-installation
+
+    - name: install additional packages
+      apt:
+        name:
+          - postgresql-client-common
+          - postgresql-client-9.5
+      become: yes
+
+    - block:
+        # As of 2019 there's no PPA, so we scrape packer website and download
+        # .zip from there.
+
+        - name: get url pointing to the latest packer .zip
+          shell: >
+            wget --quiet https://www.packer.io/downloads.html -O- |
+            grep -P "\d+\.\d+\.\d+_linux_amd64\.zip" |
+            cut -d'"' -f2
+          register: packer_latest_url
+          failed_when: packer_latest_url.rc > 0
+          changed_when: False
+
+        - name: download and unarchive packer binary
+          unarchive:
+            src: "{{ packer_latest_url.stdout }}"
+            dest: "{{ ansible_env.HOME }}/bin"
+            remote_src: yes
