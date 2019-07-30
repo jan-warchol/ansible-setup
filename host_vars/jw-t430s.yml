@@ -1,4 +1,5 @@
 ansible_sudo_pass: "{{ lookup('passwordstore', 'jw-t430s-system-user') }}"
+dist_override: xenial
 
 # locations
 fzf_home:           "{{ ansible_env.HOME }}/.fzf"
