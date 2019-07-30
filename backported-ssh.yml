@@ -13,7 +13,7 @@
     - name: add ubuntu {{ backport_release }} repo
       apt_repository:
         repo: deb http://archive.ubuntu.com/ubuntu {{ backport_release }} main
-        filename: "ubuntu-{{ backport_release }}"
+        filename: "ubuntu-backport"
 
     - name: configure apt preferences
       copy:
