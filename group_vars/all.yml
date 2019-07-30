@@ -14,4 +14,3 @@ CODILITY_REPO_PATH: "{{ ansible_env.HOME }}/src/codility"
 # consider including:
 # - _FASD_DATA
 # - HISTFILE
-# - XDG_*
