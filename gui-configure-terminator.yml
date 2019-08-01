@@ -76,12 +76,49 @@
           [plugins]
           [profiles]
             [[default]]
+              background_darkness = 0.8
+              background_image = None
+              background_type = transparent
+              cursor_color = "#dedede"
+              font = Ubuntu Mono 12
+              foreground_color = "#b9b9b9"
+              palette = "#252525:#ed4a46:#70b433:#dbb32d:#368aeb:#eb6eb7:#3fc5b7:#777777:#3b3b3b:#ff5e56:#83c746:#efc541:#4f9cfe:#ff81ca:#56d8c9:#dedede"
+              scroll_on_output = False
+              scrollback_infinite = True
+              scrollbar_position = hidden
+              use_system_font = False
+              word_chars = "-A-Za-z0-9,./?%&#_"
+            [[dark 0.10.1]]
+              background_color = "#103c48"
+              background_image = None
+              cursor_color = "#cad8d9"
+              font = Ubuntu Mono 12
+              foreground_color = "#adbcbc"
+              palette = "#184956:#fa5750:#75b938:#dbb32d:#4695f7:#f275be:#41c7b9:#72898f:#2d5b69:#ff665c:#84c747:#ebc13d:#58a3ff:#ff84cd:#53d6c7:#cad8d9"
+              scroll_on_output = False
+              scrollback_infinite = True
+              scrollbar_position = hidden
+              use_system_font = False
+              word_chars = "-A-Za-z0-9,./?%&#_"
+            [[grey 0.10.1]]
+              background_color = "#3b3b3b"
+              background_image = None
+              cursor_color = "#e5e5e5"
+              font = Ubuntu Mono 12
+              foreground_color = "#c6c6c6"
+              palette = "#484848:#ff5e56:#7cc03f:#e3ba35:#4f9bfe:#fa7cc5:#4acec0:#8f8f8f:#5b5b5b:#ff6d63:#8bcf4e:#f3c945:#61aaff:#ff8bd4:#5cdecf:#e5e5e5"
+              scroll_on_output = False
+              scrollback_infinite = True
+              scrollbar_position = hidden
+              use_system_font = False
+              word_chars = "-A-Za-z0-9,./?%&#_"
+            [[black 0.10.1]]
               background_color = "#181818"
               background_image = None
               cursor_color = "#dedede"
               font = Ubuntu Mono 12
               foreground_color = "#b9b9b9"
-              palette = "#252525:#ed4a46:#70b433:#dbb32d:#368aeb:#eb6eb7:#3fc5b7:#777777:#3b3b3b:#ff5e56:#83c746:#efc541:#4f9cfe:#ff81ca:#56d8c9:#dedede"
+              palette = "#252525:#ed4a46:#70b433:#dbb32d:#368aeb:#eb6eb7:#3fc5b7:#777777:#3b3b3b:#e67f43:#83c746:#efc541:#a580e2:#ff81ca:#56d8c9:#dedede"
               scroll_on_output = False
               scrollback_infinite = True
               scrollbar_position = hidden
