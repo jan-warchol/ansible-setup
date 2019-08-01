@@ -124,3 +124,28 @@
               scrollbar_position = hidden
               use_system_font = False
               word_chars = "-A-Za-z0-9,./?%&#_"
+            [[black 0.11.1]]
+              background_color = "#181818"
+              background_image = None
+              cursor_color = "#777777"
+              font = Ubuntu Mono 12
+              foreground_color = "#b9b9b9"
+              palette = "#252525:#ff615d:#4fba36:#e9c326:#06a0f0:#eb82af:#00ccc1:#777777:#3b3b3b:#e78438:#64cd48:#fed53d:#37b2ff:#b88fe9:#0adfd4:#dedede"
+              scroll_on_output = False
+              scrollback_infinite = True
+              scrollbar_position = hidden
+              use_system_font = False
+              word_chars = "-A-Za-z0-9,./?%&#_"
+            [[black 0.11.0]]
+              background_color = "#181818"
+              background_image = None
+              cursor_color = "#dedede"
+              font = Ubuntu Mono 12
+              foreground_color = "#b9b9b9"
+              palette = "#252525:#ff605c:#58b841:#ebc439:#00a1f2:#f681b2:#2fc5be:#777777:#3b3b3b:#fa9548:#62cc48:#ffd63f:#b68ee8:#ff93c0:#00ded3:#dedede"
+              scroll_on_output = False
+              scrollback_infinite = True
+              scrollbar_position = hidden
+              use_system_font = False
+              word_chars = "-A-Za-z0-9,./?%&#_"
+
