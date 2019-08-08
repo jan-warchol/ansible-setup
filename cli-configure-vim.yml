@@ -27,6 +27,7 @@
       get_url:
         url: https://raw.githubusercontent.com/jan-warchol/selenized/master/vim/selenized.vim
         dest: "{{ ansible_env.HOME }}/.vim/colors/selenized.vim"
+        force: yes
 
     - name: install plugins (only first time)
       shell: vim +PlugInstall +qall creates={{ ansible_env.HOME }}/.vim/plugged
