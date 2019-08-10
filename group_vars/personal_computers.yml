@@ -1,5 +1,0 @@
-# user directories (relative to $HOME)
-xdg_documents_dir: janek
-xdg_music_dir: media/muzyka
-xdg_pictures_dir: media/obrazy
-xdg_videos_dir: media/filmy

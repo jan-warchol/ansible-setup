@@ -2,9 +2,15 @@
   become: yes
   tasks:
 
+    - name: install Visual Studio Code
+      snap:
+        name: code
+        classic: yes
+
     - name: add redshift PPA
       apt_repository:
         repo: ppa:dobey/redshift-daily
+        codename: "{{ dist_override | default(omit) }}"
 
     - name: Install latest versions of apt packages
       apt:

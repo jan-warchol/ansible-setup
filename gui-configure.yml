@@ -22,10 +22,10 @@
 - hosts: all
   vars:
     # user directories (relative to $HOME)
-    xdg_documents_dir: ""
-    xdg_music_dir: ""
-    xdg_pictures_dir: ""
-    xdg_videos_dir: ""
+    xdg_documents_dir: data
+    xdg_music_dir: multimedia/muzyka
+    xdg_pictures_dir: multimedia/obrazy
+    xdg_videos_dir: multimedia/filmy
 
   tasks:
 
