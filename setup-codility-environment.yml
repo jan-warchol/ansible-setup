@@ -121,6 +121,25 @@
             dest: "{{ ansible_env.HOME }}/bin"
             remote_src: yes
 
+    - name: Add kubernetes APT key
+      apt_key:
+        data: "{{ lookup('file', 'files/google-packages-signing-key.asc') }}"
+      become: yes
+
+    - name: add kubernetes APT repository
+      apt_repository:
+        # why xenial is hardcoded in instructions from
+        # https://kubernetes.io/docs/tasks/tools/install-kubectl/ ?
+        repo: 'deb https://apt.kubernetes.io/ kubernetes-xenial main'
+        filename: kubernetes
+      become: yes
+
+    - name: install kubectl
+      apt:
+        name: kubectl
+        state: latest
+      become: yes
+
     - name: install aws cli
       pip:
         name: awscli
