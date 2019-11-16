@@ -15,6 +15,11 @@
         name: terminator
       become: yes
 
+    - name: set terminator as default terminal
+      alternatives:
+        name: x-terminal-emulator
+        path: /usr/bin/terminator
+
     - name: ensure .config/terminator directory exists
       file:
         path: "{{ conf_dir }}"

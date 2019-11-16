@@ -49,8 +49,3 @@
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
-
-    - name: set terminator as default terminal
-      alternatives:
-        name: x-terminal-emulator
-        path: /usr/bin/terminator
