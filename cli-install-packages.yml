@@ -17,9 +17,15 @@
       apt: update_cache=yes
       when: git_ppa_status.changed
 
+    - name: add asciinema PPA
+      apt_repository:
+        repo: ppa:zanchey/asciinema
+        codename: "{{ dist_override | default(omit) }}"
+
     - name: Install latest versions of apt packages
       apt:
         name:
+          - asciinema   # for recording teminal sessions
           - build-essential
           - flip
           - git
@@ -28,6 +34,7 @@
           - gnupg
           - openssh-server
           - pass
+          - pandoc  # for diffing binary documents
           - python-pip
           - python-dev
           - python-virtualenv
@@ -35,6 +42,7 @@
           - python-scipy
           - python-matplotlib
           - python-tk
+          - snapd  # e.g. for VSCode installation
           - sshfs
           - ranger
           - tmux
