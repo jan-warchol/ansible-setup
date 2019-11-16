@@ -1,0 +1,31 @@
+  # we don't have an inventory file for vagrant so we have to generate one
+  # on-the-fly, based on vagrant configuration that we find
+- name: Add vagrant vm to playbook inventory
+  hosts: localhost
+  tasks:
+    - block:
+
+        - name: get vagrant config
+          # note that this command will be ran from playbook_dir
+          local_action:
+            module: command vagrant ssh-config
+            args:
+              chdir: /home/jan/src/codility-ansible-tasks
+          register: vagrant_conf
+
+        - name: parse vagrant config
+          set_fact:
+            vagrant_host: "{{ vagrant_conf.stdout | regex_search('  HostName (.*)', '\\1') }}"
+            vagrant_user: "{{ vagrant_conf.stdout | regex_search('  User (.*)', '\\1') }}"
+            vagrant_port: "{{ vagrant_conf.stdout | regex_search('  Port (.*)', '\\1') }}"
+            vagrant_key: "{{ vagrant_conf.stdout | regex_search('  IdentityFile (.*)', '\\1') }}"
+
+        - name: add vagrant host
+          add_host:
+            name: vagrant-dev
+            ansible_host: "{{ vagrant_host | first }}"
+            ansible_user: "{{ vagrant_user | first }}"
+            ansible_port: "{{ vagrant_port | first }}"
+            ansible_ssh_private_key_file: "{{ vagrant_key | first }}"
+
+

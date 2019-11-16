@@ -9,21 +9,24 @@
     chefdk_package_url:
       "https://packages.chef.io/files/stable/\
        chefdk/{{ chefdk_version }}/\
-       ubuntu/{{ ansible_lsb.release }}/\
+       ubuntu/{{ dist_override_release | default(ansible_lsb.release) }}/\
        chefdk_{{ chefdk_version }}-1_amd64.deb"
+    aws_authenticator_url:
+      "https://amazon-eks.s3-us-west-2.amazonaws.com/\
+       1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator"
 
   tasks: 
 
     - name: clone infrastructure repository
       git:
         repo: git@gitlab.codility.net:codility/infrastructure.git
-        dest: "{{ ansible_env.HOME }}/src/infrastructure"
+        dest: "{{ INFRA_REPO_PATH }}"
         update: no
 
     - name: clone codility repository
       git:
         repo: git@gitlab.codility.net:codility/codility.git
-        dest: "{{ ansible_env.HOME }}/src/codility"
+        dest: "{{ CODILITY_REPO_PATH }}"
         update: no
 
     - name: ensure directories exist
@@ -77,7 +80,8 @@
     - name: download chefdk
       get_url:
         url: "{{ chefdk_package_url }}"
-        dest: "chefdk_{{ chefdk_version }}-1_amd64.deb"
+        dest: "/tmp/chefdk_{{ chefdk_version }}-1_amd64.deb"
+        timeout: 60
       tags: chef-installation
 
     - name: install chefdk
@@ -89,6 +93,9 @@
     - name: install additional packages
       apt:
         name:
+          - git-crypt  # for secrets in k8s-infrastructure repo
+          - socat  # for dbtunnel
+          - jq  # for argocd setup
           - postgresql-client-common
           - postgresql-client-9.5
       become: yes
@@ -102,6 +109,8 @@
             wget --quiet https://www.packer.io/downloads.html -O- |
             grep -P "\d+\.\d+\.\d+_linux_amd64\.zip" |
             cut -d'"' -f2
+          args:
+            warn: False
           register: packer_latest_url
           failed_when: packer_latest_url.rc > 0
           changed_when: False
@@ -111,3 +120,43 @@
             src: "{{ packer_latest_url.stdout }}"
             dest: "{{ ansible_env.HOME }}/bin"
             remote_src: yes
+
+    - name: Add kubernetes APT key
+      apt_key:
+        data: "{{ lookup('file', 'files/google-packages-signing-key.asc') }}"
+      become: yes
+
+    - name: add kubernetes APT repository
+      apt_repository:
+        # why xenial is hardcoded in instructions from
+        # https://kubernetes.io/docs/tasks/tools/install-kubectl/ ?
+        repo: 'deb https://apt.kubernetes.io/ kubernetes-xenial main'
+        filename: kubernetes
+      become: yes
+
+    - name: install kubectl
+      apt:
+        name: kubectl
+        state: latest
+      become: yes
+
+    - name: install aws cli
+      pip:
+        name: awscli
+        extra_args: --user
+
+      # https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+    - name: download AWS authenticator
+      get_url:
+        url: "{{ aws_authenticator_url }}"
+        dest: "{{ ansible_env.HOME }}/bin/aws-iam-authenticator"
+        mode: +x
+
+    - debug:
+        msg: Now run scripts/configure from infrastructure repo.
+
+    - debug:
+        msg: Also run make in codility/deployment
+
+    - debug:
+        msg: Also install docker using docker playbook

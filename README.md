@@ -36,6 +36,8 @@ On control machine:
 
     ssh-copy-id <target machine>
 
+Also, add inventory file and host_vars for the new machine.
+
 Prep - local installation
 --------------------------
 

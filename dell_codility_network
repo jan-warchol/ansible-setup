@@ -1,0 +1,1 @@
+dell ansible_host=10.0.0.196 ansible_user=jan ansible_python_interpreter=/usr/bin/python3

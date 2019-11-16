@@ -6,7 +6,6 @@
     # Ansible's apt_repository module doesn't work correcty with Linux Mint,
     # see https://github.com/ansible/ansible/issues/4587
     # Also, the filenames that are checked for existence are hardcoded :(
-
     - name: Add official git PPA
       command: >
         add-apt-repository --yes ppa:git-core/ppa
@@ -17,9 +16,15 @@
       apt: update_cache=yes
       when: git_ppa_status.changed
 
+    - name: add asciinema PPA
+      apt_repository:
+        repo: ppa:zanchey/asciinema
+        codename: "{{ dist_override | default(omit) }}"
+
     - name: Install latest versions of apt packages
       apt:
         name:
+          - asciinema   # for recording teminal sessions
           - build-essential
           - flip
           - git
@@ -28,13 +33,21 @@
           - gnupg
           - openssh-server
           - pass
+          - pandoc  # for diffing binary documents
+        # python environment
+          # NEVER mix pip installation methods (e.g. via apt and pip), see
+          # https://github.com/pypa/pip/issues/5221#issuecomment-382069604
           - python-pip
+          - python3-pip  # may not be present by default
+          - python3-setuptools  # required to install some pip pkgs
           - python-dev
           - python-virtualenv
+        # end python environment
           - python-numpy
           - python-scipy
           - python-matplotlib
           - python-tk
+          - snapd  # e.g. for VSCode installation
           - sshfs
           - ranger
           - tmux
@@ -44,3 +57,8 @@
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
+
+    - name: Install pip packages
+      pip:
+        name: termtosvg   # recording terminal sessions
+        executable: pip3

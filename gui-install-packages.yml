@@ -37,6 +37,7 @@
           - usb-creator-gtk  # for creating USB drives for OS installation
           - vim-gnome
           - vlc
+          - stopwatch   # time tracking
           - xbacklight   # changing screen brightness
           - xsel   # copying and pasting from middle-mouse-button clipboard
           - xclip   # accessing clipboard from cli, needed by pass
@@ -49,8 +50,3 @@
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
-
-    - name: set terminator as default terminal
-      alternatives:
-        name: x-terminal-emulator
-        path: /usr/bin/terminator
