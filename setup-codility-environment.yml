@@ -9,7 +9,7 @@
     chefdk_package_url:
       "https://packages.chef.io/files/stable/\
        chefdk/{{ chefdk_version }}/\
-       ubuntu/{{ ansible_lsb.release }}/\
+       ubuntu/{{ dist_override_release | default(ansible_lsb.release) }}/\
        chefdk_{{ chefdk_version }}-1_amd64.deb"
 
   tasks: 

@@ -1,1 +1,3 @@
 ansible_sudo_pass: "{{ lookup('passwordstore', 'codility/dell-latitude-7280-system-user') }}"
+dist_override: bionic
+dist_override_release: 18.04

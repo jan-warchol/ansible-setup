@@ -5,7 +5,7 @@
     - name: add ansible PPA
       apt_repository:
         repo: ppa:ansible/ansible
-        codename: xenial
+        codename: "{{ dist_override | default(omit) }}"
       become: yes
 
     - name: install latest Ansible
