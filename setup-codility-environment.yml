@@ -20,13 +20,13 @@
     - name: clone infrastructure repository
       git:
         repo: git@gitlab.codility.net:codility/infrastructure.git
-        dest: "{{ ansible_env.HOME }}/src/infrastructure"
+        dest: "{{ INFRA_REPO_PATH }}"
         update: no
 
     - name: clone codility repository
       git:
         repo: git@gitlab.codility.net:codility/codility.git
-        dest: "{{ ansible_env.HOME }}/src/codility"
+        dest: "{{ CODILITY_REPO_PATH }}"
         update: no
 
     - name: ensure directories exist
