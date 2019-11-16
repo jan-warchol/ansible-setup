@@ -77,7 +77,8 @@
     - name: download chefdk
       get_url:
         url: "{{ chefdk_package_url }}"
-        dest: "chefdk_{{ chefdk_version }}-1_amd64.deb"
+        dest: "/tmp/chefdk_{{ chefdk_version }}-1_amd64.deb"
+        timeout: 60
       tags: chef-installation
 
     - name: install chefdk
