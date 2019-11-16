@@ -6,7 +6,6 @@
     # Ansible's apt_repository module doesn't work correcty with Linux Mint,
     # see https://github.com/ansible/ansible/issues/4587
     # Also, the filenames that are checked for existence are hardcoded :(
-
     - name: Add official git PPA
       command: >
         add-apt-repository --yes ppa:git-core/ppa

@@ -106,6 +106,8 @@
             wget --quiet https://www.packer.io/downloads.html -O- |
             grep -P "\d+\.\d+\.\d+_linux_amd64\.zip" |
             cut -d'"' -f2
+          args:
+            warn: False
           register: packer_latest_url
           failed_when: packer_latest_url.rc > 0
           changed_when: False

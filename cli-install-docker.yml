@@ -52,5 +52,5 @@
     - debug:
         msg:
           - "To avoid having to re-login, you can:"
-          - "* run `newgrp docker` to start a new shell with refreshed group membership"
-          - "* use `sg docker <commands>` for single commands"
+          - "  - run `newgrp docker` to start a new shell with refreshed group membership"
+          - "  - use `sg docker <commands>` for single commands"
