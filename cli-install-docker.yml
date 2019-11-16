@@ -37,6 +37,7 @@
     - name: add docker apt repository
       apt_repository:
         repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ apt_dist }} stable
+        filename: docker
 
     - name: install docker
       apt:

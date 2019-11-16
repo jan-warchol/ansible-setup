@@ -11,6 +11,7 @@
       apt_repository:
         repo: ppa:dobey/redshift-daily
         codename: "{{ dist_override | default(omit) }}"
+        filename: redshift
 
     - name: Install latest versions of apt packages
       apt:

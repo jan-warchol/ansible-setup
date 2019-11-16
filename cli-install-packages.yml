@@ -20,6 +20,7 @@
       apt_repository:
         repo: ppa:zanchey/asciinema
         codename: "{{ dist_override | default(omit) }}"
+        filename: "asciinema"
 
     - name: Install latest versions of apt packages
       apt:

@@ -6,6 +6,7 @@
       apt_repository:
         repo: ppa:ansible/ansible
         codename: "{{ dist_override | default(omit) }}"
+        filename: ansible
       become: yes
 
     - name: install latest Ansible
