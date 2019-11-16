@@ -11,6 +11,9 @@
        chefdk/{{ chefdk_version }}/\
        ubuntu/{{ dist_override_release | default(ansible_lsb.release) }}/\
        chefdk_{{ chefdk_version }}-1_amd64.deb"
+    aws_authenticator_url:
+      "https://amazon-eks.s3-us-west-2.amazonaws.com/\
+       1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator"
 
   tasks: 
 
@@ -117,3 +120,24 @@
             src: "{{ packer_latest_url.stdout }}"
             dest: "{{ ansible_env.HOME }}/bin"
             remote_src: yes
+
+    - name: install aws cli
+      pip:
+        name: awscli
+        extra_args: --user
+
+      # https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+    - name: download AWS authenticator
+      get_url:
+        url: "{{ aws_authenticator_url }}"
+        dest: "{{ ansible_env.HOME }}/bin/aws-iam-authenticator"
+        mode: +x
+
+    - debug:
+        msg: Now run scripts/configure from infrastructure repo.
+
+    - debug:
+        msg: Also run make in codility/deployment
+
+    - debug:
+        msg: Also install docker using docker playbook
