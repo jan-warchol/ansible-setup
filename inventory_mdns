@@ -1,0 +1,7 @@
+# thanks to multicast DNS I can simply use hostnames to find my machines,
+# regardless of the network they are using and IPs they were assigned.
+# https://blog.doismellburning.co.uk/handling-local-hostnames-multicast-dns/
+
+jw-lat7280 ansible_host=jw-lat7280.local ansible_python_interpreter=/usr/bin/python3
+jw-t430s   ansible_host=jw-t430s.local
+jw-x260    ansible_host=jw-x260.local    ansible_python_interpreter=/usr/bin/python3
