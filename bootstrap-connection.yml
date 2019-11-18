@@ -1,0 +1,29 @@
+- name: Get information about ansible control machine
+  hosts: localhost
+  gather_facts: yes
+
+- name: Bootstrap SSH connection with a fresh host
+  hosts: all
+  vars:
+    ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
+    control_machine_name: "{{ hostvars.localhost.ansible_hostname }}"
+    control_machine_key: "{{ hostvars[control_machine_name].ssh_key_name }}"
+    control_machine_pubkey_path: "ssh-public-keys/{{ control_machine_key }}.pub"
+    ansible_ssh_pass: "{{ ansible_become_password }}"
+
+  tasks:
+
+    - name: setup authorized key
+      authorized_key:
+        key: "{{ lookup('file', control_machine_pubkey_path) }}"
+        user: "{{ ansible_user_id }}"
+
+    - name: add helper script for host key check
+      copy:
+        content: ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub
+        mode: 0755
+        dest: "{{ ansible_env.HOME }}/show-fingerprint"
+
+    # - name: verify fingerprint
+    # - name: add to known hosts
+    # - name: disable ssh password login
