@@ -14,6 +14,14 @@
     aws_authenticator_url:
       "https://amazon-eks.s3-us-west-2.amazonaws.com/\
        1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator"
+    chef_client_key: "{{ lookup('passwordstore', 'codility/chef-user-key returnall=true') }}"
+    aws_key_id: "{{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}"
+    aws_secret_key: "{{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}"
+    aws_dev_key_id: "{{ lookup('passwordstore', 'codility/aws-dev-access-key-id returnall=true') }}"
+    aws_dev_secret_key: "{{ lookup('passwordstore', 'codility/aws-dev-secret-access-key returnall=true') }}"
+    # other variables pulled from host_vars/group_vars:
+    # CODILITY_REPO_PATH
+    # INFRA_REPO_PATH
 
   tasks: 
 
@@ -40,7 +48,7 @@
     - name: install chef client key
       copy:
         dest: "{{ INFRA_REPO_PATH }}/.chef/client.pem"
-        content: "{{ lookup('passwordstore', 'codility/chef-user-key returnall=true') }}"
+        content: "{{ chef_client_key }}"
         mode: 0600
       no_log: true
 
@@ -48,8 +56,8 @@
       copy:
         dest: "{{ INFRA_REPO_PATH }}/.chef/knife-secrets.rb"
         content: |
-          knife[:aws_access_key_id] = "{{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}"
-          knife[:aws_secret_access_key] = "{{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}"
+          knife[:aws_access_key_id] = "{{ aws_key_id }}"
+          knife[:aws_secret_access_key] = "{{ aws_secret_key }}"
         mode: 0600
       no_log: true
 
@@ -68,12 +76,12 @@
         dest: "{{ ansible_env.HOME }}/.aws/credentials"
         content: |
           [default]
-          aws_access_key_id = {{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}
-          aws_secret_access_key = {{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}
+          aws_access_key_id = {{ aws_key_id }}
+          aws_secret_access_key = {{ aws_secret_key }}
 
           [codility-dev]
-          aws_access_key_id = {{ lookup('passwordstore', 'codility/aws-dev-access-key-id returnall=true') }}
-          aws_secret_access_key = {{ lookup('passwordstore', 'codility/aws-dev-secret-access-key returnall=true') }}
+          aws_access_key_id = {{ aws_dev_key_id }}
+          aws_secret_access_key = {{ aws_dev_secret_key }}
       no_log: true
 
       # separate download step because apt module times out on chef website
@@ -95,7 +103,7 @@
         name:
           - git-crypt  # for secrets in k8s-infrastructure repo
           - socat  # for dbtunnel
-          - jq  # for argocd setup
+          - jq  # for argocd setup and terraform state parsing
           - postgresql-client-common
           - postgresql-client-9.5
       become: yes
