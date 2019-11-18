@@ -15,6 +15,7 @@
       "https://amazon-eks.s3-us-west-2.amazonaws.com/\
        1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator"
     chef_client_key: "{{ lookup('passwordstore', 'codility/chef-user-key returnall=true') }}"
+    codility_email: jan.warchol@codility.com
     aws_key_id: "{{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}"
     aws_secret_key: "{{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}"
     aws_dev_key_id: "{{ lookup('passwordstore', 'codility/aws-dev-access-key-id returnall=true') }}"
@@ -36,6 +37,15 @@
         repo: git@gitlab.codility.net:codility/codility.git
         dest: "{{ CODILITY_REPO_PATH }}"
         update: no
+
+    - name: Set git user email
+      git_config:
+        name: user.email
+        value: "{{ codility_email }}"
+        path: "{{ item }}"
+      loop:
+        - "{{ INFRA_REPO_PATH }}"
+        - "{{ CODILITY_REPO_PATH }}"
 
     - name: ensure directories exist
       file:

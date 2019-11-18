@@ -23,20 +23,14 @@
         - task_result is failed
         - '"Local modifications exist in repository" not in task_result.msg'
 
+    - name: configure git user email
+      git_config:
+        name: user.email
+        value: jan.warchol@gmail.com
+        path: "{{ ansible_setup_path }}"
+
     - name: update ansible-system-setup remote
       lineinfile:
         dest: "{{ ansible_setup_path }}/.git/config"
         regexp: url = .*ansible-system-setup
         line: "	url = git@github.com:jan-warchol/ansible-system-setup.git"
-
-      # I don't want to accidentally commit something with my work email.
-    - name: override git authorship setting in ansible-system-setup
-      blockinfile:
-        dest: "{{ ansible_setup_path }}/.git/config"
-        block: |
-          [user]
-            name = Jan Warchoł
-            email = jan.warchol@gmail.com
-      # don't use "inventory_hostname in groups.xxx" construct
-      # because it fails when group xxx is not defined.  This is better.
-      when: "'work_computers' in group_names"

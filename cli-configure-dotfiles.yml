@@ -33,6 +33,12 @@
         force: no
       when: dotfiles.stat.exists == false
 
+    - name: configure git user email
+      git_config:
+        name: user.email
+        value: jan.warchol@gmail.com
+        path: "{{ dotfiles_home }}"
+
     - name: install dotfiles
       shell: >
         {{ dotfiles_home }}/.install-dotfiles.sh
