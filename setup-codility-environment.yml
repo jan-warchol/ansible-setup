@@ -55,6 +55,13 @@
         - "{{ INFRA_REPO_PATH }}/.chef"
         - "{{ ansible_env.HOME }}/.aws"
 
+    - name: install codility-infra link
+      copy:
+        dest: "{{ INFRA_REPO_PATH }}/.chef/rake-codility.rb
+        content: "CODILITY_PATH = '{{ CODILITY_REPO_PATH }}'.freeze"
+        mode: 0600
+      no_log: true
+
     - name: install chef client key
       copy:
         dest: "{{ INFRA_REPO_PATH }}/.chef/client.pem"
