@@ -1,6 +1,35 @@
 - hosts: all
   tasks:
 
+      # fzf isn't available in Ubuntu repos - configure Debian Buster source
+      # (unless we're already on Debian)
+    - when: ansible_distribution != "Debian"
+      become: yes
+      block:
+
+        - name: add debian buster apt key
+          apt_key:
+            url: "https://ftp-master.debian.org/keys/release-10.asc"
+
+        - name: add debian buster apt repo
+          apt_repository:
+            repo: "deb http://deb.debian.org/debian buster main"
+            filename: debian-buster
+
+        - name: lower apt priority for buster packages
+          copy:
+            dest: /etc/apt/preferences.d/01-debian-buster.pref
+            content: |
+              # only use buster repos if package is unavailable elsewhere
+              Package: *
+              Pin: release n=buster
+              Pin-Priority: 200
+
+    - name: install fzf
+      apt:
+        name: fzf
+      become: yes
+
     - name: get customized fzf repo
       git:
         repo: https://github.com/jan-warchol/fzf
@@ -13,11 +42,6 @@
                   url = https://github.com/junegunn/fzf.git
                   fetch = +refs/heads/*:refs/remotes/upstream/*
         dest: "{{ fzf_home }}/.git/config"
-
-    - name: download fzf binary
-      shell: "{{ fzf_home }}/install --bin"
-      args:
-        creates: "{{ fzf_home }}/bin/fzf"
 
     - name: ensure directories exist
       file:
