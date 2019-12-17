@@ -2,3 +2,4 @@
 - import_playbook: gui-configure.yml
 - import_playbook: gui-configure-terminator.yml
 - import_playbook: gui-install-chrome.yml
+- import_playbook: gui-install-brave-browser.yml
