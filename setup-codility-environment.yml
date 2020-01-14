@@ -40,9 +40,9 @@
 
     - name: Set git user email
       git_config:
-        name: user.email
+        key: user.email
         value: "{{ codility_email }}"
-        path: "{{ item }}"
+        repo: "{{ item }}"
       loop:
         - "{{ INFRA_REPO_PATH }}"
         - "{{ CODILITY_REPO_PATH }}"

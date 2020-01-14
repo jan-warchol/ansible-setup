@@ -25,9 +25,9 @@
 
     - name: configure git user email
       git_config:
-        name: user.email
+        key: user.email
         value: jan.warchol@gmail.com
-        path: "{{ ansible_setup_path }}"
+        repo: "{{ ansible_setup_path }}"
 
     - name: update ansible-system-setup remote
       lineinfile:
