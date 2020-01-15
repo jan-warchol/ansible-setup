@@ -5,7 +5,7 @@
     - known-hosts
 
   vars:
-    chefdk_version: 3.8.14  # TODO: fetch latest version automatically
+    chefdk_version: 3.12.10  # TODO: fetch latest version automatically
     chefdk_package_url:
       "https://packages.chef.io/files/stable/\
        chefdk/{{ chefdk_version }}/\
