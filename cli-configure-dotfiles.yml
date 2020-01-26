@@ -35,9 +35,9 @@
 
     - name: configure git user email
       git_config:
-        name: user.email
+        key: user.email
         value: jan.warchol@gmail.com
-        path: "{{ dotfiles_home }}"
+        repo: "{{ dotfiles_home }}"
 
     - name: install dotfiles
       shell: >

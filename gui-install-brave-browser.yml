@@ -1,0 +1,17 @@
+- hosts: all
+  become: yes
+  tasks:
+
+    - name: Add Brave APT key
+      apt_key:
+        data: "{{ lookup('file', 'files/brave-apt-key.asc') }}"
+
+    - name: add Brave APT repo
+      apt_repository:
+        repo: 'deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main'
+        filename: brave-browser
+
+    - name: install Brave browser
+      apt:
+        name: brave-browser
+        state: latest

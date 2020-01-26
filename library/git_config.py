@@ -2,11 +2,12 @@
 
 # Copyright: (c) 2019, Jan Warchoł <jan.warchol@gmail.com>
 
+# TODO: support global config settings (when without repo)
 # Usage example:
 #
 # - name: set git user email
 #   git_config:
-#     name: user.email
+#     key: user.email
 #     value: me@example.com
 
 from ansible.module_utils.basic import AnsibleModule
@@ -15,9 +16,9 @@ import subprocess
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        name=dict(type='str', required=True),
+        key=dict(type='str', required=True),
         value=dict(type='str', required=True),
-        path=dict(type='str', required=True)
+        repo=dict(type='str', required=True)
     )
     module = AnsibleModule(
         argument_spec=module_args,
@@ -25,9 +26,9 @@ def run_module():
     )
 
     result = dict()
-    attr_name = module.params.get("name")
+    attr_name = module.params.get("key")
     new = module.params.get("value")
-    repo_path = module.params.get("path")
+    repo_path = module.params.get("repo")
     try:
         current = subprocess.check_output(
             ["git", "config", "--get", attr_name],

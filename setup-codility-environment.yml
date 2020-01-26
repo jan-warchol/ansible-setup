@@ -5,7 +5,7 @@
     - known-hosts
 
   vars:
-    chefdk_version: 3.8.14  # TODO: fetch latest version automatically
+    chefdk_version: 3.12.10  # TODO: fetch latest version automatically
     chefdk_package_url:
       "https://packages.chef.io/files/stable/\
        chefdk/{{ chefdk_version }}/\
@@ -40,9 +40,9 @@
 
     - name: Set git user email
       git_config:
-        name: user.email
+        key: user.email
         value: "{{ codility_email }}"
-        path: "{{ item }}"
+        repo: "{{ item }}"
       loop:
         - "{{ INFRA_REPO_PATH }}"
         - "{{ CODILITY_REPO_PATH }}"
@@ -57,7 +57,7 @@
 
     - name: install codility-infra link
       copy:
-        dest: "{{ INFRA_REPO_PATH }}/.chef/rake-codility.rb
+        dest: "{{ INFRA_REPO_PATH }}/.chef/rake-codility.rb"
         content: "CODILITY_PATH = '{{ CODILITY_REPO_PATH }}'.freeze"
         mode: 0600
       no_log: true
