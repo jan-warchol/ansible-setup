@@ -1,0 +1,40 @@
+- name: Configure SSH keys on the new machine
+  gather_facts: yes  # we need ansible_user_id
+  hosts: all
+  vars:
+  tasks:
+
+    - name: ensure directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
+        state: directory
+        mode: 0700
+      loop:
+        - .ssh
+        - .ssh/keys
+
+    - name: copy private keys from passwordstore
+      copy:
+        dest: "{{ ansible_env.HOME }}/.ssh/keys/{{ item }}"
+        content: "{{ lookup('passwordstore', 'ssh/priv/' + item + ' returnall=true') }}"
+        mode: 0400
+      loop:
+        - jw_personal_1
+        - jw_codility_4
+        - jw_codility_7
+      no_log: yes
+
+    - name: copy public keys from passwordstore
+      copy:
+        dest: "{{ ansible_env.HOME }}/.ssh/keys/{{ item }}.pub"
+        content: "{{ lookup('passwordstore', 'ssh/pub/' + item + ' returnall=true') }}"
+        mode: 0400
+      loop:
+        - jw_personal_1
+        - jw_codility_4
+        - jw_codility_7
+
+    - name: configure authorized keys
+      authorized_key:
+        key: "{{ jw_personal_1_pub }}"
+        user: "{{ ansible_user_id }}"
