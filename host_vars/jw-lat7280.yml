@@ -3,3 +3,5 @@ dist_override: bionic
 dist_override_release: 18.04
 INFRA_REPO_PATH:    "{{ ansible_env.HOME }}/src/codility/infrastructure"
 CODILITY_REPO_PATH: "{{ ansible_env.HOME }}/src/codility/codility"
+
+ssh_key_name: jan@jw-lat7280_1

@@ -8,3 +8,4 @@ fzf_history:        "{{ ansible_env.HOME }}/fzf-history-jw-t430s"
 fzf_vim_history:    "{{ ansible_env.HOME }}/.local/share/fzf-history"
 dotfiles_home:      "{{ ansible_env.HOME }}/.dotfiles.git"
 
+ssh_key_name: jan@jw-t430s_1
