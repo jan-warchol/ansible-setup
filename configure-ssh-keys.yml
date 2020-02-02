@@ -85,7 +85,41 @@
           IdentityFile ~/.ssh/keys/{{ ssh_key_name }}
         dest: "{{ ansible_env.HOME }}/.ssh/config_default_id"
 
-    - name: configure authorized keys
+    - name: save public key on ansible control machine
+      copy:
+        content: "{{ user_info.ssh_public_key }}"
+        dest: "ssh-public-keys/{{ ssh_key_name }}.pub"
+      delegate_to: localhost
+
+    - name: allow target hosts to ssh into each other
       authorized_key:
-        key: "{{ jw_personal_1_pub }}"
+        key: "{{ lookup('file', item) }}"
         user: "{{ ansible_user_id }}"
+      with_fileglob:
+        - "ssh-public-keys/*.pub"
+
+    - name: upload key to codility gitlab
+      uri:
+        url: https://gitlab.codility.net/api/v4/user/keys
+        method: POST
+        body_format: form-urlencoded
+        body:
+          private_token: "{{ lookup('passwordstore', 'codility/gitlab-access-token') }}"
+          title: "{{ ssh_key_name }}"
+          key: "{{ user_info.ssh_public_key }}"
+        status_code: 201
+      register: gitlab_upload
+      changed_when: gitlab_upload.status == 201
+      failed_when:
+        - gitlab_upload is failed
+        - "'has already been taken' not in gitlab_upload.json.message.fingerprint"
+
+    - debug: var=user_info.ssh_public_key
+
+    - name: now update public keys in hosting services etc.
+      debug:
+        msg:
+          - "https://bitbucket.org/account/user/%7Be4e0b20b-ddd2-43b6-b3dc-fc37b2039717%7D/ssh-keys/"
+          - "https://github.com/settings/keys"
+          - "https://gitlab.com/profile/keys"
+      run_once: yes
