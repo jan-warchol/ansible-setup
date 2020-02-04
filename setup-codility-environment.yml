@@ -82,7 +82,7 @@
       copy:
         dest: "{{ ansible_env.HOME }}/.aws/config"
         content: |
-          [default]
+          [codility]
           region = us-east-1
 
           [codility-dev]
@@ -92,7 +92,7 @@
       copy:
         dest: "{{ ansible_env.HOME }}/.aws/credentials"
         content: |
-          [default]
+          [codility]
           aws_access_key_id = {{ aws_key_id }}
           aws_secret_access_key = {{ aws_secret_key }}
 
