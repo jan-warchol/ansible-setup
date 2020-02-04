@@ -1,4 +1,6 @@
-- name: install stuff needed for codility work (packages, repos)
+- import_playbook: codility-aws-setup.yml
+
+- name: Install tooling for Codility old infrastructure
   hosts: all
 
   roles:
@@ -11,20 +13,15 @@
        chefdk/{{ chefdk_version }}/\
        ubuntu/{{ dist_override_release | default(ansible_lsb.release) }}/\
        chefdk_{{ chefdk_version }}-1_amd64.deb"
-    aws_authenticator_url:
-      "https://amazon-eks.s3-us-west-2.amazonaws.com/\
-       1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator"
     chef_client_key: "{{ lookup('passwordstore', 'codility/chef-user-key returnall=true') }}"
     codility_email: jan.warchol@codility.com
     aws_key_id: "{{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}"
     aws_secret_key: "{{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}"
-    aws_dev_key_id: "{{ lookup('passwordstore', 'codility/aws-dev-access-key-id returnall=true') }}"
-    aws_dev_secret_key: "{{ lookup('passwordstore', 'codility/aws-dev-secret-access-key returnall=true') }}"
     # other variables pulled from host_vars/group_vars:
     # CODILITY_REPO_PATH
     # INFRA_REPO_PATH
 
-  tasks: 
+  tasks:
 
     - name: clone infrastructure repository
       git:
@@ -53,7 +50,6 @@
         state: directory
       loop:
         - "{{ INFRA_REPO_PATH }}/.chef"
-        - "{{ ansible_env.HOME }}/.aws"
 
     - name: install codility-infra link
       copy:
@@ -78,28 +74,15 @@
         mode: 0600
       no_log: true
 
-    - name: install AWS config
-      copy:
-        dest: "{{ ansible_env.HOME }}/.aws/config"
-        content: |
-          [codility]
-          region = us-east-1
-
-          [codility-dev]
-          region = eu-central-1
-
-    - name: install AWS credentials
-      copy:
-        dest: "{{ ansible_env.HOME }}/.aws/credentials"
-        content: |
-          [codility]
-          aws_access_key_id = {{ aws_key_id }}
-          aws_secret_access_key = {{ aws_secret_key }}
-
-          [codility-dev]
-          aws_access_key_id = {{ aws_dev_key_id }}
-          aws_secret_access_key = {{ aws_dev_secret_key }}
-      no_log: true
+    - name: install misc packages
+      apt:
+        name:
+          - git-crypt  # for secrets in k8s-infrastructure repo
+          - socat  # for dbtunnel
+          - jq  # for argocd setup and terraform state parsing
+          - postgresql-client-common
+          - postgresql-client
+      become: yes
 
       # separate download step because apt module times out on chef website
     - name: download chefdk
@@ -115,17 +98,9 @@
       become: yes
       tags: chef-installation
 
-    - name: install additional packages
-      apt:
-        name:
-          - git-crypt  # for secrets in k8s-infrastructure repo
-          - socat  # for dbtunnel
-          - jq  # for argocd setup and terraform state parsing
-          - postgresql-client-common
-          - postgresql-client
-      become: yes
-
-    - block:
+    - name: install packer
+      tags: install-packer
+      block:
         # As of 2019 there's no PPA, so we scrape packer website and download
         # .zip from there.
 
@@ -146,37 +121,6 @@
             dest: "{{ ansible_env.HOME }}/bin"
             remote_src: yes
 
-    - name: Add kubernetes APT key
-      apt_key:
-        data: "{{ lookup('file', 'files/google-packages-signing-key.asc') }}"
-      become: yes
-
-    - name: add kubernetes APT repository
-      apt_repository:
-        # why xenial is hardcoded in instructions from
-        # https://kubernetes.io/docs/tasks/tools/install-kubectl/ ?
-        repo: 'deb https://apt.kubernetes.io/ kubernetes-xenial main'
-        filename: kubernetes
-      become: yes
-
-    - name: install kubectl
-      apt:
-        name: kubectl
-        state: latest
-      become: yes
-
-    - name: install aws cli
-      pip:
-        name: awscli
-        extra_args: --user
-
-      # https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
-    - name: download AWS authenticator
-      get_url:
-        url: "{{ aws_authenticator_url }}"
-        dest: "{{ ansible_env.HOME }}/bin/aws-iam-authenticator"
-        mode: +x
-
     - debug:
         msg: Now run scripts/configure from infrastructure repo.
 
@@ -185,3 +129,6 @@
 
     - debug:
         msg: Also install docker using docker playbook
+
+    - debug:
+        msg: Also install kubernetes stuff using kubernetes playbook

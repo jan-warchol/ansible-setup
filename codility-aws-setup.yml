@@ -1,0 +1,54 @@
+- name: Install and configure AWS cli for Codility
+  hosts: all
+
+  vars:
+    aws_authenticator_url:
+      "https://amazon-eks.s3-us-west-2.amazonaws.com/\
+       1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator"
+    aws_key_id: "{{ lookup('passwordstore', 'codility/aws-access-key-id returnall=true') }}"
+    aws_secret_key: "{{ lookup('passwordstore', 'codility/aws-secret-access-key returnall=true') }}"
+    aws_dev_key_id: "{{ lookup('passwordstore', 'codility/aws-dev-access-key-id returnall=true') }}"
+    aws_dev_secret_key: "{{ lookup('passwordstore', 'codility/aws-dev-secret-access-key returnall=true') }}"
+
+  tasks:
+    - name: ensure directories exist
+      file:
+        dest: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ ansible_env.HOME }}/.aws"
+
+    - name: install aws cli
+      pip:
+        name: awscli
+        extra_args: --user
+
+      # https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+    - name: download AWS authenticator
+      get_url:
+        url: "{{ aws_authenticator_url }}"
+        dest: "{{ ansible_env.HOME }}/bin/aws-iam-authenticator"
+        mode: +x
+
+    - name: template AWS config
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/config"
+        content: |
+          [codility]
+          region = us-east-1
+
+          [codility-dev]
+          region = eu-central-1
+
+    - name: template AWS credentials
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/credentials"
+        content: |
+          [codility]
+          aws_access_key_id = {{ aws_key_id }}
+          aws_secret_access_key = {{ aws_secret_key }}
+
+          [codility-dev]
+          aws_access_key_id = {{ aws_dev_key_id }}
+          aws_secret_access_key = {{ aws_dev_secret_key }}
+      no_log: true
