@@ -1,0 +1,125 @@
+- name: Configure SSH keys on the new machine
+  gather_facts: yes  # we need ansible_user_id
+  hosts: all
+  vars:
+    # loaded from host_vars:
+    # - passwordstore_path
+    # - ssh_key_name
+    key_passphrase: "{{ lookup('passwordstore', 'ssh/pass/' + ssh_key_name + ' create=true') }}"
+
+  tasks:
+
+    - name: ensure directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
+        state: directory
+        mode: 0700
+      loop:
+        - .ssh
+        - .ssh/keys
+
+    - name: copy private keys from passwordstore
+      copy:
+        dest: "{{ ansible_env.HOME }}/.ssh/keys/{{ item }}"
+        content: "{{ lookup('passwordstore', 'ssh/priv/' + item + ' returnall=true') }}"
+        mode: 0400
+      loop:
+        - jw_personal_1
+        - jw_codility_4
+        - jw_codility_7
+      no_log: yes
+
+    - name: copy public keys from passwordstore
+      copy:
+        dest: "{{ ansible_env.HOME }}/.ssh/keys/{{ item }}.pub"
+        content: "{{ lookup('passwordstore', 'ssh/pub/' + item + ' returnall=true') }}"
+        mode: 0400
+      loop:
+        - jw_personal_1
+        - jw_codility_4
+        - jw_codility_7
+
+      # Allow to either use a key that already exists on the machine,
+      # or create a new one with a unique name (to avoid confusion).
+    - name: Ensure we use unique names for the keys
+      block:
+
+        - name: check for private key on the machine
+          find:
+            paths: "{{ ansible_env.HOME }}/.ssh/keys"
+            pattern: "{{ ssh_key_name }}"
+          register: existing_key
+
+        - name: check for key passphrase in passwordstore
+          find:
+            # FIXME we assume that passwordstore_path is the same for all hosts
+            paths: "{{ passwordstore_path }}/ssh/pass"
+            pattern: "{{ ssh_key_name }}.gpg"
+          register: known_keys
+          delegate_to: localhost
+
+        - name: Abort if the key was lost
+          fail:
+            msg: >
+              Key named {{ ssh_key_name }} had been created before, but cannot
+              be found on this machine. Use a different name if you want to
+              create a new key.
+          when:
+            - existing_key.matched == 0
+            - known_keys.matched != 0
+
+    - name: generate ssh key if not present
+      user:
+        name: "{{ ansible_user_id }}"
+        generate_ssh_key: yes
+        ssh_key_bits: 4096
+        ssh_key_file: .ssh/keys/{{ ssh_key_name }}
+        ssh_key_comment: "{{ ssh_key_name }}"
+        ssh_key_passphrase: "{{ key_passphrase }}"
+      register: user_info
+
+    - name: configure default ssh id
+      copy:
+        content: |
+          # this file should be included at the beginning of ~/.ssh/config
+          IdentityFile ~/.ssh/keys/{{ ssh_key_name }}
+        dest: "{{ ansible_env.HOME }}/.ssh/config_default_id"
+
+    - name: save public key on ansible control machine
+      copy:
+        content: "{{ user_info.ssh_public_key }}"
+        dest: "ssh-public-keys/{{ ssh_key_name }}.pub"
+      delegate_to: localhost
+
+    - name: allow target hosts to ssh into each other
+      authorized_key:
+        key: "{{ lookup('file', item) }}"
+        user: "{{ ansible_user_id }}"
+      with_fileglob:
+        - "ssh-public-keys/*.pub"
+
+    - name: upload key to codility gitlab
+      uri:
+        url: https://gitlab.codility.net/api/v4/user/keys
+        method: POST
+        body_format: form-urlencoded
+        body:
+          private_token: "{{ lookup('passwordstore', 'codility/gitlab-access-token') }}"
+          title: "{{ ssh_key_name }}"
+          key: "{{ user_info.ssh_public_key }}"
+        status_code: 201
+      register: gitlab_upload
+      changed_when: gitlab_upload.status == 201
+      failed_when:
+        - gitlab_upload is failed
+        - "'has already been taken' not in gitlab_upload.json.message.fingerprint"
+
+    - debug: var=user_info.ssh_public_key
+
+    - name: now update public keys in hosting services etc.
+      debug:
+        msg:
+          - "https://bitbucket.org/account/user/%7Be4e0b20b-ddd2-43b6-b3dc-fc37b2039717%7D/ssh-keys/"
+          - "https://github.com/settings/keys"
+          - "https://gitlab.com/profile/keys"
+      run_once: yes
