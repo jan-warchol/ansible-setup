@@ -1,0 +1,15 @@
+- name: Bootstrap Python on host
+  hosts: all
+  gather_facts: False  # cannot do it without python
+  tasks:
+  - name: install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Prepare host for further configuration
+  hosts: all
+  tasks:
+    - name: install utils not present in docker by default
+      apt:
+        pkg:
+          - apt-transport-https  # for configuring 3rd-party repos
+          - sudo  # that's quite surprising
