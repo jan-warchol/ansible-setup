@@ -114,12 +114,18 @@
         - gitlab_upload is failed
         - "'has already been taken' not in gitlab_upload.json.message.fingerprint"
 
-    - debug: var=user_info.ssh_public_key
+    - name: Manual key update
+      when: user_info is changed  # it would be annoying to run this always
+      block:
 
-    - name: now update public keys in hosting services etc.
-      debug:
-        msg:
-          - "https://bitbucket.org/account/user/%7Be4e0b20b-ddd2-43b6-b3dc-fc37b2039717%7D/ssh-keys/"
-          - "https://github.com/settings/keys"
-          - "https://gitlab.com/profile/keys"
-      run_once: yes
+        - debug: var=user_info.ssh_public_key
+
+        - name: update public keys in hosting services
+          # use default browser
+          command: xdg-open {{ item }}
+          loop:
+            - "https://bitbucket.org/account/user/%7Be4e0b20b-ddd2-43b6-b3dc-fc37b2039717%7D/ssh-keys/"
+            - "https://github.com/settings/keys"
+            - "https://gitlab.com/profile/keys"
+          run_once: yes
+          delegate_to: localhost
