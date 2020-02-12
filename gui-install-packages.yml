@@ -43,7 +43,7 @@
           - xsel   # copying and pasting from middle-mouse-button clipboard
           - xclip   # accessing clipboard from cli, needed by pass
           # - xserver-xorg-input-synaptics  # for managing touchpad
-          #- gimp
+          - gimp
           #- guake
           #- imagemagick
           #- kompare
