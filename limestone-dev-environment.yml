@@ -16,7 +16,8 @@
 
   tasks:
 
-    ############################################# global settings
+    # Global settings
+    ############################################################
 
     - name: install IDEs for testing limestone
       snap:
@@ -26,7 +27,7 @@
         classic: yes
       become: yes
 
-    - name: ensure vscode config directories exist
+    - name: ensure config directories exist
       file:
         dest: "{{ ansible_env.HOME }}/{{ item }}"
         state: directory
@@ -56,7 +57,61 @@
 
     # - name: install other vscode extensions
 
-    ############################################# repository setup
+
+    # Configure VS code transparency
+    ############################################################
+
+      # instructions from
+      # https://dev.to/emmanuelnk/how-to-be-cool-and-make-vscode-transparent-56ib
+    - name: install additional packages
+      apt:
+        name: devilspie
+      become: yes
+
+    - name: ensure config directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
+        state: directory
+      loop:
+        - ".devilspie"
+        - ".config/systemd/user/"
+
+    - name: configure devilspie service
+      copy:
+        content: |
+          [Unit]
+          Description=Devilspie
+
+          [Service]
+          ExecStart=/usr/bin/devilspie
+
+          [Install]
+          WantedBy=default.target
+        dest: "{{ ansible_env.HOME }}/.config/systemd/user/devilspie.service"
+
+    - name: manage devilspie service
+      systemd:
+        daemon_reload: yes
+        name: devilspie
+        enabled: yes
+        state: started
+        scope: user
+
+
+    - name: configure devilspie vscode transparency
+      copy:
+        content: |
+          ( if
+          ( contains ( window_class ) "Code" )
+          ( begin
+          ( spawn_async (str "xprop -id " (window_xid) " -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0xdfffffff") )
+          )
+          )
+        dest: "{{ ansible_env.HOME }}/.devilspie/vscode_transparent.ds"
+
+
+    # Repository setup
+    ############################################################
 
     - name: clone limestone git repo
       git:
