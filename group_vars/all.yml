@@ -8,8 +8,6 @@ fzf_vim_history:    "{{ ansible_env.HOME }}/data/fzf/vim"
 dotfiles_home:      "{{ ansible_env.HOME }}/src/dotfiles.git"
 ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-system-setup"
 passwordstore_path: "{{ ansible_env.HOME }}/src/password-store"
-INFRA_REPO_PATH:    "{{ ansible_env.HOME }}/src/infrastructure"
-CODILITY_REPO_PATH: "{{ ansible_env.HOME }}/src/codility"
 
 # consider including:
 # - _FASD_DATA
