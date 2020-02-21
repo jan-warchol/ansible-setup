@@ -1,0 +1,55 @@
+- name: Install and configure AWS cli
+  hosts: all
+
+  vars:
+    aws_key_id: "{{ lookup('passwordstore', 'aws-access-key-id returnall=true') }}"
+    aws_secret_key: "{{ lookup('passwordstore', 'aws-secret-access-key returnall=true') }}"
+
+  tasks:
+    - name: ensure directories exist
+      file:
+        dest: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ ansible_env.HOME }}/.aws"
+
+    - name: install aws cli
+      pip:
+        name: awscli
+        extra_args: --user
+
+    - name: template AWS config
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/config"
+        content: |
+          [default]
+
+    - name: template AWS credentials
+      copy:
+        dest: "{{ ansible_env.HOME }}/.aws/credentials"
+        content: |
+          [default]
+          aws_access_key_id = {{ aws_key_id }}
+          aws_secret_access_key = {{ aws_secret_key }}
+      no_log: true
+
+
+- name: Install kubernetes tools
+  hosts: all
+  become: yes
+  tasks:
+    - name: add kubernetes APT key
+      apt_key:
+        data: "{{ lookup('file', 'files/google-packages-signing-key.asc') }}"
+
+    - name: add kubernetes APT repository
+      apt_repository:
+        # why xenial is hardcoded in instructions from
+        # https://kubernetes.io/docs/tasks/tools/install-kubectl/ ?
+        repo: 'deb https://apt.kubernetes.io/ kubernetes-xenial main'
+        filename: kubernetes
+
+    - name: install kubectl
+      apt:
+        name: kubectl
+        state: latest

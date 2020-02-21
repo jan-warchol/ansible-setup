@@ -2,6 +2,8 @@
   # on-the-fly, based on vagrant configuration that we find
 - name: Add vagrant vm to playbook inventory
   hosts: localhost
+  vars:
+    project_path: "foo"
   tasks:
     - block:
 
@@ -10,7 +12,7 @@
           local_action:
             module: command vagrant ssh-config
             args:
-              chdir: /home/jan/src/codility-ansible-tasks
+              chdir: "{{ project_path }}"
           register: vagrant_conf
 
         - name: parse vagrant config
