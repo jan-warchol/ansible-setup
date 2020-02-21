@@ -1,6 +1,0 @@
-ansible_become_password: "{{ lookup('passwordstore', 'codility/thinkpad-x260-user-password') }}"
-dist_override: bionic
-dist_override_release: 18.04
-pg_pkg: postgresql-client-10
-
-ssh_key_name: jan@jw-x260_1
