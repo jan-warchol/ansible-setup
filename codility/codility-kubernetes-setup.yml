@@ -6,7 +6,7 @@
   tasks:
     - name: Add kubernetes APT key
       apt_key:
-        data: "{{ lookup('file', 'files/google-packages-signing-key.asc') }}"
+        data: "{{ lookup('file', '../files/google-packages-signing-key.asc') }}"
 
     - name: add kubernetes APT repository
       apt_repository:
