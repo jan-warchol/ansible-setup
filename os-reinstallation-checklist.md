@@ -43,4 +43,3 @@ Run Ansible playbooks:
 - gui-complete
 - secret setup
 - ansible setup
-- codility setup

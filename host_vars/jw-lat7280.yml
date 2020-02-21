@@ -1,7 +1,0 @@
-ansible_become_password: "{{ lookup('passwordstore', 'codility/dell-latitude-7280-system-user') }}"
-dist_override: bionic
-dist_override_release: 18.04
-INFRA_REPO_PATH:    "{{ ansible_env.HOME }}/src/codility/infrastructure"
-CODILITY_REPO_PATH: "{{ ansible_env.HOME }}/src/codility/codility"
-
-ssh_key_name: jan@jw-lat7280_1

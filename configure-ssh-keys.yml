@@ -25,8 +25,6 @@
         mode: 0400
       loop:
         - jw_personal_1
-        - jw_codility_4
-        - jw_codility_7
       no_log: yes
 
     - name: copy public keys from passwordstore
@@ -36,8 +34,6 @@
         mode: 0400
       loop:
         - jw_personal_1
-        - jw_codility_4
-        - jw_codility_7
 
       # Allow to either use a key that already exists on the machine,
       # or create a new one with a unique name (to avoid confusion).
@@ -97,22 +93,6 @@
         user: "{{ ansible_user_id }}"
       with_fileglob:
         - "ssh-public-keys/*.pub"
-
-    - name: upload key to codility gitlab
-      uri:
-        url: https://gitlab.codility.net/api/v4/user/keys
-        method: POST
-        body_format: form-urlencoded
-        body:
-          private_token: "{{ lookup('passwordstore', 'codility/gitlab-access-token') }}"
-          title: "{{ ssh_key_name }}"
-          key: "{{ user_info.ssh_public_key }}"
-        status_code: 201
-      register: gitlab_upload
-      changed_when: gitlab_upload.status == 201
-      failed_when:
-        - gitlab_upload is failed
-        - "'has already been taken' not in gitlab_upload.json.message.fingerprint"
 
     - name: Manual key update
       when: user_info is changed  # it would be annoying to run this always
