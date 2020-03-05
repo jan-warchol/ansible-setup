@@ -19,12 +19,20 @@
     # Global settings
     ############################################################
 
+    - name: install microsoft apt key
+      apt_key:
+        data: "{{ lookup('file', 'files/microsoft-apt-signing-key.asc') }}"
+      become: yes
+
+    - name: install apt repo for vscode
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        filename: vscode
+      become: yes
+
     - name: install IDEs for testing limestone
-      snap:
-        name:
-          - pycharm-community
-          - code
-        classic: yes
+      apt:
+        name: code
       become: yes
 
     - name: ensure config directories exist

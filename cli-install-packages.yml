@@ -48,7 +48,6 @@
           - python-scipy
           - python-matplotlib
           - python-tk
-          - snapd  # e.g. for VSCode installation
           - sshfs
           - ranger
           - tmux
