@@ -61,7 +61,7 @@
           # absolute path. No other format is supported.
           #
           XDG_DESKTOP_DIR="$HOME/"
-          XDG_DOWNLOAD_DIR="$HOME/"
+          XDG_DOWNLOAD_DIR="$HOME/inbox"
           XDG_TEMPLATES_DIR="$HOME/"
           XDG_PUBLICSHARE_DIR="$HOME/"
           XDG_DOCUMENTS_DIR="$HOME/{{ xdg_documents_dir }}"
@@ -69,6 +69,17 @@
           XDG_PICTURES_DIR="$HOME/{{ xdg_pictures_dir }}"
           XDG_VIDEOS_DIR="$HOME/{{ xdg_videos_dir }}"
         dest: ~/.config/user-dirs.dirs
+
+    - name: update file manager bookmarks
+      copy:
+        content: |
+          file://{{ ansible_env.HOME }}/{{ xdg_documents_dir }} Documents
+          file://{{ ansible_env.HOME }}/{{ xdg_music_dir }} Music
+          file://{{ ansible_env.HOME }}/{{ xdg_pictures_dir }} Pictures
+          file://{{ ansible_env.HOME }}/{{ xdg_videos_dir }} Videos
+          file://{{ ansible_env.HOME }}/inbox Downloads
+          file://{{ ansible_env.HOME }}/src/code-samples code-samples
+        dest: ~/.config/gtk-3.0/bookmarks
 
     - name: remove default XDG directories
       # cannot use file module because I want to delete only empty directories
