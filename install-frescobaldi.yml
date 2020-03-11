@@ -1,0 +1,38 @@
+- name: Install latest Frescobaldi from source
+  hosts: all
+  vars:
+    repo_url: "https://github.com/frescobaldi/frescobaldi"
+
+  tasks:
+
+    - name: install Qt5 using apt
+      apt:
+        name:
+          - qt5-default
+          - python3-pyqt5
+          - python3-pyqt5.qtsvg
+          - python3-pyqt5.qtwebkit
+          - python3-poppler-qt5
+      become: yes
+
+    - name: install python dependencies
+      pip:
+        name:
+          - PyQt5
+          - python-ly
+          - PyQtWebEngine
+        extra_args: --user
+        executable: pip3
+
+    - name: clone Frescobaldi source
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ ansible_env.HOME }}/src/frescobaldi"
+
+      # FIXME Something was broken here?
+    - name: install Frescobaldi from source
+      pip:
+        name: "{{ ansible_env.HOME }}/src/frescobaldi"
+        extra_args: --user
+        executable: pip3
+
