@@ -2,6 +2,15 @@
   become: yes
   tasks:
 
+    # https://github.com/odeke-em/drive/
+    # alternative project that may be worth checking out:
+    # https://github.com/gdrive-org/gdrive
+    - name: add Google Drive cli PPA
+      apt_repository:
+        repo: ppa:twodopeshaggy/drive
+        codename: "{{ dist_override | default(omit) }}"
+        filename: google-drive
+
     - name: add redshift PPA
       apt_repository:
         repo: ppa:dobey/redshift-daily
@@ -14,6 +23,7 @@
           - baobab
           - dconf-cli
           - dconf-editor   # desktop environment configuration
+          - drive   # CLI for google drive
           - firefox   # make sure firefox is updated - my package manager
                       # didn't want to update it on its own
           - gitk
