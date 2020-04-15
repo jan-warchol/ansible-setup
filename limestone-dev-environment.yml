@@ -19,6 +19,11 @@
     # Global settings
     ############################################################
 
+    - name: install sublime apt key
+      apt_key:
+        data: "{{ lookup('file', 'files/sublime-apt-key.asc') }}"
+      become: yes
+
     - name: install microsoft apt key
       apt_key:
         data: "{{ lookup('file', 'files/microsoft-apt-signing-key.asc') }}"
@@ -30,9 +35,17 @@
         filename: vscode
       become: yes
 
+    - name: install apt repo for sublime
+      apt_repository:
+        repo: deb https://download.sublimetext.com/ apt/stable/
+        filename: sublime
+      become: yes
+
     - name: install IDEs for testing limestone
       apt:
-        name: code
+        name:
+          - code
+          - sublime-text
       become: yes
 
     - name: ensure config directories exist
