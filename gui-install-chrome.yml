@@ -4,7 +4,7 @@
 
     - name: Add Google Chrome APT key
       apt_key:
-        data: "{{ lookup('file', 'files/chrome-linux-signing-key.pub') }}"
+        data: "{{ lookup('file', 'files/google_linux_signing_key.pub') }}"
 
     - name: add Google Chrome APT repository
       apt_repository:
