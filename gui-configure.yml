@@ -29,6 +29,32 @@
 
   tasks:
 
+    - name: ensure directories exist
+      file:
+        path: "{{ ansible_env.HOME }}/.config/systemd/user/"
+        state: directory
+
+    - name: configure redshift service
+      copy:
+        content: |
+          [Unit]
+          Description=Redshift
+
+          [Service]
+          ExecStart=/usr/bin/redshift -c {{ ansible_env.HOME }}/.config/redshift/redshift.conf
+
+          [Install]
+          WantedBy=default.target
+        dest: "{{ ansible_env.HOME }}/.config/systemd/user/redshift.service"
+
+    - name: manage redshift service
+      systemd:
+        daemon_reload: yes
+        name: redshift
+        enabled: yes
+        state: started
+        scope: user
+
     - name: create XDG and other directories
       file:
         path: "{{ ansible_env.HOME }}/{{ item }}"
