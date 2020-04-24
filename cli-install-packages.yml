@@ -35,15 +35,6 @@
           - openssh-server
           - pass
           - pandoc  # for diffing binary documents
-        # python environment
-          # NEVER mix pip installation methods (e.g. via apt and pip), see
-          # https://github.com/pypa/pip/issues/5221#issuecomment-382069604
-          - python-pip
-          - python3-pip  # may not be present by default
-          - python3-setuptools  # required to install some pip pkgs
-          - python-dev
-          - python-virtualenv
-        # end python environment
           - python-numpy
           - python-scipy
           - python-matplotlib
@@ -58,7 +49,3 @@
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: Install pip packages
-      pip:
-        name: termtosvg   # recording terminal sessions
-        executable: pip3
