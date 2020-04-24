@@ -6,7 +6,7 @@ fzf_home:           "{{ ansible_env.HOME }}/src/fzf"
 fzf_history:        "{{ ansible_env.HOME }}/data/fzf/history"
 fzf_vim_history:    "{{ ansible_env.HOME }}/data/fzf/vim"
 dotfiles_home:      "{{ ansible_env.HOME }}/src/dotfiles.git"
-ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-system-setup"
+ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-setup"
 passwordstore_path: "{{ ansible_env.HOME }}/src/password-store"
 
 # consider including:

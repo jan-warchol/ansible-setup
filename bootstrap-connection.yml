@@ -1,6 +1,10 @@
 - name: Get information about ansible control machine
   hosts: localhost
   gather_facts: yes
+  become: yes
+  tasks:
+    - apt:
+        name: sshpass
 
 - name: Bootstrap SSH connection with a fresh host
   hosts: all

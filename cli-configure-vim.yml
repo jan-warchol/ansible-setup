@@ -25,7 +25,7 @@
 
     - name: install selenized color palette
       get_url:
-        url: https://raw.githubusercontent.com/jan-warchol/selenized/master/vim/selenized.vim
+        url: https://raw.githubusercontent.com/jan-warchol/selenized/master/editors/vim/colors/selenized.vim
         dest: "{{ ansible_env.HOME }}/.vim/colors/selenized.vim"
         force: yes
 

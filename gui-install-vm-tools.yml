@@ -17,11 +17,10 @@
 
     - name: install VirtualBox
       apt:
-        name: "{{ item }}"
+        name:
+          - virtualbox-6.0
+          - virtualbox-guest-dkms
         state: latest
-      with_items:
-        - virtualbox-6.0
-        - virtualbox-guest-dkms
       become: yes
 
 

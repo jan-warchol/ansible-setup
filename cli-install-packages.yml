@@ -12,6 +12,14 @@
         creates=/etc/apt/sources.list.d/git-core-ppa-trusty.list
       register: git_ppa_status
 
+      # Officially recommended replacement for deprecated git filter-branch
+    - name: download git filter-repo
+      get_url:
+        url: https://raw.githubusercontent.com/newren/git-filter-repo/master/git-filter-repo
+        dest: "{{ ansible_env.HOME }}/bin/git-filter-repo"
+        mode: 0755
+      become: no
+
     - name: update apt cache
       apt: update_cache=yes
       when: git_ppa_status.changed
@@ -31,9 +39,9 @@
           - git
           - htop
           - ipython
+          - jq  # for manipulating json
           - gnupg
           - openssh-server
-          - pass
           - pandoc  # for diffing binary documents
           - python-numpy
           - python-scipy

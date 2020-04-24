@@ -15,6 +15,7 @@
           apt_repository:
             repo: "deb http://deb.debian.org/debian buster main"
             filename: debian-buster
+            update_cache: no  # FIXME I'm getting an error (only on first try)
 
         - name: lower apt priority for buster packages
           copy:
@@ -28,6 +29,7 @@
     - name: install fzf
       apt:
         name: fzf
+        update_cache: yes  # FIXME should be handled in task adding repo
       become: yes
 
     - name: get customized fzf repo
