@@ -99,12 +99,15 @@
     - name: update file manager bookmarks
       copy:
         content: |
-          file://{{ ansible_env.HOME }}/{{ xdg_documents_dir }} Documents
-          file://{{ ansible_env.HOME }}/{{ xdg_music_dir }} Music
-          file://{{ ansible_env.HOME }}/{{ xdg_pictures_dir }} Pictures
-          file://{{ ansible_env.HOME }}/{{ xdg_videos_dir }} Videos
-          file://{{ ansible_env.HOME }}/inbox Downloads
+          file://{{ ansible_env.HOME }}/{{ xdg_documents_dir }} Data
+          file://{{ ansible_env.HOME }}/{{ xdg_music_dir }} Muzyka
+          file://{{ ansible_env.HOME }}/{{ xdg_pictures_dir }} Obrazy
+          file://{{ ansible_env.HOME }}/{{ xdg_videos_dir }} Filmy
+          file://{{ ansible_env.HOME }}/inbox Inbox
+          file://{{ ansible_env.HOME }}/src/ansible-setup ansible-setup
           file://{{ ansible_env.HOME }}/src/code-samples code-samples
+          file://{{ ansible_env.HOME }}/src/selenized selenized
+          file://{{ ansible_env.HOME }}/src/limestone-colors limestone
         dest: ~/.config/gtk-3.0/bookmarks
 
     - name: remove default XDG directories
