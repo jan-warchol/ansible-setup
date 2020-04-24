@@ -20,6 +20,13 @@
         mode: 0755
       become: no
 
+    - name: download tig commit picker
+      get_url:
+        url: https://raw.githubusercontent.com/jonas/tig/master/contrib/tig-pick
+        dest: "{{ ansible_env.HOME }}/bin/tgp"
+        mode: 0755
+      become: no
+
     - name: update apt cache
       apt: update_cache=yes
       when: git_ppa_status.changed

@@ -1,6 +1,3 @@
 - import_playbook: cli-install-packages.yml
 - import_playbook: cli-configure-dotfiles.yml
-- import_playbook: cli-configure-vim.yml
-- import_playbook: cli-install-misc-tools.yml
-- import_playbook: cli-install-fzf.yml
 - import_playbook: cli-install-ansible-setup.yml
