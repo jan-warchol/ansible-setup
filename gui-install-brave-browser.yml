@@ -4,7 +4,7 @@
 
     - name: Add Brave APT key
       apt_key:
-        data: "{{ lookup('file', 'files/brave-apt-key.asc') }}"
+        data: "{{ lookup('file', 'apt-keys/brave-apt-key.asc') }}"
 
     - name: add Brave APT repo
       apt_repository:

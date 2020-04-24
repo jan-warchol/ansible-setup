@@ -5,7 +5,7 @@
 
     - name: add VirtualBox repo apt key
       apt_key:
-        data: "{{ lookup('file', 'files/oracle_apt_key.asc') }}"
+        data: "{{ lookup('file', 'apt-keys/oracle_apt_key.asc') }}"
       become: yes
 
       # https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/
