@@ -138,27 +138,41 @@
   tags: vim
   tasks:
 
-    - name: Install vim
+    - name: add neovim PPA
+      apt_repository:
+        repo: ppa:neovim-ppa/stable
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "neovim"
+      become: yes
+
+    - name: Install vim and neovim
       apt:
-        name: vim-gnome  # default `vim` package doesn't have clipboard support
+        name:
+          - vim-gnome  # default `vim` package doesn't have clipboard support
+          - neovim
       become: yes
 
     - name: ensure config directories exist
       file:
-        dest: "{{ ansible_env.HOME }}/.vim/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
         state: directory
       with_items:
-        - autoload  # for vim-plug
-        - swap  # global dir for swapfiles
-        - backup  # global dir for backup files
-        - colors  # for colorschemes
+        - .local/share/nvim/site/autoload  # for vim-plug in neovim
+        - .vim/autoload  # for vim-plug in vim
+        - .vim/swap  # global dir for swapfiles
+        - .vim/backup  # global dir for backup files
+        - .vim/colors  # for colorschemes
 
     # The nice thing about vim-plug (https://github.com/junegunn/vim-plug)
     # is that it can be installed just by downloading one file.
-    - name: install vim-plug plugin manager
+    - name: install vim-plug for vim and neovim
       get_url:
         url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+        dest: "{{ item }}"
+      loop:
+        - "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+        - "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
+
 
     - name: install selenized color palette
       get_url:
