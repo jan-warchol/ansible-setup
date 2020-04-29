@@ -1,6 +1,16 @@
-- hosts: all
+- name: Install packages relevant to graphical desktop
+  hosts: all
   become: yes
   tasks:
+
+    - name: add apt key for Google Chrome
+      apt_key:
+        data: "{{ lookup('file', 'apt-keys/google_linux_signing_key.asc') }}"
+
+    - name: add apt repository for Google Chrome
+      apt_repository:
+        repo: 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main'
+        filename: google-chrome
 
     # https://github.com/odeke-em/drive/
     # alternative project that may be worth checking out:
@@ -27,6 +37,7 @@
           - firefox   # make sure firefox is updated - my package manager
                       # didn't want to update it on its own
           - gitk
+          - google-chrome-stable
           - gparted
           - indicator-multiload
           - kate
