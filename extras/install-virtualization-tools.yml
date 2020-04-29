@@ -11,7 +11,9 @@
       # https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/
     - name: add VirtualBox PPA
       apt_repository:
-        repo: 'deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib'
+        repo:
+          "deb http://download.virtualbox.org/virtualbox/debian\
+           {{ dist_override | default(ansible_distribution_release) }} contrib"
         filename: "virtualbox"
       become: yes
 
