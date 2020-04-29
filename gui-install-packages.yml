@@ -1,6 +1,8 @@
 - name: Install packages relevant to graphical desktop
   hosts: all
   become: yes
+  vars:
+    bcompare_version: "4.3.4.24657"
   tasks:
 
     - name: add apt key for Google Chrome
@@ -67,3 +69,13 @@
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
+
+    - name: download Beyond Compare .deb file
+      get_url:
+        url:
+          "http://www.scootersoftware.com/\
+           bcompare-{{ bcompare_version }}_amd64.deb"
+        dest: /tmp/bcompare-{{ bcompare_version }}.deb
+
+    - name: install Beyond Compare
+      apt: deb=/tmp/bcompare-{{ bcompare_version }}.deb
