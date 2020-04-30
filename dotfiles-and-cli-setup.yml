@@ -13,41 +13,33 @@
   hosts: all
   tasks:
 
-    - name: check whether fasd is installed
-      shell: which fasd
-      register: fasd_check
-      failed_when: fasd_check.rc > 1
-      changed_when: fasd_check.rc == 1
+    - name: add fasd PPA
+      apt_repository:
+        repo: ppa:aacebedo/fasd
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "fasd"
+      become: yes
 
-    - when: fasd_check.rc == 1
-      block:
-
-        - name: clone fasd repository
-          git:
-            repo: "https://github.com/clvv/fasd"
-            dest: "{{ ansible_env.HOME }}/bin/fasd.git"
-
-        - name: install fasd
-          shell: make install chdir={{ ansible_env.HOME }}/bin/fasd.git
-          become: yes
+    - name: install apt dependencies
+      apt:
+        name:
+          - git
+          - fasd
+      become: yes
 
       # required by git configuration
-    - name: clone smartless repository
-      git:
-        repo: "https://github.com/jan-warchol/smartless.git"
-        dest: "{{ ansible_env.HOME }}/bin/smartless.git"
-
-      # required by git configuration
-    - name: create symlink to smartless
-      file:
-        src: ~/bin/smartless.git/smartless
-        dest: ~/bin/smartless
-        state: link
+    - name: download smartless
+      get_url:
+        url: https://raw.githubusercontent.com/jan-warchol/smartless/master/smartless
+        dest: "{{ ansible_env.HOME }}/bin/smartless"
+        mode: 0755
 
       # required by git configuration
     - name: download script for merging ansible vaults
       get_url:
-        url: https://raw.githubusercontent.com/building5/ansible-vault-tools/master/ansible-vault-merge.sh
+        # commit ID pinned for better security
+        url: "https://raw.githubusercontent.com/building5/ansible-vault-tools/\
+              1a7c7817dd3052b077fb6809e303e46d7b711df1/ansible-vault-merge.sh"
         dest: "{{ ansible_env.HOME }}/bin/ansible-vault-merge"
         mode: 0755
 
