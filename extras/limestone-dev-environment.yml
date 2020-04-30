@@ -8,10 +8,10 @@
 - name: Setup tools for work on Limestone project
   hosts: all
   vars:
-    limestone_repo: git@github.com:jan-warchol/limestone-colors.git
+    limestone_repo: "{{ github_url }}jan-warchol/limestone-colors.git"
     limestone_path: "{{ ansible_env.HOME }}/src/limestone-colors"
     # note: this repo is private
-    code_samples_repo: git@github.com:jan-warchol/code-samples.git
+    code_samples_repo: "{{ github_url }}jan-warchol/code-samples.git"
     code_samples_base_path: "{{ ansible_env.HOME }}/src/code-samples"
 
   tasks:

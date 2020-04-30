@@ -15,7 +15,7 @@
 
     - name: clone ansible-system-setup repository
       git: 
-        repo: https://github.com/jan-warchol/ansible-workstation-setup/
+        repo: "{{ github_url }}jan-warchol/ansible-workstation-setup/"
         dest: "{{ ansible_setup_path }}"
         version: devel
       register: task_result
@@ -28,12 +28,6 @@
         key: user.email
         value: jan.warchol@gmail.com
         repo: "{{ ansible_setup_path }}"
-
-    - name: update ansible-system-setup remote
-      lineinfile:
-        dest: "{{ ansible_setup_path }}/.git/config"
-        regexp: url = .*ansible-system-setup
-        line: "	url = git@github.com:jan-warchol/ansible-system-setup.git"
 
     - name: install python libraries
       pip:
