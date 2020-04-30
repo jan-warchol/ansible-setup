@@ -1,3 +1,0 @@
-- import_playbook: cli-install-packages.yml
-- import_playbook: cli-configure-dotfiles.yml
-- import_playbook: cli-install-ansible-setup.yml
