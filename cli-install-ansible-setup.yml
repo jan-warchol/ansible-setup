@@ -15,7 +15,7 @@
 
     - name: clone ansible-system-setup repository
       git: 
-        repo: "{{ github_url }}jan-warchol/ansible-workstation-setup/"
+        repo: "{{ github_url }}jan-warchol/ansible-workstation-setup"
         dest: "{{ ansible_setup_path }}"
         version: devel
       register: task_result
