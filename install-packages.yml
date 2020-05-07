@@ -131,6 +131,15 @@
     bcompare_version: "4.3.4.24657"
   tasks:
 
+    - name: add apt key for spotify
+      apt_key:
+        data: "{{ lookup('file', 'apt-keys/spotify_apt_key.asc') }}"
+
+    - name: add apt repository for spotify
+      apt_repository:
+        repo: 'deb http://repository.spotify.com stable non-free'
+        filename: spotify
+
     - name: add apt key for Google Chrome
       apt_key:
         data: "{{ lookup('file', 'apt-keys/google_linux_signing_key.asc') }}"
@@ -182,6 +191,7 @@
           - usb-creator-gtk  # for creating USB drives for OS installation
           - vim-gnome
           - vlc
+          - spotify-client
           - stopwatch   # time tracking
           - xbacklight   # changing screen brightness
           - xsel   # copying and pasting from middle-mouse-button clipboard
