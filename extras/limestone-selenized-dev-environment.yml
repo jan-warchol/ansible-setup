@@ -5,13 +5,14 @@
 # - git
 # - credentials for accessing my repos over ssh configured
 
-- name: Setup tools for work on Limestone project
+- name: Setup tools for work on Limestone and Selenized projects
   hosts: all
   vars:
     limestone_repo: "{{ github_url }}jan-warchol/limestone-colors.git"
     limestone_path: "{{ ansible_env.HOME }}/src/limestone-colors"
-    # note: this repo is private
-    code_samples_repo: "{{ github_url }}jan-warchol/code-samples.git"
+    selenized_repo: "{{ github_url }}jan-warchol/selenized.git"
+    selenized_path: "{{ ansible_env.HOME }}/src/selenized"
+    code_samples_repo: "{{ github_url }}jan-warchol/highlighting-code-samples"
     code_samples_base_path: "{{ ansible_env.HOME }}/src/code-samples"
 
   tasks:
@@ -71,12 +72,17 @@
         dest: "{{ ansible_env.HOME }}/.config/Code/User/keybindings.json"
         backup: yes  # in case I've made further modifications
 
-    - name: link limestone theme to .extensions
+    - name: link themes to .extensions
       file:
-        src: "{{ limestone_path }}/vscode"
-        dest: "{{ ansible_env.HOME }}/.vscode/extensions/limestone-dev"
+        src: "{{ item.src }}"
+        dest: "{{ ansible_env.HOME }}/.vscode/extensions/{{ item.dest }}"
         state: link
         force: yes  # repo will be cloned in a later step
+      loop:
+        - src: "{{ limestone_path }}/vscode"
+          dest: limestone-dev
+        - src: "{{ selenized_path }}/editors/visual-studio-code"
+          dest: selenized-dev
 
     # - name: install other vscode extensions
 
@@ -142,6 +148,12 @@
         dest: "{{ limestone_path }}"
         update: no  # don't mess with existing repo
 
+    - name: clone selenized git repo
+      git:
+        repo: "{{ selenized_repo }}"
+        dest: "{{ selenized_path }}"
+        update: no  # don't mess with existing repo
+
     - name: clone code samples repo
       git:
         repo: "{{ code_samples_repo }}"
@@ -159,6 +171,7 @@
         - "{{ code_samples_base_path }}-A"
         - "{{ code_samples_base_path }}-B"
         - "{{ limestone_path }}"
+        - "{{ selenized_path }}"
 
     - name: configure per-workspace vscode themes
       copy:
