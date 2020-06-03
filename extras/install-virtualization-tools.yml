@@ -12,7 +12,7 @@
     - name: add VirtualBox PPA
       apt_repository:
         repo:
-          "deb http://download.virtualbox.org/virtualbox/debian\
+          "deb http://download.virtualbox.org/virtualbox/debian \
            {{ dist_override | default(ansible_distribution_release) }} contrib"
         filename: "virtualbox"
       become: yes
@@ -20,7 +20,7 @@
     - name: install VirtualBox
       apt:
         name:
-          - virtualbox-6.0
+          - virtualbox-6.1
           - virtualbox-guest-dkms
         state: latest
       become: yes
