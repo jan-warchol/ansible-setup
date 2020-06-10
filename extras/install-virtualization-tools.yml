@@ -5,23 +5,24 @@
 
     - name: add VirtualBox repo apt key
       apt_key:
-        data: "{{ lookup('file', 'files/oracle_apt_key.asc') }}"
+        data: "{{ lookup('file', 'apt-keys/oracle_apt_key.asc') }}"
       become: yes
 
       # https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/
     - name: add VirtualBox PPA
       apt_repository:
-        repo: 'deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib'
+        repo:
+          "deb http://download.virtualbox.org/virtualbox/debian\
+           {{ dist_override | default(ansible_distribution_release) }} contrib"
         filename: "virtualbox"
       become: yes
 
     - name: install VirtualBox
       apt:
-        name: "{{ item }}"
+        name:
+          - virtualbox-6.0
+          - virtualbox-guest-dkms
         state: latest
-      with_items:
-        - virtualbox-6.0
-        - virtualbox-guest-dkms
       become: yes
 
 

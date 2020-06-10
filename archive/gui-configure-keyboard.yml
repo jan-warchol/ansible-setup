@@ -31,5 +31,5 @@
 
     - name: clone keyboard repository
       git:
-        repo: "https://github.com/jan-warchol/keyboard-layout.git"
+        repo: "{{ github_url }}jan-warchol/keyboard-layout.git"
         dest: "{{ ansible_env.HOME }}/src/xkb-layout/"

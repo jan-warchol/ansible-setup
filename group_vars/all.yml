@@ -1,12 +1,16 @@
-jw_personal_1_pub: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDABym7DyGMWEUCPGBC+Y07aDn8UU+CEz9fDmwu5vghcHFQBHSSTVO8ha0ja3DH0Hzp42twXIy++y8fp1jAoJrNPpZSGUgg8Upw/lXJKF/Y5OC5zycZqixiBPEq2s8WITxztMLgMY9wntRzbM0atcUs3XnONnTK8zXWe7EYQbXJ3RLMrenJ7I/L9uJ0NpeKehaarA+e5u/KpW2SqxpnkDsFjbOxiYQZ2Kd0C5u0LQ82szjvJ5k1fd8OCIjz1Q64lccxZI+UcFP1CTlGPZAddcVnTtBbjwuitcJwTiOx8fqBL9HAJbjTsZ89PlZAlQZjCEj2j/ZgdgZEw/4RPdQMv+qh jw_personal_1
-jw_codilime_pub: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDM7JXYUAHWxr+dCXYE+3FfQRb3k/OeNHUm34RBY9ewVPMMi0aeFgu1/KiX/5NLXGmW/5/Hc+jzkv5Vu8gssMnUCDp+uAMXOd4lMVtx0SCKGTpFRNs37V2mIX9YNOlS6RsfWwDi2EGZPTtdFScP3cMqQJm3XQwpibQ/rkvyCmeXBmatqu1JhBFagpxBw8ISDYZIHg+6LnvxaCWABT2rA6S1i0aoLC9E87s/Ze+8+u7XsgHB+HJIWqZ7/eK5MC0ShC3SQ6EHCCmHPBOwWlrO6GmAWGdh8w8yDyfisPLVXXY6b4bJ5ZJoAK3KivqVQmRrLPp5wEmhFCr71hNny0uZIzQV jan.warchol@codilime.com
+ansible_become_password:
+  "{{ lookup('passwordstore', 'hosts/' + inventory_hostname + '-user') }}"
+
+# For cloning my repositories - use SSH by default (assuming configured keys).
+# Override by changing to "https://github.com/".
+github_url: "git@github.com:"
 
 # locations
 fzf_home:           "{{ ansible_env.HOME }}/src/fzf"
 fzf_history:        "{{ ansible_env.HOME }}/data/fzf/history"
 fzf_vim_history:    "{{ ansible_env.HOME }}/data/fzf/vim"
 dotfiles_home:      "{{ ansible_env.HOME }}/src/dotfiles.git"
-ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-system-setup"
+ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-setup"
 passwordstore_path: "{{ ansible_env.HOME }}/src/password-store"
 
 # consider including:

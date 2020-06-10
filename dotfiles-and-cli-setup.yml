@@ -1,0 +1,241 @@
+# This role installs my [dotfiles](https://github.com/jan-warchol/dotfiles).
+# Basically, the dotfiles repository should contain only user configuration
+# that is common to all my accounts, and is reasonable to track as plain
+# text files.  In particular, nothing here should depend on any ansible
+# group_vars or host_vars.
+#
+# Any configs that don't meet these requirements (system-wide settings, GUI
+# settings that live in binary files or unwieldy XMLs, etc.) should be
+# managed by some other means.  In particular, settings that differ between
+# accounts live in `user-config` role.
+
+- name: Install dotfiles dependencies
+  hosts: all
+  tasks:
+
+    - name: add fasd PPA
+      apt_repository:
+        repo: ppa:aacebedo/fasd
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "fasd"
+      become: yes
+
+    - name: install apt dependencies
+      apt:
+        name:
+          - git
+          - fasd
+      become: yes
+
+    - name: ensure directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/bin"
+        state: directory
+
+      # required by git configuration
+    - name: download smartless
+      get_url:
+        url: https://raw.githubusercontent.com/jan-warchol/smartless/master/smartless
+        dest: "{{ ansible_env.HOME }}/bin/smartless"
+        mode: 0755
+
+      # required by git configuration
+    - name: download script for merging ansible vaults
+      get_url:
+        # commit ID pinned for better security
+        url: "https://raw.githubusercontent.com/building5/ansible-vault-tools/\
+              1a7c7817dd3052b077fb6809e303e46d7b711df1/ansible-vault-merge.sh"
+        dest: "{{ ansible_env.HOME }}/bin/ansible-vault-merge"
+        mode: 0755
+
+
+
+- name: Install dotfiles themselves
+  hosts: all
+  vars:
+    dotfiles_repo: jan-warchol/dotfiles.git
+
+  roles:
+    - known-hosts
+
+  tasks:
+
+    - name: check for dotfiles
+      stat: path={{ dotfiles_home }}
+      register: dotfiles
+
+    # My dotfiles installation script is not idempotent, so we must skip
+    # installation tasks if the dotfiles are already present.
+    # TODO
+    # Note that I initially clone using https and later change the protocol
+    # to SSH.  This is because my SSH keys may not be present when cloning,
+    # and because I need different urls for work account SSH configuration.
+    - name: clone dotfiles
+      git:
+        repo: "{{ github_url }}{{ dotfiles_repo }}"
+        dest: "{{ dotfiles_home }}"
+        version: devel
+        force: no
+      when: dotfiles.stat.exists == false
+
+    - name: configure git user email
+      git_config:
+        key: user.email
+        value: jan.warchol@gmail.com
+        repo: "{{ dotfiles_home }}"
+
+    - name: install dotfiles
+      shell: >
+        {{ dotfiles_home }}/.install-dotfiles.sh
+        creates=~/.config/dotfiles-git-dir
+      when: dotfiles.stat.exists == false
+      register: dotfiles_installation
+
+    - name: report installation results
+      debug: var=dotfiles_installation.stdout_lines
+      when: dotfiles_installation.changed
+
+    - name: template locations file
+      copy:
+        content: |
+          export FZF_HOME={{ fzf_home }}
+          export FZF_HISTORY={{ fzf_history }}
+          export FZF_VIM_HISTORY={{ fzf_vim_history }}
+          export DOTFILES_HOME={{ dotfiles_home }}
+          export ANSIBLE_SETUP_PATH={{ ansible_setup_path }}
+          export PASSWORD_STORE_DIR={{ passwordstore_path }}
+        dest: ~/.config/bash/00-paths-override.sh
+
+    - name: let git ignore changes in README
+      command: git update-index --assume-unchanged ~/README.md
+      environment:
+        GIT_DIR: "{{ dotfiles_home }}"
+        GIT_WORK_TREE: "{{ ansible_env.HOME }}"
+      register: git_status
+      failed_when:
+        - git_status is failed
+        - "'Unable to mark file README.md' not in git_status.stderr"
+
+      # I don't want README (meant for github) to pollute my actual home dir
+    - name: hide dotfiles README
+      shell: mv --backup=numbered ~/README.md ~/.README.md
+      register: mv_status
+      changed_when: not mv_status is failed
+      failed_when:
+        - mv_status is failed
+        - "'No such file or directory' not in mv_status.stderr"
+
+
+
+- name: Setup Vim
+  hosts: all
+  tags: vim
+  tasks:
+
+    - name: add neovim PPA
+      apt_repository:
+        repo: ppa:neovim-ppa/stable
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "neovim"
+      become: yes
+
+    - name: Install vim and neovim
+      apt:
+        name:
+          - vim-gnome  # default `vim` package doesn't have clipboard support
+          - neovim
+      become: yes
+
+    - name: ensure config directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
+        state: directory
+      with_items:
+        - .local/share/nvim/site/autoload  # for vim-plug in neovim
+        - .vim/autoload  # for vim-plug in vim
+        - .vim/swap  # global dir for swapfiles
+        - .vim/backup  # global dir for backup files
+        - .vim/colors  # for colorschemes
+
+    # The nice thing about vim-plug (https://github.com/junegunn/vim-plug)
+    # is that it can be installed just by downloading one file.
+    - name: install vim-plug for vim and neovim
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: "{{ item }}"
+      loop:
+        - "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+        - "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
+
+    - name: install selenized color palette
+      get_url:
+        url: "https://raw.githubusercontent.com/jan-warchol/selenized/\
+              master/editors/vim/colors/selenized.vim"
+        dest: "{{ ansible_env.HOME }}/.vim/colors/selenized.vim"
+        force: yes
+
+    - name: install plugins (only first time)
+      shell: vim +PlugInstall +qall creates={{ ansible_env.HOME }}/.vim/plugged
+
+
+
+- name: Install FZF
+  hosts: all
+  tags: fzf
+  tasks:
+
+      # fzf isn't available in Ubuntu repos - configure Debian Buster source
+      # (unless we're already on Debian)
+    - when: ansible_distribution != "Debian"
+      become: yes
+      block:
+
+        - name: add debian buster apt key
+          apt_key:
+            url: "https://ftp-master.debian.org/keys/release-10.asc"
+
+        - name: add debian buster apt repo
+          apt_repository:
+            repo: "deb http://deb.debian.org/debian buster main"
+            filename: debian-buster
+            update_cache: no  # FIXME I'm getting an error (only on first try)
+
+        - name: lower apt priority for buster packages
+          copy:
+            dest: /etc/apt/preferences.d/01-debian-buster.pref
+            content: |
+              # only use buster repos if package is unavailable elsewhere
+              Package: *
+              Pin: release n=buster
+              Pin-Priority: 200
+
+    - name: install fzf
+      apt:
+        name: fzf
+        update_cache: yes  # FIXME should be handled in task adding repo
+      become: yes
+
+    - name: get customized fzf repo
+      git:
+        repo: "{{ github_url }}jan-warchol/fzf"
+        dest: "{{ fzf_home }}"
+
+    - name: add upstream to fzf repo
+      blockinfile:
+        block: |
+          [remote "upstream"]
+                  url = https://github.com/junegunn/fzf.git
+                  fetch = +refs/heads/*:refs/remotes/upstream/*
+        dest: "{{ fzf_home }}/.git/config"
+
+    - name: ensure directories exist
+      file:
+        dest: "{{ ansible_env.HOME }}/data/fzf/"
+        state: directory
+        mode: 0700
+
+    - name: ensure fzf history file exists
+      copy:
+        dest: "{{ fzf_history }}"
+        content: ""
+        force: no

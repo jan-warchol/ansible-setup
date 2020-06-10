@@ -1,8 +1,8 @@
-- name: system-wide configuration
+- name: System-wide configuration
   hosts: all
   become: yes
   tasks:
-    
+
     # locale sent over SSH may be missing on target machine, which is causing
     # endless annoying warnings (and sometimes even errors)
     - name: stop SSH from sending locale
@@ -11,3 +11,10 @@
         state: absent
         dest: /etc/ssh/ssh_config
 
+    - name: Remove unwanted parts of MOTD
+      file:
+        dest: "/etc/update-motd.d/{{ item }}"
+        state: absent
+      loop:
+        - 10-help-text
+        - 80-livepatch

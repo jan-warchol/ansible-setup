@@ -1,0 +1,1 @@
+vagrant-test  ansible_user=vagrant ansible_host=ubuntu-bionic.local

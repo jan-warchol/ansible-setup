@@ -1,0 +1,207 @@
+- name: Basic system-wide software installation
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Add official git PPA
+      apt_repository:
+        repo: ppa:git-core/ppa
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "git"
+
+    - name: add asciinema PPA
+      apt_repository:
+        repo: ppa:zanchey/asciinema
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "asciinema"
+
+    - name: Install latest versions of apt packages
+      apt:
+        name:
+          - asciinema   # for recording teminal sessions
+          - build-essential
+          - flip
+          - git
+          - htop
+          - ipython
+          - jq  # for manipulating json
+          - gnupg
+          - openssh-server
+          - pandoc  # for diffing binary documents
+          - sshfs
+          - ranger
+          - tmux
+          - trash-cli
+          - tree
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+
+
+
+- name: User-level software installation
+  hosts: all
+  tasks:
+
+      # Officially recommended replacement for deprecated git filter-branch
+    - name: download git filter-repo
+      get_url:
+        url: https://raw.githubusercontent.com/newren/git-filter-repo/master/git-filter-repo
+        dest: "{{ ansible_env.HOME }}/bin/git-filter-repo"
+        mode: 0755
+
+    - name: download tig commit picker
+      get_url:
+        url: https://raw.githubusercontent.com/jonas/tig/master/contrib/tig-pick
+        dest: "{{ ansible_env.HOME }}/bin/tgp"
+        mode: 0755
+
+
+
+- name: Setup Python environment
+  hosts: all
+  become: yes
+  tags: python
+  tasks:
+
+    - name: add PPA with extra python versions
+      apt_repository:
+        repo: ppa:deadsnakes/ppa
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "python-deadsnakes"
+
+      # NEVER mix pip installation methods (e.g. via apt and pip), see
+      # https://github.com/pypa/pip/issues/5221#issuecomment-382069604
+    - name: install distro python apt packages
+      apt:
+        name:
+          - "{{ item }}-pip"  # may not be present by default
+          - "{{ item }}-setuptools"  # required to install some pip pkgs
+          - "{{ item }}-dev"
+          - "{{ item }}-virtualenv"
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+      loop:
+        - python
+        - python3
+
+      # separate task because pkgs there use a different naming scheme
+    - name: install additional python versions from deadsnakes
+      apt:
+        name:
+          - "{{ item }}"
+          - "{{ item }}-dev"
+          - "{{ item }}-venv"
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+      loop:
+        - python3.7
+
+      # unfortunately pip needs to be installed with
+      # python3.7 -m pip install pip
+      # and then
+      # pip3.7 install --upgrade pip
+
+      # TODO: check if they are really needed, install with pip
+    - name: install python apt packages
+      apt:
+        name:
+          - python-numpy
+          - python-scipy
+          - python-matplotlib
+          - python-tk
+
+    - name: Install pip packages
+      pip:
+        name: termtosvg   # recording terminal sessions
+        executable: pip3
+
+
+
+- name: Install packages relevant to graphical desktop
+  hosts: all
+  become: yes
+  tags: desktop
+  vars:
+    bcompare_version: "4.3.4.24657"
+  tasks:
+
+    - name: add apt key for Google Chrome
+      apt_key:
+        data: "{{ lookup('file', 'apt-keys/google_linux_signing_key.asc') }}"
+
+    - name: add apt repository for Google Chrome
+      apt_repository:
+        repo: 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main'
+        filename: google-chrome
+
+    # https://github.com/odeke-em/drive/
+    # alternative project that may be worth checking out:
+    # https://github.com/gdrive-org/gdrive
+    - name: add Google Drive cli PPA
+      apt_repository:
+        repo: ppa:twodopeshaggy/drive
+        codename: "{{ dist_override | default(omit) }}"
+        filename: google-drive
+
+    - name: add redshift PPA
+      apt_repository:
+        repo: ppa:dobey/redshift-daily
+        codename: "{{ dist_override | default(omit) }}"
+        filename: redshift
+
+    - name: Install latest versions of apt packages
+      apt:
+        name:
+          - baobab
+          - dconf-cli
+          - dconf-editor   # desktop environment configuration
+          - drive   # CLI for google drive
+          - firefox   # make sure firefox is updated - my package manager
+                      # didn't want to update it on its own
+          - gitk
+          - google-chrome-stable
+          - gparted
+          - indicator-multiload
+          - kate
+          - keepass2
+          - xdotool   # library for auto-type in keepass
+          - libdvdread4   # DVD decryption
+            # at least one of these 3 packages is needed for okular to open pdfs
+          - libnotify-bin  # for system notifications
+          - kdelibs5-plugins
+          - kdelibs5-data
+          - oxygen-icon-theme
+          - okular
+          - redshift   # for adjusting screen color temperature
+          - usb-creator-gtk  # for creating USB drives for OS installation
+          - vim-gnome
+          - vlc
+          - stopwatch   # time tracking
+          - xbacklight   # changing screen brightness
+          - xsel   # copying and pasting from middle-mouse-button clipboard
+          - xclip   # accessing clipboard from cli, needed by pass
+          # - xserver-xorg-input-synaptics  # for managing touchpad
+          - gimp
+          #- guake
+          #- imagemagick
+          #- kompare
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: download Beyond Compare .deb file
+      get_url:
+        url:
+          "http://www.scootersoftware.com/\
+           bcompare-{{ bcompare_version }}_amd64.deb"
+        dest: /tmp/bcompare-{{ bcompare_version }}.deb
+
+    - name: install Beyond Compare
+      apt: deb=/tmp/bcompare-{{ bcompare_version }}.deb

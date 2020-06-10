@@ -2,12 +2,16 @@
   gather_facts: yes  # we need ansible_user_id
   hosts: all
   vars:
-    # loaded from host_vars:
-    # - passwordstore_path
-    # - ssh_key_name
-    key_passphrase: "{{ lookup('passwordstore', 'ssh/pass/' + ssh_key_name + ' create=true') }}"
+    key_passphrase:
+      "{{ lookup('passwordstore', 'ssh/pass/' + ssh_key_name + ' create=true') }}"
 
   tasks:
+
+    - assert:
+        that:
+          - ssh_key_name is defined
+          - passwordstore_path is defined
+        fail_msg: Some variables that should be defined in host_vars are missing.
 
     - name: ensure directories exist
       file:
