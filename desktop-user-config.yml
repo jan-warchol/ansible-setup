@@ -109,7 +109,10 @@
           file://{{ ansible_env.HOME }}/src/code-samples code-samples
           file://{{ ansible_env.HOME }}/src/selenized selenized
           file://{{ ansible_env.HOME }}/src/limestone-colors limestone
+          file://{{ ansible_env.HOME }}/src/organizer2 organizer2
+          file://{{ ansible_env.HOME }}/src/przepisy-programisty przepisy
         dest: ~/.config/gtk-3.0/bookmarks
+        force: no
 
     - name: remove default XDG directories
       # cannot use file module because I want to delete only empty directories
