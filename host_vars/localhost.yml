@@ -1,0 +1,4 @@
+# password management playbook includes localhost, so we have to override
+# global variable definition because there is no such entry as hosts/localhost-user
+# in password-store
+ansible_become_password: ""
