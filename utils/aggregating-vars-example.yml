@@ -1,0 +1,36 @@
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: do something
+      command: echo {{ inventory_hostname }}
+      register: result
+      changed_when: inventory_hostname == play_hosts[1]
+
+    - debug: var=result.changed
+
+- hosts: localhost
+  tasks:
+
+    - name: aggregate host results using set_fact
+      set_fact:
+        aggregated_result: "{{ aggregated_result + [hostvars[item].result.changed] }}"
+      loop: "{{ groups['all'] }}"
+      vars:
+        aggregated_result: []
+
+    - debug: var=aggregated_result
+
+    - debug: msg="Some host matched"
+      when: True in aggregated_result
+
+    - name: aggregate host results using debug
+      debug: var=hostvars[item].result.changed
+      register: aggregated_result
+      changed_when: hostvars[item].result.changed
+      loop: "{{ groups['all'] }}"
+
+    - debug: var=aggregated_result
+
+    - debug: msg="Some host matched"
+      when: True in aggregated_result.results | map(attribute='changed') | list

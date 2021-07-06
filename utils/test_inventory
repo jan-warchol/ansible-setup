@@ -1,0 +1,2 @@
+foo  ansible_connection=local  ansible_become_password=""
+bar  ansible_connection=local  ansible_become_password=""
