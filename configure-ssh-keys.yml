@@ -4,6 +4,10 @@
   vars:
     key_passphrase:
       "{{ lookup('passwordstore', 'ssh/pass/' + ssh_key_name + ' create=true') }}"
+    key_type:
+      "{{ ssh_key_suffix | regex_search('rsa|ed25519|ecdsa') or 'rsa' }}"
+    key_size:
+      "{{ '4096' if key_type == 'rsa' else omit }}"
 
   tasks:
 
@@ -72,7 +76,8 @@
       user:
         name: "{{ ansible_user_id }}"
         generate_ssh_key: yes
-        ssh_key_bits: 4096
+        ssh_key_type: "{{ key_type }}"
+        ssh_key_bits: "{{ key_size }}"
         ssh_key_file: .ssh/keys/{{ ssh_key_name }}
         ssh_key_comment: "{{ ssh_key_name }}"
         ssh_key_passphrase: "{{ key_passphrase }}"
@@ -93,16 +98,40 @@
 
     - name: allow target hosts to ssh into each other
       authorized_key:
-        key: "{{ lookup('file', item) }}"
+        key: "{{ lookup('file', 'ssh-public-keys/' + hostvars[item].ssh_key_name + '.pub') }}"
         user: "{{ ansible_user_id }}"
-      with_fileglob:
-        - "ssh-public-keys/*.pub"
+      loop: "{{ play_hosts }}"
 
-    - name: Manual key update
-      when: user_info is changed  # it would be annoying to run this always
+    - debug: var=user_info.ssh_public_key
+      when: user_info is changed
+
+
+- name: Update ansible control machine
+  hosts: localhost
+  tasks:
+
+    - name: aggregate user_info status from all hosts
+      set_fact:
+        hosts_changed: "{{ hosts_changed + [hostvars[item].user_info.changed] }}"
+      when: hostvars[item].user_info is defined
+      loop: "{{ groups['all'] }}"
+      vars:
+        hosts_changed: []
+
+      # it would be annoying to run this always
+    - name: Update repos and services with new key info
+      when: True in hosts_changed
       block:
 
-        - debug: var=user_info.ssh_public_key
+        - name: push new key passphrase(s) to passwordstore
+          shell:
+            cmd: git push
+            chdir: "{{ passwordstore_path }}"
+
+        - name: commit public key(s) to ansible-setup repo
+          shell: >
+            git add ssh-public-keys/ &&
+            git commit -m "Add new hosts' public key(s)" -- ssh-public-keys
 
         - name: update public keys in hosting services
           # use default browser
@@ -111,5 +140,6 @@
             - "https://bitbucket.org/account/user/%7Be4e0b20b-ddd2-43b6-b3dc-fc37b2039717%7D/ssh-keys/"
             - "https://github.com/settings/keys"
             - "https://gitlab.com/profile/keys"
-          run_once: yes
-          delegate_to: localhost
+
+        - name: push public key(s) to ansible-setup repo
+          shell: git push
