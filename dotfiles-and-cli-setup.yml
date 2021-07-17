@@ -29,8 +29,12 @@
 
     - name: ensure directories exist
       file:
-        dest: "{{ ansible_env.HOME }}/bin"
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
         state: directory
+        mode: 0700
+      loop:
+        - bin
+        - .config/htop
 
       # required by git configuration
     - name: download smartless
@@ -48,6 +52,12 @@
         dest: "{{ ansible_env.HOME }}/bin/ansible-vault-merge"
         mode: 0755
 
+      # cannot be tracked in dotfiles because it updates every time I change the view
+    - name: template htop configuration
+      template:
+        src: htoprc.j2
+        dest: "{{ ansible_env.HOME }}/.config/htop/htoprc"
+      tags: htop
 
 
 - name: Install dotfiles themselves
