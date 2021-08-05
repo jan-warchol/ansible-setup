@@ -1,0 +1,58 @@
+- name: Install software for modifying keyboardio layouts
+  hosts: all
+  tasks:
+
+    - name: install apt packages
+      apt:
+        name: curl  # required by Kaleidoscope
+      become: yes
+
+      # this is needed for customizing firmware on my keyboardio
+    - name: configure udev rules for keyboardio
+      copy:
+        src: 60-kaleidoscope.rules
+        dest: /etc/udev/rules.d/60-kaleidoscope.rules
+        mode: 0755
+      become: yes
+
+    - name: get latest chrysalis version
+      latest_github_tag:
+        repo: https://github.com/keyboardio/Chrysalis
+      register: chrysalis
+      vars:
+        ansible_python_interpreter: python3
+
+    - name: download & install chrysalis
+      get_url:
+        url:
+          "https://github.com/keyboardio/Chrysalis/\
+           releases/download/v{{ chrysalis.latest_version }}/\
+           Chrysalis-{{ chrysalis.latest_version }}.AppImage"
+        dest: "{{ ansible_env.HOME }}/bin/chrysalis"
+        mode: 0755
+
+    - name: get latest arduino version
+      latest_github_tag:
+        repo: https://github.com/arduino/Arduino
+      register: arduino
+      vars:
+        ansible_python_interpreter: python3
+
+    - name: download arduino
+      unarchive:
+        remote_src: yes
+        src:
+          "https://downloads.arduino.cc/\
+           arduino-{{ arduino.latest_version }}-linux64.tar.xz"
+        dest: /usr/local
+      become: yes
+
+    - name: rename arduino directory
+      command:
+        cmd: mv /usr/local/arduino-{{ arduino.latest_version }} /usr/local/arduino
+        creates: /usr/local/arduino
+      become: yes
+
+    - name: install arduino
+      command: /usr/local/arduino/install.sh creates=/usr/local/bin/arduino
+      become: yes
