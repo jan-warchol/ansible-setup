@@ -105,6 +105,12 @@
       debug: var=dotfiles_installation.stdout_lines
       when: dotfiles_installation.changed
 
+    - name: clone git tools
+      git:
+        repo: "{{ github_url }}jan-warchol/git-tools.git"
+        dest: "{{ git_tools_path }}"
+        force: no
+
     - name: template locations file
       copy:
         content: |
@@ -114,6 +120,7 @@
           export DOTFILES_HOME={{ dotfiles_home }}
           export ANSIBLE_SETUP_PATH={{ ansible_setup_path }}
           export PASSWORD_STORE_DIR={{ passwordstore_path }}
+          export GIT_TOOLS={{ git_tools_path }}
         dest: ~/.config/bash/00-paths-override.sh
 
     - name: let git ignore changes in README

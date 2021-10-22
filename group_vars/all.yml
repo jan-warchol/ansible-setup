@@ -16,6 +16,7 @@ fzf_vim_history:    "{{ ansible_env.HOME }}/data/fzf/vim"
 dotfiles_home:      "{{ ansible_env.HOME }}/src/dotfiles.git"
 ansible_setup_path: "{{ ansible_env.HOME }}/src/ansible-setup"
 passwordstore_path: "{{ ansible_env.HOME }}/src/password-store"
+git_tools_path:     "{{ ansible_env.HOME }}/src/git-ninja-tools"
 
 # consider including:
 # - _FASD_DATA
