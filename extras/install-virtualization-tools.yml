@@ -1,57 +1,32 @@
-- hosts: all
+- name: Install tools for managing development VMs
+  hosts: all
+  become: yes
   tasks:
 
-    # See http://xmodulo.com/how-to-install-or-upgrade-virtualbox-on-ubuntu-or-debian.html
-
-    - name: add VirtualBox repo apt key
+    - name: add apt keys
       apt_key:
-        data: "{{ lookup('file', 'apt-keys/oracle_apt_key.asc') }}"
-      become: yes
+        data: "{{ lookup('file', item) }}"
+      loop:
+        - ../apt-keys/oracle_apt_key.asc
+        - ../apt-keys/hashicorp_archive_key.asc
 
-      # https://tecadmin.net/install-oracle-virtualbox-on-ubuntu/
-    - name: add VirtualBox PPA
+    - name: add VirtualBox repo
       apt_repository:
         repo:
           "deb http://download.virtualbox.org/virtualbox/debian \
            {{ dist_override | default(ansible_distribution_release) }} contrib"
-        filename: "virtualbox"
-      become: yes
+        filename: virtualbox
 
-    - name: install VirtualBox
+    - name: add Vagrant repo
+      apt_repository:
+        repo:
+          "deb https://apt.releases.hashicorp.com \
+          {{ dist_override | default(ansible_distribution_release) }} main"
+        filename: hashicorp
+
+    - name: install VirtualBox and Vagrant
       apt:
         name:
-          - virtualbox-6.1
-          - virtualbox-guest-dkms
+          - virtualbox
+          - vagrant
         state: latest
-      become: yes
-
-
-
-    - name: check whether Vagrant is installed
-      shell: which vagrant
-      register: vagrant_check
-      failed_when: vagrant_check.rc > 1
-      changed_when: vagrant_check.rc == 1
-
-    - when: vagrant_check.rc == 1
-      block:
-
-        # As of 2020, official apt repos keep serving ancient Vagrant, and there's
-        # no PPA, so we scrape github tags and download .deb from vagrant website.
-
-        - name: check latest Vagrant version
-          latest_github_tag:
-            repo: https://github.com/hashicorp/vagrant
-          register: vagrant
-
-        - name: download Vagrant .deb file
-          get_url:
-            url:
-              "https://releases.hashicorp.com/\
-               vagrant/{{ vagrant.latest_version }}/\
-               vagrant_{{ vagrant.latest_version }}_x86_64.deb"
-            dest: /tmp/vagrant-{{ vagrant.latest_version }}.deb
-
-        - name: install Vagrant
-          apt: deb=/tmp/vagrant-{{ vagrant.latest_version }}.deb
-          become: yes
