@@ -5,7 +5,7 @@
     key_passphrase:
       "{{ lookup('passwordstore', 'ssh/pass/' + ssh_key_name + ' create=true') }}"
     key_type:
-      "{{ ssh_key_suffix | regex_search('rsa|ed25519|ecdsa') or 'rsa' }}"
+      "{{ ssh_key_suffix | default('') | regex_search('rsa|ed25519|ecdsa') or 'rsa' }}"
     key_size:
       "{{ '4096' if key_type == 'rsa' else omit }}"
 
