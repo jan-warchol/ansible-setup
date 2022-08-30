@@ -28,14 +28,9 @@
   tags: desktop
   tasks:
 
-    - name: add apt key for spotify
-      apt_key:
-        data: "{{ lookup('file', 'apt-keys/spotify_apt_key.asc') }}"
-
-    - name: add apt repository for spotify
-      apt_repository:
-        repo: 'deb http://repository.spotify.com stable non-free'
-        filename: spotify
+    - name: Install extra GUI snap packages
+      snap:
+        name: spotify
 
     # https://github.com/odeke-em/drive/
     # alternative project that may be worth checking out:
@@ -67,7 +62,6 @@
           - kompare
           - okular
           - redshift   # for adjusting screen color temperature
-          - spotify-client
           - stopwatch   # time tracking
           - xdotool   # library for auto-type in keepass
         state: latest
