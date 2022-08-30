@@ -32,19 +32,19 @@
       snap:
         name: spotify
 
-    # https://github.com/odeke-em/drive/
-    # alternative project that may be worth checking out:
-    # https://github.com/gdrive-org/gdrive
-    - name: add Google Drive cli PPA
-      apt_repository:
-        repo: ppa:twodopeshaggy/drive
-        codename: "{{ dist_override | default(omit) }}"
-        filename: google-drive
+    # # https://github.com/odeke-em/drive/
+    # # alternative project that may be worth checking out:
+    # # https://github.com/gdrive-org/gdrive
+    # - name: add Google Drive cli PPA
+    #   apt_repository:
+    #     repo: ppa:twodopeshaggy/drive
+    #     codename: "{{ dist_override | default(omit) }}"
+    #     filename: google-drive
 
     - name: Install extra GUI apt packages
       apt:
         name:
-          - drive   # CLI for google drive
+          # - drive   # CLI for google drive
           - gimp
           - gitk
           - gparted
