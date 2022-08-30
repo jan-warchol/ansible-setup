@@ -16,18 +16,9 @@
   hosts: all
   tasks:
 
-    - name: add fasd PPA
-      apt_repository:
-        repo: ppa:aacebedo/fasd
-        codename: "{{ dist_override | default(omit) }}"
-        filename: "fasd"
-      become: yes
-
     - name: install apt dependencies
       apt:
-        name:
-          - git
-          - fasd
+        name: git
       become: yes
 
     - name: ensure directories exist
@@ -38,6 +29,12 @@
       loop:
         - bin
         - .config/htop
+
+    - name: download fasd
+      get_url:
+        url: https://raw.githubusercontent.com/clvv/fasd/master/fasd
+        dest: "{{ ansible_env.HOME }}/bin/fasd"
+        mode: 0755
 
       # required by git configuration
     - name: download smartless
