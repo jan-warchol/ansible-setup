@@ -3,7 +3,7 @@ ansible_become_password:
 
 # Naming keys with user and host makes them much easier to manage. Optional
 # suffix can be used for further disambiguation or specifying key type.
-ssh_key_name: "{{ ansible_user }}_{{ ansible_hostname }}{{ ssh_key_suffix }}"
+ssh_key_name: "{{ ansible_user }}@{{ ansible_hostname }}{{ ssh_key_suffix }}"
 
 # For cloning my repositories - use SSH by default (assuming configured keys).
 # Override by changing to "https://github.com/".

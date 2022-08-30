@@ -1,0 +1,61 @@
+- name: Setup Python environment
+  hosts: all
+  become: yes
+  tags: python
+  tasks:
+
+    - name: add PPA with extra python versions
+      apt_repository:
+        repo: ppa:deadsnakes/ppa
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "python-deadsnakes"
+
+      # NEVER mix pip installation methods (e.g. via apt and pip), see
+      # https://github.com/pypa/pip/issues/5221#issuecomment-382069604
+    - name: install distro python apt packages
+      apt:
+        name:
+          - "{{ item }}-pip"  # may not be present by default
+          - "{{ item }}-setuptools"  # required to install some pip pkgs
+          - "{{ item }}-dev"
+          - "{{ item }}-virtualenv"
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+      loop:
+        - python
+        - python3
+
+      # separate task because pkgs there use a different naming scheme
+    - name: install additional python versions from deadsnakes
+      apt:
+        name:
+          - "{{ item }}"
+          - "{{ item }}-dev"
+          - "{{ item }}-venv"
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+      loop:
+        - python3.7
+
+      # unfortunately pip needs to be installed with
+      # python3.7 -m pip install pip
+      # and then
+      # pip3.7 install --upgrade pip
+
+      # TODO: check if they are really needed, install with pip
+    - name: install python apt packages
+      apt:
+        name:
+          - python-numpy
+          - python-scipy
+          - python-matplotlib
+          - python-tk
+
+    - name: Install pip packages
+      pip:
+        name: termtosvg   # recording terminal sessions
+        executable: pip3

@@ -1,10 +1,16 @@
+
+# Bootstrap (credentials and ansible setup itself)
 - import_playbook: configure-ssh-keys.yml
-- import_playbook: general-system-config.yml
-- import_playbook: dotfiles-and-cli-setup.yml
-- import_playbook: install-packages.yml
-- import_playbook: desktop-user-config.yml
-- import_playbook: cli-install-ansible-setup.yml
 - import_playbook: setup-password-manager.yml
-- import_playbook: extras/install-docker.yml
-- import_playbook: extras/install-virtualization-tools.yml
-- import_playbook: extras/limestone-selenized-dev-environment.yml
+- import_playbook: setup-ansible-control-host.yml
+
+# Actual configuration and software installation
+- import_playbook: general-system-config.yml
+- import_playbook: install-essential-packages.yml
+- import_playbook: dotfiles-and-cli-setup.yml
+- import_playbook: desktop-user-config.yml
+- import_playbook: install-extra-packages.yml
+
+# - import_playbook: extras/install-docker.yml
+# - import_playbook: extras/install-virtualization-tools.yml
+# - import_playbook: extras/limestone-selenized-dev-environment.yml

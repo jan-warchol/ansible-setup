@@ -5,7 +5,7 @@
     key_passphrase:
       "{{ lookup('passwordstore', 'ssh/pass/' + ssh_key_name + ' create=true') }}"
     key_type:
-      "{{ ssh_key_suffix | regex_search('rsa|ed25519|ecdsa') or 'rsa' }}"
+      "{{ ssh_key_suffix | default('') | regex_search('rsa|ed25519|ecdsa') or 'rsa' }}"
     key_size:
       "{{ '4096' if key_type == 'rsa' else omit }}"
 
@@ -25,23 +25,6 @@
       loop:
         - .ssh
         - .ssh/keys
-
-    - name: copy private keys from passwordstore
-      copy:
-        dest: "{{ ansible_env.HOME }}/.ssh/keys/{{ item }}"
-        content: "{{ lookup('passwordstore', 'ssh/priv/' + item + ' returnall=true') }}"
-        mode: 0400
-      loop:
-        - jw_personal_1
-      no_log: yes
-
-    - name: copy public keys from passwordstore
-      copy:
-        dest: "{{ ansible_env.HOME }}/.ssh/keys/{{ item }}.pub"
-        content: "{{ lookup('passwordstore', 'ssh/pub/' + item + ' returnall=true') }}"
-        mode: 0400
-      loop:
-        - jw_personal_1
 
       # Allow to either use a key that already exists on the machine,
       # or create a new one with a unique name (to avoid confusion).

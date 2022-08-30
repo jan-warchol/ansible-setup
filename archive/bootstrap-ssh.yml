@@ -1,0 +1,54 @@
+- name: Configure SSH keys on the new machine
+  gather_facts: no
+  hosts: all
+
+  tasks:
+
+    - name: check reachability
+      shell: /bin/true
+      register: reachability
+      ignore_unreachable: yes
+      vars:
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=yes'
+    
+    - debug: var=reachability
+    - set_fact:
+        host_key_changed: >
+          {{ reachability.unreachable | default(False)
+          and 'Could not resolve' not in reachability.msg }}
+
+        # "msg": "Failed to connect to the host via ssh: Warning: the ECDSA host key for 'jw-t430s.local' differs from the key for the IP address '192.168.0.122'\nOffending key for IP in /home/jan/.ssh/known_hosts:4\nMatching host key in /home/jan/.ssh/known_hosts:22\r\nExiting, you have requested strict checking.\r\nHost key verification failed.",
+        # "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname jw-lat7300.local: Name or service not known"
+
+
+- name: Configure SSH keys on the new machine
+  gather_facts: yes  # we need localhost's ansible_hostname
+  hosts: localhost
+
+- name: Configure SSH keys on the new machine
+  gather_facts: yes  # we need ansible_user_id
+  hosts: all
+  vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_password: "{{ ansible_become_password }}"
+    control_machine: "{{ hostvars['localhost'].ansible_hostname }}"
+    control_machine_key_name: "{{ hostvars[control_machine].ssh_key_name }}.pub"
+
+  tasks:
+    - debug: var=host_key_changed
+
+    - name: setup ssh access
+      authorized_key:
+        key: "{{ lookup('file', 'ssh-public-keys/' + control_machine_key_name) }}"
+        user: "{{ ansible_user_id }}"
+
+    # seems broken...
+    - name: remove old host key
+      known_hosts:
+        name: "{{ item }}"
+        key: "{{ item}} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
+      delegate_to: localhost
+      loop:
+        - "{{ ansible_hostname }}"
+        - "{{ ansible_default_ipv4.address }}"
+      # when: host_key_changed | bools

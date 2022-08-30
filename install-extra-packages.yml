@@ -1,0 +1,82 @@
+- name: Basic system-wide software installation
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: add asciinema PPA
+      apt_repository:
+        repo: ppa:zanchey/asciinema
+        codename: "{{ dist_override | default(omit) }}"
+        filename: "asciinema"
+
+    - name: Install extra terminal apt packages
+      apt:
+        name:
+          - asciinema   # for recording teminal sessions
+          - ipython3   # interactive python shell
+          - pandoc   # for diffing binary documents
+          - sshfs
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+
+
+- name: Install packages relevant to graphical desktop
+  hosts: all
+  become: yes
+  tags: desktop
+  tasks:
+
+    - name: Install extra GUI snap packages
+      snap:
+        name: spotify
+
+    # # https://github.com/odeke-em/drive/
+    # # alternative project that may be worth checking out:
+    # # https://github.com/gdrive-org/gdrive
+    # - name: add Google Drive cli PPA
+    #   apt_repository:
+    #     repo: ppa:twodopeshaggy/drive
+    #     codename: "{{ dist_override | default(omit) }}"
+    #     filename: google-drive
+
+    - name: Install extra GUI apt packages
+      apt:
+        name:
+          # - drive   # CLI for google drive
+          - gimp
+          - gitk
+          - gparted
+          - guake
+          - imagemagick
+          - indicator-multiload
+          - kate
+          - keepass2
+          - kompare
+          - okular
+          - redshift   # for adjusting screen color temperature
+          - stopwatch   # time tracking
+          - xdotool   # library for auto-type in keepass
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Check Beyond Compare website for version info
+      shell: >
+        wget https://www.scootersoftware.com/download.php -O-
+      register: bcompare
+      failed_when: bcompare.rc > 0
+      changed_when: False
+
+    - set_fact:
+        bcompare_deb: "{{ bcompare.stdout | regex_search('bcompare-.*_amd64.deb') }}"
+
+    - name: download Beyond Compare .deb file
+      get_url:
+        url: http://www.scootersoftware.com/{{ bcompare_deb }}
+        dest: /tmp/{{ bcompare_deb }}
+
+    - name: install Beyond Compare
+      apt: deb=/tmp/{{ bcompare_deb }}
