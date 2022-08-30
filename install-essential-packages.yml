@@ -1,0 +1,76 @@
+- name: Essential system-wide software installation
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Add official git PPA
+      apt_repository:
+        repo: ppa:git-core/ppa
+        codename: "{{ dist_override | default(omit) }}"
+        filename: git
+
+    - name: Install apt system packages
+      apt:
+        name:
+          - build-essential
+          - flip
+          - git
+          - htop
+          - jq   # for manipulating json
+          - openssh-server
+          - ranger
+          - tmux
+          - trash-cli
+          - tree
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600
+
+
+- name: Install essential packages relevant to graphical desktop
+  hosts: all
+  become: yes
+  tags: desktop
+  tasks:
+
+    - name: add apt keys
+      apt_key:
+        data: "{{ lookup('file', item) }}"
+      loop:
+        - apt-keys/microsoft-apt-signing-key.asc
+        - apt-keys/google_linux_signing_key.asc
+
+    - name: add apt repository for vscode
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        codename: "{{ dist_override | default(omit) }}"
+        filename: vscode
+
+    - name: add apt repository for Google Chrome
+      apt_repository:
+        repo: 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main'
+        filename: google-chrome
+
+    - name: Install GUI apt packages
+      apt:
+        name:
+          - baobab
+          - code   # Visual Studio Code
+          - dconf-cli   # desktop environment configuration
+          - dconf-editor   # desktop environment configuration
+          - firefox   # make sure firefox is updated - my package manager
+                      # didn't want to update it on its own
+          - google-chrome-stable
+          - gparted   # partition management
+          - libnotify-bin  # for system notifications
+          - usb-creator-gtk  # for creating USB drives for OS installation
+          - vlc
+          - solaar   # for configuring my logitech mouse
+          - xbacklight   # changing screen brightness
+          - xsel   # copying and pasting from middle-mouse-button clipboard
+          - xclip   # accessing clipboard from cli, needed by pass
+        state: latest
+        install_recommends: no
+        update_cache: yes
+        cache_valid_time: 3600

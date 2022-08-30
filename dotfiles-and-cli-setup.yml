@@ -9,6 +9,9 @@
 # managed by some other means.  In particular, settings that differ between
 # accounts live in `user-config` role.
 
+
+# Requirements: ssh key with access to github configured.
+
 - name: Install dotfiles dependencies
   hosts: all
   tasks:
@@ -58,6 +61,13 @@
         src: htoprc.j2
         dest: "{{ ansible_env.HOME }}/.config/htop/htoprc"
       tags: htop
+
+      # Officially recommended replacement for deprecated git filter-branch
+    - name: download git filter-repo
+      get_url:
+        url: https://raw.githubusercontent.com/newren/git-filter-repo/master/git-filter-repo
+        dest: "{{ ansible_env.HOME }}/bin/git-filter-repo"
+        mode: 0755
 
 
 - name: Install dotfiles themselves
@@ -159,7 +169,7 @@
     - name: Install vim and neovim
       apt:
         name:
-          - vim-gnome  # default `vim` package doesn't have clipboard support
+          - vim-gtk3  # default `vim` package doesn't have clipboard support
           - neovim
       become: yes
 

@@ -10,7 +10,11 @@
       become: yes
 
     - name: install latest Ansible
-      apt: name=ansible state=latest
+      apt:
+        name:
+          - ansible
+          - python3-pip
+        state: latest
       become: yes
 
     - name: clone ansible-system-setup repository

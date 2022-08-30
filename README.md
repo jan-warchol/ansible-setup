@@ -13,6 +13,14 @@ Playbook organization
   etc.)
 
 
+Playbook dependencies
+---------------------
+
+dotfiles playbook shouldn't require secrets on target, and on control machine
+only for sudo password.
+Everything should be possible to run without SSH access configured, as long as
+github_url variable is set.
+
 
 Requirements
 ------------
@@ -26,17 +34,25 @@ would be interested I'm open to pull requests.
 Prep - remote installation
 ---------------------------
 
+Assumptions: passwordless ssh access to the target machine
+
 On target machine:
 
+    sudo apt update
     sudo apt install openssh-server
     # show host fingerprint for verification
     ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub
 
 On control machine:
 
-    ssh-copy-id <target machine>
+    ssh-copy-id -i ~/.ssh/keys/<key file> <target machine>
 
 Also, add inventory file and host_vars for the new machine.
+user password in pass must match inventory_hostname
+host_vars must include ssh_key_name
+
+    pass edit hosts/<target_machine>-user
+
 
 Prep - local installation
 --------------------------
