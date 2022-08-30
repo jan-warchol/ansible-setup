@@ -41,12 +41,6 @@
         codename: "{{ dist_override | default(omit) }}"
         filename: google-drive
 
-    - name: add redshift PPA
-      apt_repository:
-        repo: ppa:dobey/redshift-daily
-        codename: "{{ dist_override | default(omit) }}"
-        filename: redshift
-
     - name: Install extra GUI apt packages
       apt:
         name:
