@@ -32,24 +32,3 @@
           aws_access_key_id = {{ aws_key_id }}
           aws_secret_access_key = {{ aws_secret_key }}
       no_log: true
-
-
-- name: Install kubernetes tools
-  hosts: all
-  become: yes
-  tasks:
-    - name: add kubernetes APT key
-      apt_key:
-        data: "{{ lookup('file', '../apt-keys/google-packages-signing-key.asc') }}"
-
-    - name: add kubernetes APT repository
-      apt_repository:
-        # why xenial is hardcoded in instructions from
-        # https://kubernetes.io/docs/tasks/tools/install-kubectl/ ?
-        repo: 'deb https://apt.kubernetes.io/ kubernetes-xenial main'
-        filename: kubernetes
-
-    - name: install kubectl
-      apt:
-        name: kubectl
-        state: latest
