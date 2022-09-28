@@ -18,7 +18,16 @@
 
     - name: install apt dependencies
       apt:
-        name: git
+        name:
+          - git
+          - fd-find
+      become: yes
+
+    - name: symlink fdfind to fd
+      file:
+        src: /usr/bin/fdfind
+        dest: /usr/bin/fd
+        state: link
       become: yes
 
     - name: ensure directories exist
