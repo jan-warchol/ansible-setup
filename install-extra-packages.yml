@@ -55,7 +55,6 @@
           - keepass2
           - kompare
           - okular
-          - redshift   # for adjusting screen color temperature
           - stopwatch   # time tracking
           - xdotool   # library for auto-type in keepass
         state: latest

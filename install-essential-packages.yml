@@ -55,7 +55,7 @@
     - name: Install GUI apt packages
       apt:
         name:
-          - baobab
+          - baobab   # disk usage analysis
           - code   # Visual Studio Code
           - dconf-cli   # desktop environment configuration
           - dconf-editor   # desktop environment configuration
@@ -64,9 +64,10 @@
           - google-chrome-stable
           - gparted   # partition management
           - libnotify-bin  # for system notifications
-          - usb-creator-gtk  # for creating USB drives for OS installation
-          - vlc
+          - redshift   # for adjusting screen color temperature
           - solaar   # for configuring my logitech mouse
+          - usb-creator-gtk  # for creating USB drives for OS installation
+          - vlc   # watching DVDs
           - xbacklight   # changing screen brightness
           - xsel   # copying and pasting from middle-mouse-button clipboard
           - xclip   # accessing clipboard from cli, needed by pass
