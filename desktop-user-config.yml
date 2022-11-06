@@ -160,7 +160,7 @@
         force: no
 
     - name: create desktop entry for GoLand
-      file:
+      copy:
         content: |
           [Desktop Entry]
           Version=1.0
