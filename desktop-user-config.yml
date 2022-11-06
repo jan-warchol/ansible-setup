@@ -29,6 +29,11 @@
     xdg_videos_dir: multimedia/filmy
 
   tasks:
+    # https://askubuntu.com/questions/1083913/what-does-ctrl-shift-e-do-while-typing-text
+    - name: disable ubuntu emoji keyboard shortcut
+      gsetting:
+        settings:
+          org.freedesktop.ibus.panel.emoji.hotkey: "['']"
 
     - name: ensure directories exist
       file:
