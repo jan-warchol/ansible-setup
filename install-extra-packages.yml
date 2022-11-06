@@ -24,13 +24,36 @@
 
 - name: Install packages relevant to graphical desktop
   hosts: all
-  become: yes
   tags: desktop
   tasks:
+
+      # this is needed for customizing firmware on my keyboardio
+      # TODO: reload udev: udevadm control --reload-rules && udevadm trigger
+    - name: configure udev rules for keyboardio
+      copy:
+        src: extras/60-kaleidoscope.rules
+        dest: /etc/udev/rules.d/60-kaleidoscope.rules
+        mode: 0755
+      become: yes
+
+    - name: check latest chrysalis version
+      latest_github_tag:
+        repo: https://github.com/keyboardio/Chrysalis
+      register: chrysalis
+
+    - name: download & install chrysalis
+      get_url:
+        url:
+          "https://github.com/keyboardio/Chrysalis/\
+           releases/download/v{{ chrysalis.latest_version }}/\
+           Chrysalis-{{ chrysalis.latest_version }}.AppImage"
+        dest: "{{ ansible_env.HOME }}/bin/chrysalis"
+        mode: 0755
 
     - name: Install extra GUI snap packages
       snap:
         name: spotify
+      become: yes
 
     # # https://github.com/odeke-em/drive/
     # # alternative project that may be worth checking out:
@@ -61,6 +84,7 @@
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
+      become: yes
 
     - name: Check Beyond Compare website for version info
       shell: >
@@ -79,3 +103,4 @@
 
     - name: install Beyond Compare
       apt: deb=/tmp/{{ bcompare_deb }}
+      become: yes
