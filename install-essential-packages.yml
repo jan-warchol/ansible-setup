@@ -13,6 +13,7 @@
       apt:
         name:
           - build-essential
+          - curl
           - flip
           - git
           - htop
