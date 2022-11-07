@@ -31,7 +31,7 @@
       # TODO: reload udev: udevadm control --reload-rules && udevadm trigger
     - name: configure udev rules for keyboardio
       copy:
-        src: extras/60-kaleidoscope.rules
+        src: 60-kaleidoscope.rules
         dest: /etc/udev/rules.d/60-kaleidoscope.rules
         mode: 0755
       become: yes

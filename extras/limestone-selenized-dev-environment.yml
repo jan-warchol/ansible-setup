@@ -22,12 +22,12 @@
 
     - name: install sublime apt key
       apt_key:
-        data: "{{ lookup('file', inventory_dir + '/apt-keys/sublime-apt-key.asc') }}"
+        data: "{{ lookup('file', 'apt-keys/sublime-apt-key.asc') }}"
       become: yes
 
     - name: install microsoft apt key
       apt_key:
-        data: "{{ lookup('file', inventory_dir + '/apt-keys/microsoft-apt-signing-key.asc') }}"
+        data: "{{ lookup('file', 'apt-keys/microsoft-apt-signing-key.asc') }}"
       become: yes
 
     - name: install apt repo for vscode

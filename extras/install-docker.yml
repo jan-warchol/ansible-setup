@@ -32,7 +32,7 @@
 
     - name: add docker apt key
       apt_key:
-        data: "{{ lookup('file', '../apt-keys/docker_apt_key.asc') }}"
+        data: "{{ lookup('file', 'apt-keys/docker_apt_key.asc') }}"
 
     - name: add docker apt repository
       apt_repository:

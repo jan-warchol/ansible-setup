@@ -7,8 +7,8 @@
       apt_key:
         data: "{{ lookup('file', item) }}"
       loop:
-        - ../apt-keys/oracle_apt_key.asc
-        - ../apt-keys/hashicorp_archive_key.asc
+        - apt-keys/oracle_apt_key.asc
+        - apt-keys/hashicorp_archive_key.asc
 
     - name: add VirtualBox repo
       apt_repository:
