@@ -171,8 +171,8 @@
           Version=1.0
           Type=Application
           Name=GoLand
-          Icon=/home/jan/bin/GoLand-2022.2.2/bin/goland.svg
-          Exec="/home/jan/bin/GoLand-2022.2.2/bin/goland.sh" %f
+          Icon={{ ansible_env.HOME }}/bin/GoLand-2022.2.2/bin/goland.svg
+          Exec="{{ ansible_env.HOME }}/bin/GoLand-2022.2.2/bin/goland.sh" %f
           Comment=A cross-platform Go IDE with extended support for JavaScript, TypeScript, and databases
           Categories=Development;IDE;
           Terminal=false
@@ -180,4 +180,3 @@
           StartupNotify=true
           OnlyShowIn=Old;
         dest: "{{ ansible_env.HOME }}/.gnome/apps/jetbrains-goland.desktop"
-
