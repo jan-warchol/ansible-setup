@@ -50,6 +50,15 @@
         dest: "{{ ansible_env.HOME }}/bin/chrysalis"
         mode: 0755
 
+    - name: Remove unneeded snaps
+      snap:
+        # this eats over 0.5 GB of RAM, even when inactive, and from what I see
+        # is just a frontend for installing apps. Removing it apparently does
+        # not break automatic updates.
+        name: snap-store
+        state: absent
+      become: yes
+
     - name: Install extra GUI snap packages
       snap:
         name: spotify
