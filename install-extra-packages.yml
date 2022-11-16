@@ -61,7 +61,9 @@
 
     - name: Install extra GUI snap packages
       snap:
-        name: spotify
+        name:
+          - spotify
+          - slack  # there's also a .deb file for download, but this is better
       become: yes
 
     # # https://github.com/odeke-em/drive/
