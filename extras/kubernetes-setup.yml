@@ -1,0 +1,19 @@
+- name: Install kubernetes tools
+  hosts: all
+  become: yes
+  tasks:
+    - name: add kubernetes APT key
+      apt_key:
+        data: "{{ lookup('file', '../apt-keys/kubernetes-archive-keyring.asc') }}"
+
+    - name: add kubernetes APT repository
+      apt_repository:
+        # why xenial is hardcoded in instructions from
+        # https://kubernetes.io/docs/tasks/tools/install-kubectl/ ?
+        repo: 'deb https://apt.kubernetes.io/ kubernetes-xenial main'
+        filename: kubernetes
+
+    - name: install kubectl
+      apt:
+        name: kubectl
+        state: latest

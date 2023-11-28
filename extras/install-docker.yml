@@ -1,5 +1,7 @@
 # Based on official docker installation instructions from
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+## update:
+#https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
 - name: Install Docker from apt repo
   hosts: all
@@ -32,7 +34,7 @@
 
     - name: add docker apt key
       apt_key:
-        data: "{{ lookup('file', '../apt-keys/docker_apt_key.asc') }}"
+        data: "{{ lookup('file', 'apt-keys/docker_apt_key.asc') }}"
 
     - name: add docker apt repository
       apt_repository:

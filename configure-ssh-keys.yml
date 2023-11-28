@@ -76,7 +76,7 @@
     - name: save public key on ansible control machine
       copy:
         content: "{{ user_info.ssh_public_key }}"
-        dest: "ssh-public-keys/{{ ssh_key_name }}.pub"
+        dest: "files/ssh-public-keys/{{ ssh_key_name }}.pub"
       delegate_to: localhost
 
     - name: allow target hosts to ssh into each other
@@ -113,8 +113,8 @@
 
         - name: commit public key(s) to ansible-setup repo
           shell: >
-            git add ssh-public-keys/ &&
-            git commit -m "Add new hosts' public key(s)" -- ssh-public-keys
+            git add files/ssh-public-keys/ &&
+            git commit -m "Add new hosts' public key(s)" -- files/ssh-public-keys
 
         - name: update public keys in hosting services
           # use default browser

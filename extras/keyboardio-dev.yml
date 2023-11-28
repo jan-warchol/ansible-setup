@@ -1,4 +1,4 @@
-- name: Install software for modifying keyboardio layouts
+- name: Install software for modifying keyboardio firmware
   hosts: all
   tasks:
 
@@ -8,28 +8,13 @@
       become: yes
 
       # this is needed for customizing firmware on my keyboardio
+      # TODO: reload udev: udevadm control --reload-rules && udevadm trigger
     - name: configure udev rules for keyboardio
       copy:
         src: 60-kaleidoscope.rules
         dest: /etc/udev/rules.d/60-kaleidoscope.rules
         mode: 0755
       become: yes
-
-    - name: get latest chrysalis version
-      latest_github_tag:
-        repo: https://github.com/keyboardio/Chrysalis
-      register: chrysalis
-      vars:
-        ansible_python_interpreter: python3
-
-    - name: download & install chrysalis
-      get_url:
-        url:
-          "https://github.com/keyboardio/Chrysalis/\
-           releases/download/v{{ chrysalis.latest_version }}/\
-           Chrysalis-{{ chrysalis.latest_version }}.AppImage"
-        dest: "{{ ansible_env.HOME }}/bin/chrysalis"
-        mode: 0755
 
     - name: get latest arduino version
       latest_github_tag:

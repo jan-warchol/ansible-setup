@@ -24,13 +24,47 @@
 
 - name: Install packages relevant to graphical desktop
   hosts: all
-  become: yes
   tags: desktop
   tasks:
 
+      # this is needed for customizing firmware on my keyboardio
+      # TODO: reload udev: udevadm control --reload-rules && udevadm trigger
+    - name: configure udev rules for keyboardio
+      copy:
+        src: extras/60-kaleidoscope.rules
+        dest: /etc/udev/rules.d/60-kaleidoscope.rules
+        mode: 0755
+      become: yes
+
+    - name: check latest chrysalis version
+      latest_github_tag:
+        repo: https://github.com/keyboardio/Chrysalis
+      register: chrysalis
+
+    - name: download & install chrysalis
+      get_url:
+        url:
+          "https://github.com/keyboardio/Chrysalis/\
+           releases/download/v{{ chrysalis.latest_version }}/\
+           Chrysalis-{{ chrysalis.latest_version }}.AppImage"
+        dest: "{{ ansible_env.HOME }}/bin/chrysalis"
+        mode: 0755
+
+    - name: Remove unneeded snaps
+      snap:
+        # this eats over 0.5 GB of RAM, even when inactive, and from what I see
+        # is just a frontend for installing apps. Removing it apparently does
+        # not break automatic updates.
+        name: snap-store
+        state: absent
+      become: yes
+
     - name: Install extra GUI snap packages
       snap:
-        name: spotify
+        name:
+          - spotify
+          - slack  # there's also a .deb file for download, but this is better
+      become: yes
 
     # # https://github.com/odeke-em/drive/
     # # alternative project that may be worth checking out:
@@ -55,13 +89,13 @@
           - keepass2
           - kompare
           - okular
-          - redshift   # for adjusting screen color temperature
           - stopwatch   # time tracking
           - xdotool   # library for auto-type in keepass
         state: latest
         install_recommends: no
         update_cache: yes
         cache_valid_time: 3600
+      become: yes
 
     - name: Check Beyond Compare website for version info
       shell: >
@@ -80,3 +114,4 @@
 
     - name: install Beyond Compare
       apt: deb=/tmp/{{ bcompare_deb }}
+      become: yes

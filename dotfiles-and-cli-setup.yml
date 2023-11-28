@@ -18,7 +18,16 @@
 
     - name: install apt dependencies
       apt:
-        name: git
+        name:
+          - git
+          - fd-find
+      become: yes
+
+    - name: symlink fdfind to fd
+      file:
+        src: /usr/bin/fdfind
+        dest: /usr/bin/fd
+        state: link
       become: yes
 
     - name: ensure directories exist
@@ -214,28 +223,32 @@
       become: yes
       block:
 
-        - name: add debian buster apt key
-          apt_key:
-            url: "https://ftp-master.debian.org/keys/release-10.asc"
-
-        - name: add debian buster apt repo
+        - name: add ubuntu jammy repo
           apt_repository:
-            repo: "deb http://deb.debian.org/debian buster main"
-            filename: debian-buster
-            update_cache: no  # FIXME I'm getting an error (only on first try)
+            repo: deb http://archive.ubuntu.com/ubuntu jammy universe
+            filename: "ubuntu-jammy-backport"
 
-        - name: lower apt priority for buster packages
+        - name: configure apt preferences
           copy:
-            dest: /etc/apt/preferences.d/01-debian-buster.pref
+            # important! This file has to be first lexicographically
+            # or other settings (e.g. `release o=Ubuntu` set in
+            # official-package-repositories.pref) may override it
+            dest: /etc/apt/preferences.d/01-fzf-backport.pref
             content: |
-              # only use buster repos if package is unavailable elsewhere
+              # prefer fzf version available in Ubuntu Jammy
+              Package: fzf
+              Pin: release a=jammy
+              Pin-Priority: 800
+
+              # but don't try to backport other packages
               Package: *
-              Pin: release n=buster
+              Pin: release a=jammy
               Pin-Priority: 200
 
     - name: install fzf
       apt:
         name: fzf
+        state: latest
         update_cache: yes  # FIXME should be handled in task adding repo
       become: yes
 

@@ -9,6 +9,7 @@
 - import_playbook: install-essential-packages.yml
 - import_playbook: dotfiles-and-cli-setup.yml
 - import_playbook: desktop-user-config.yml
+- import_playbook: setup-terminator.yml
 - import_playbook: install-extra-packages.yml
 
 # - import_playbook: extras/install-docker.yml
