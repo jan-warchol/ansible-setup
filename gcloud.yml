@@ -23,9 +23,23 @@
         state: present
         enabled: yes
 
+    # Java SDK required to run pubsub-emulator
+    # https://cloud.google.com/java/docs/setup#install_a_jdk_java_development_kit
+    - name: add adoptium apt repository
+      ansible.builtin.deb822_repository:
+        name: adoptium
+        types: [deb]
+        uris: "https://packages.adoptium.net/artifactory/deb"
+        signed_by: "https://packages.adoptium.net/artifactory/api/gpg/key/public"
+        suites: ["{{ ansible_distribution_release|lower }}"]
+        components: [main]
+        state: present
+        enabled: yes
+
     - name: install gcloud packages
       apt:
         package: 
           - google-cloud-cli
           - google-cloud-cli-pubsub-emulator
+          - temurin-21-jdk  # Java SDK required to run pubsub-emulator
         update_cache: yes
