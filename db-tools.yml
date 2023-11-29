@@ -1,0 +1,14 @@
+- name: Install packages for database manipulation
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: install apt packages
+      apt:
+        package: 
+        - sqlitebrowser
+        - postgresql-client
+
+    - name: install snap packages
+      snap:
+        name: dbeaver-ce
