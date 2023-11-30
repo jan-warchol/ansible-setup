@@ -1,0 +1,7 @@
+user_host: "{{ ansible_user | default('') }}@{{ inventory_hostname }}"
+
+ansible_become_password: "{{ lookup('passwordstore', 'hosts/' + user_host) }}"
+# with newer ansible we can have a fallback like this:
+# ansible_become_password: "{{ lookup('passwordstore', 'hosts/' + user_host, missing='empty') | default(lookup('passwordstore', 'offline/hosts/' + user_host), true) }}"
+
+passwordstore_path: "{{ ansible_env.HOME }}/.password-store"
