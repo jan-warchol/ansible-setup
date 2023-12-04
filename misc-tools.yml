@@ -1,0 +1,10 @@
+- name: Install misc packages
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: install apt packages
+      apt:
+        package:
+          - gimp
+          - jq
