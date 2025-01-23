@@ -1,0 +1,2 @@
+# For testing that playbooks can be ran directly on localhost.
+localhost ansible_connection=local

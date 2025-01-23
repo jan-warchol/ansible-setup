@@ -1,2 +1,0 @@
-# For testint that playbooks support being ran directly on localhost.
-localhost ansible_connection=local
