@@ -3,6 +3,4 @@
 # https://blog.doismellburning.co.uk/handling-local-hostnames-multicast-dns/
 
 jw-t430s  ansible_user=jan ansible_host=jw-t430s.local
-# jw-hp-elite  ansible_user=jan ansible_host=jw-hp-elite.local
-jw-yoga-travelyn  ansible_user=jan ansible_host=jw-yoga-travelyn.local
 jw-lat7310  ansible_user=jan ansible_host=jw-lat7310.local
