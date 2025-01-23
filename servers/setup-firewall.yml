@@ -1,0 +1,42 @@
+# see
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu
+# https://ivansalloum.com/setting-up-a-firewall-using-ufw-an-in-depth-guide/
+
+- name: Configure UFW (uncomplicated firewall)
+  hosts: all
+  gather_facts: no
+  become: yes
+  vars:
+    ssh_port: 22222
+
+  handlers:
+    reload ufw:
+      service: ufw
+      state: reloaded
+
+  tasks:
+    - name: Install ufw
+      apt:
+        name: ufw
+
+    # for some reason /usr/sbin isn't in path in Debian Bookworm.
+    - name: Add ufw to PATH for root user
+      lineinfile:
+        line: 'export PATH="$PATH:/usr/sbin"'
+        path: "~/.bashrc"
+
+    - name: enable UFW with "deny all incoming" default
+      ufw:
+        state: enabled
+        default: deny
+
+    - name: allow standard OpenSSH access with connection limit
+      ufw:
+        name: OpenSSH
+        rule: allow # consider using "limit"
+
+    - name: allow custom SSH port with connection limit
+      ufw:
+        port: "{{ssh_port}}"
+        rule: allow # consider using "limit"
+        protocol: tcp

@@ -1,0 +1,14 @@
+- name: Different ways of getting hostname in ansible
+  hosts: all
+  gather_facts: yes
+  become: no
+  tasks:
+    - command: hostname
+      register: hostname_result
+
+    - debug:
+        msg: 
+          - "ansible_hostname:   {{ansible_hostname   | default('undefined')}}"
+          - "ansible_host:       {{ansible_host       | default('undefined')}}"
+          - "inventory_hostname: {{inventory_hostname | default('undefined')}}"
+          - "hostname result:    {{ hostname_result.stdout }}"

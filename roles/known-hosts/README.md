@@ -13,3 +13,9 @@ By taking public keys from files *stored permanently in this repository*
 I can be sure that they are correct and that I'm really connecting to
 correct servers.
 
+### Updating keys
+
+See
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
+and
+https://docs.github.com/en/rest/meta/meta?apiVersion=2022-11-28#get-github-meta-information

@@ -1,0 +1,45 @@
+- name: Install packages for Google Cloud development
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: install apt dependencies
+      apt:
+        package:
+          - apt-transport-https
+          - ca-certificates
+          - gnupg
+          - curl
+          - sudo
+
+    - name: add gcloud apt repository
+      ansible.builtin.deb822_repository:
+        name: google-cloud-cli
+        types: [deb]
+        uris: "https://packages.cloud.google.com/apt"
+        signed_by: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+        suites: [cloud-sdk]
+        components: [main]
+        state: present
+        enabled: yes
+
+    # Java SDK required to run pubsub-emulator
+    # https://cloud.google.com/java/docs/setup#install_a_jdk_java_development_kit
+    - name: add adoptium apt repository
+      ansible.builtin.deb822_repository:
+        name: adoptium
+        types: [deb]
+        uris: "https://packages.adoptium.net/artifactory/deb"
+        signed_by: "https://packages.adoptium.net/artifactory/api/gpg/key/public"
+        suites: ["{{ ansible_distribution_release|lower }}"]
+        components: [main]
+        state: present
+        enabled: yes
+
+    - name: install gcloud packages
+      apt:
+        package: 
+          - google-cloud-cli
+          - google-cloud-cli-pubsub-emulator
+          - temurin-21-jdk  # Java SDK required to run pubsub-emulator
+        update_cache: yes

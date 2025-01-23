@@ -1,0 +1,30 @@
+- name: Install packages for Google Cloud development
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: install apt dependencies
+      apt:
+        package:
+          - apt-transport-https
+          - gnupg
+          - curl
+
+    - name: add couchdb apt repository
+      ansible.builtin.deb822_repository:
+        name: couchdb
+        types: [deb]
+        uris: "https://apache.jfrog.io/artifactory/couchdb-deb"
+        signed_by: "https://couchdb.apache.org/repo/keys.asc"
+        suites: "{{ ansible_distribution_release }}"
+        components: main
+        state: present
+        enabled: yes
+
+    # TODO needs preconfiguration
+
+    # - name: install couchdb packages
+    #   apt:
+    #     package: 
+    #       - couchdb
+    #     update_cache: yes

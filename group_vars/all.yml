@@ -1,5 +1,5 @@
-ansible_become_password:
-  "{{ lookup('passwordstore', 'hosts/' + inventory_hostname + '-user') }}"
+pstore_password_path: "hosts/{{ ansible_user }}@{{ ansible_host }}"
+ansible_become_password: "{{ lookup('passwordstore', pstore_password_path) }}"
 
 # Naming keys with user and host makes them much easier to manage. Optional
 # suffix can be used for further disambiguation or specifying key type.

@@ -1,0 +1,26 @@
+# Supported use-case: I have root password and a regular user password
+# (but there may be no sudo).
+#
+# TODO: use-case when I only have root access.
+
+- name: Configure admin user with sudo
+  hosts: all
+  become: yes
+  become_method: su
+  gather_facts: no
+  vars:
+    ansible_become_password: >
+      {{ lookup('passwordstore', 'hosts/root@' + ansible_host) }}
+
+  tasks:
+    # - TODO: create non-root user if not present
+
+    - name: Install sudo
+      apt:
+        name: sudo
+
+    - name: Add {{ansible_user}} to sudoers
+      user:
+        name: "{{ansible_user}}"
+        groups: sudo
+        append: true

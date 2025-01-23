@@ -1,0 +1,1 @@
+ansible_become_password: "{{ lookup('passwordstore', 'hosts/@localhost') }}"
