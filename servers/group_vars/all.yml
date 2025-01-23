@@ -1,0 +1,2 @@
+pstore_password_path: "hosts/{{ ansible_user }}@{{ ansible_host }}"
+ansible_become_password: "{{ lookup('passwordstore', pstore_password_path) }}"

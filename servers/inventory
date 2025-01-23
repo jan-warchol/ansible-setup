@@ -1,0 +1,3 @@
+# Even though the user to connect with can be taken from ssh config,
+# we need it here to make password lookup possible.
+jw-ms-ntln ansible_host=netline-organizer ansible_user=janek

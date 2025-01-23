@@ -1,0 +1,24 @@
+- name: Install basic packages
+  hosts: all
+  gather_facts: no
+  become: yes
+
+  handlers:
+    reboot:
+      reboot:
+
+  tasks:
+    - name: Install packages
+      apt:
+        name:
+          - git
+          - htop
+          - wget
+          - curl
+          - ranger # file explorer
+
+
+    # I get "sudo: nie udało się rozwiązać nazwy hosta", we probably also need to update /etc/hosts
+    # - hostname:
+    #     name: "{{inventory_hostname}}"
+    #   notify: reboot

@@ -1,0 +1,82 @@
+# See also https://github.com/vitalk/ansible-secure-ssh
+# Prerequisites:
+# - ssh key of current machine in files/ssh-public-keys/<user>@<hostname>.pub
+
+- name: Discover control machine SSH key and add it to authorized keys
+  hosts: all
+
+  tasks:
+    - name: get information about control machine
+      local_action: setup
+      delegate_facts: true
+
+    - name: choose which SSH key to use
+      set_fact:
+        ssh_identity: "{{control_user}}@{{control_host}}.pub"
+      vars:
+        control_user: "{{hostvars.localhost.ansible_user_id}}"
+        control_host: "{{hostvars.localhost.ansible_hostname}}"
+
+    - name: add {{ssh_identity}} to authorized keys for {{ansible_user_id}}
+      authorized_key:
+        user: "{{ansible_user_id}}"
+        key: "{{ lookup('file', key_path) }}"
+      vars:
+        key_path: "../files/ssh-public-keys/{{ssh_identity}}"
+      when: "lookup('fileglob', key_path) != []"
+      register: add_authorized_key
+
+- name: Make SSH configuration more secure
+  hosts: all
+  become: yes
+  vars:
+    sshd_config_path: /etc/ssh/sshd_config
+
+  handlers:
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
+
+  tasks:
+    - name: disable empty password login
+      lineinfile:
+        dest: "{{sshd_config_path}}"
+        regexp: ^#?PermitEmptyPasswords
+        line: PermitEmptyPasswords no
+        validate: sshd -t -f %s
+        backup: yes
+      notify: restart sshd
+
+    - name: disable remote root login
+      lineinfile:
+        dest: "{{sshd_config_path}}"
+        regexp: ^#?PermitRootLogin
+        line: PermitRootLogin no
+        validate: sshd -t -f %s
+        backup: yes
+      notify: restart sshd
+      # only disable root login if we use another user to connect
+      when: ansible_user != 'root'
+
+    - name: allow key-based authentication
+      lineinfile:
+        dest: "{{sshd_config_path}}"
+        regexp: ^#?PubkeyAuthentication
+        line: PubkeyAuthentication yes
+        validate: sshd -t -f %s
+        backup: yes
+      notify: restart sshd
+
+    - name: disable password authentication
+      lineinfile:
+        dest: "{{sshd_config_path}}"
+        regexp: ^#?PasswordAuthentication
+        line: PasswordAuthentication no
+        validate: sshd -t -f %s
+        backup: yes
+      notify: restart sshd
+      # without authorized key we would lock ourselves out
+      when:
+        - add_authorized_key is succeeded
+        - not add_authorized_key is skipped
