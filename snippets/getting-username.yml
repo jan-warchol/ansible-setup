@@ -1,0 +1,33 @@
+- name: Different ways of getting username in ansible
+  hosts: all
+  gather_facts: yes
+  become: no
+  tasks:
+    - command: whoami
+      register: whoami_result
+
+    - debug:
+        msg:
+          # ansible_user and ansible_ssh_user:
+          # - must be set in the inventory or hostvars
+          #   (it's not enough to have a user specified in SSH config)
+          # - do not require gathering facts
+          # - may be wrong if used with ansible_connection=local
+          # - always shows original (connecting) user when used with become
+          - "ansible_user:     {{ansible_user     | default('undefined')}}"
+          - "ansible_ssh_user: {{ansible_ssh_user | default('undefined')}}"
+
+          # Variables from ansible facts:
+          # - require gathering facts, obviously
+          # - show the actual user, not what is declared in inventory
+          #   (e.g. for ansible_connection=local)
+          # - shows effective user with become (only on play level)
+          - "ansible_user_id:  {{ansible_user_id  | default('undefined')}}"
+          - "ansible_env.USER: {{ansible_env.USER | default('undefined')}}"
+
+          # Dynamic discovery with whoami:
+          # - does not require gathering facts
+          # - show the actual user, not what is declared in inventory
+          #   (e.g. for ansible_connection=local)
+          # - shows effective user with become (both on play and task level)
+          - "whoami result:    {{ whoami_result.stdout }}"
