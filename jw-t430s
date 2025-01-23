@@ -1,0 +1,2 @@
+# I could use inventory_mdns with --limit, but this is simpler.
+jw-t430s ansible_user=jan ansible_host=jw-t430s.local
