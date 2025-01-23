@@ -1,0 +1,31 @@
+# Based on official docker installation instructions from
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+## update:
+#https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+
+- name: Install Docker from apt repo
+  hosts: all
+  tasks:
+
+    # handle both remote connection and running on localhost.
+    - set_fact: current_user="{{ ansible_user | default(ansible_env.USER) }}"
+    
+    # see https://jvns.ca/blog/2017/11/20/groups/ for info about group membership
+    - name: allow user "{{ current_user }}" to run docker without sudo
+      user:
+        name: "{{ current_user }}"
+        groups: docker
+        append: yes
+      become: yes
+      failed_when: current_user == 'root'  # does not make sense for root, warn user
+      register: group_membership
+
+    - name: how to apply changes
+      debug:
+        msg:
+          - "To apply changes, do either:"
+          - "  - re-login to apply session-wide"
+          - "  - run `newgrp docker` to start a new shell with refreshed group membership"
+          - "  - use `sg docker <commands>` for single commands"
+      changed_when: group_membership.changed
+      when: group_membership.changed
