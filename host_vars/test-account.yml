@@ -1,1 +1,0 @@
-ansible_sudo_pass: "{{ lookup('passwordstore', 'ansible-test-user') }}"

@@ -1,4 +1,0 @@
-ssh_key_name: jan@jw-lat7300_1
-
-dist_override: bionic
-dist_override_release: 18.04

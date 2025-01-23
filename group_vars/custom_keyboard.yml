@@ -1,8 +1,0 @@
-# my ThinkPad T430s has a keyboard from a different model (T420)
-# and needs some custom settings.
-xkb_keycodes: customThinkPad
-
-xkb_lwin_key: LCTL
-xkb_lalt_key: LWIN
-xkb_lctrl_key: LALT
-xkb_rwin_key: MENU

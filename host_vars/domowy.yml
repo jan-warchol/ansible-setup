@@ -1,6 +1,0 @@
-xkb_lctrl_key: LALT
-xkb_lwin_key: LCTL
-xkb_lalt_key: LWIN
-xkb_delete_key: END
-
-terminator_font_size: 10
