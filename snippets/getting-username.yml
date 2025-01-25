@@ -1,7 +1,18 @@
+# Playbook demonstrating various ways of getting current username in ansible.
+# This playbook can run without an inventory file.
+- name: Add test host to inventory
+  hosts: localhost
+  tasks:
+    - add_host:
+        name: local
+        ansible_connection: local
+        ansible_user: fakeuser  # purposefully misaligned with actual user
+
+
 - name: Different ways of getting username in ansible
   hosts: all
   gather_facts: yes
-  become: no
+  become: no  # see what happens when this is switched
   tasks:
     - command: whoami
       register: whoami_result

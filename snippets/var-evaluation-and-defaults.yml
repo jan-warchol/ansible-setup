@@ -1,0 +1,47 @@
+# Playbook demonstrating how variables like ansible_connection are evaluated
+# and when they get their default values. Tested with ansible core 2.12.10.
+# This playbook doesn't require an inventory file.
+- name: Add test hosts to inventory
+  hosts: localhost
+  tasks:
+    - add_host:
+        name: remote
+        # Since there are only debug tasks in all plays, and fact gathering
+        # is disabled, ansible won't actually try to connect with this host.
+        ansible_host: doesnt-really-matter
+
+    - add_host:
+        name: local
+        ansible_connection: local
+
+
+- name: Check value of ansible_connection variable
+  hosts: all
+  gather_facts: no # don't actually connect to anything
+  vars:
+    test_var: "{{ansible_connection|default('no_value')}}"
+  tasks:
+    # This will show "local" for localhost, "ssh" for remote hosts.
+    - debug: var=test_var
+
+
+- name: Try using ansible_connection to define another variable
+  hosts: all
+  gather_facts: no # don't actually connect to anything
+  vars:
+    test_var: "{{ansible_connection|default('no_value')}}"
+    ansible_become_password: "{{ lookup('passwordstore', test_var) }}"
+  tasks:
+    # This task will fail for both hosts because ansible will try to evaluate
+    # ansible_become_password variable (even though it is not used), and there
+    # are no appropriate entries in password store.
+    #
+    # However, notice how it fails for both hosts. For localhost, it prints
+    # that it cannot find password "local" (as expected). However, for remote
+    # hosts it will print that it cannot find "no_value", indicating that the
+    # ansible_connection variable was undefined at the time when it was being
+    # used in ansible_become_password! 
+    #
+    # So, if ansible_connection isn't set in the inventory, its default value
+    # is set after play vars are first evaluated. 
+    - debug: var=test_var
