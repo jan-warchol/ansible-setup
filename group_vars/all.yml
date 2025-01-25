@@ -1,0 +1,8 @@
+# Some magic to get the sudo password for both localhost and remote hosts
+# automatically from my password manager (https://www.passwordstore.org).
+# Note that we must set defaults for ansible_user and ansible_connection
+# because they will be undefined in some cases.
+full_user: "{{ ansible_user|default('') }}@{{ inventory_hostname }}"
+is_localhost: "{{ ansible_connection|default('no_value') == 'local' }}"
+pstore_password_path: "hosts/{{ 'localhost' if is_localhost else full_user }}"
+ansible_become_password: "{{ lookup('passwordstore', pstore_password_path) }}"

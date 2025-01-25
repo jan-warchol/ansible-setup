@@ -1,0 +1,11 @@
+- name: Install various utility packages
+  hosts: all
+  become: yes
+  gather_facts: no
+  tasks:
+    - apt:
+        package:
+          - git
+          - curl
+          - wget
+          - ranger  # command-line file manager
