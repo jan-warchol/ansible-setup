@@ -1,0 +1,18 @@
+- name: Different host references in ansible
+  hosts: all
+  gather_facts: yes
+  become: no
+  tasks:
+    - command: hostname
+      register: hostname_result
+
+    - debug:
+        msg:
+          # connection address - may or may not be the same as actual hostname
+          - "ansible_host:       {{ ansible_host       | default('undefined') }}"
+          # how the host is named in inventory - may or may not be the same as actual hostname
+          - "inventory_hostname: {{ inventory_hostname | default('undefined') }}"
+          # actual hostname - requires gathering facts
+          - "ansible_hostname:   {{ ansible_hostname   | default('undefined') }}"
+          # actual hostname - without gathering facts, but requires running a command
+          - "hostname command:   {{ hostname_result.stdout }}"
