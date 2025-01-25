@@ -1,0 +1,4 @@
+# Some ansible+passwordstore magic to get the sudo password for both remote
+# hosts and localhost.
+user_and_host: "{{ ansible_user|default('current_user') }}@{{ inventory_hostname }}"
+ansible_become_password: "{{ lookup('passwordstore', 'hosts/' + user_and_host) }}"
