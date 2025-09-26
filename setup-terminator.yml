@@ -16,11 +16,16 @@
         name: terminator
       become: yes
 
-    # I know this works for Ubuntu 20.04
-    - name: set terminator as default terminal
+    - name: Set terminator as default x-terminal-emulator
       alternatives:
         name: x-terminal-emulator
         path: /usr/bin/terminator
+        priority: 50
+      become: yes
+
+    - name: Set terminator as default GUI terminal (GNOME)
+      command: gsettings set org.gnome.desktop.default-applications.terminal exec 'terminator'
+      become_user: "{{ ansible_user }}"
 
     - name: ensure .config/terminator directory exists
       file:
