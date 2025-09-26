@@ -16,6 +16,7 @@
           - ipython3   # interactive python shell
           - pandoc   # for diffing binary documents
           - sshfs
+          - tmux
         state: latest
         install_recommends: no
         update_cache: yes
@@ -79,6 +80,7 @@
       apt:
         name:
           # - drive   # CLI for google drive
+          - dconf-editor   # desktop environment configuration
           - gimp
           - gitk
           - gparted
@@ -90,7 +92,10 @@
           - kompare
           - okular
           - stopwatch   # time tracking
+          - usb-creator-gtk # for creating USB drives for OS installation
           - xdotool   # library for auto-type in keepass
+          - redshift   # for adjusting screen color temperature
+          - solaar   # for configuring my logitech mouse
         state: latest
         install_recommends: no
         update_cache: yes

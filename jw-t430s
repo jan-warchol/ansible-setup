@@ -1,2 +1,4 @@
 # I could use "workstations" with --limit, but this is simpler.
+
+[workstations]
 jw-t430s ansible_user=jan ansible_host=jw-t430s.local

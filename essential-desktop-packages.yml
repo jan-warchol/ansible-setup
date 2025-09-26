@@ -1,0 +1,50 @@
+---
+- name: Install essential packages relevant to workstations with graphical desktop
+  hosts: workstations
+  become: yes
+  tasks:
+    - name: Install packages required for repository management
+      apt:
+        name:
+          - wget
+          - gpg
+          - software-properties-common
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install 3rd-party apt repository keys
+      copy:
+        src: files/apt-keys/{{ item }}
+        dest: /usr/share/keyrings/{{ item }}
+        mode: "0644"
+      loop:
+        - google_linux_signing_key.gpg
+        - microsoft_packages_key.gpg
+
+    - name: Add 3rd-party apt repositories
+      apt_repository:
+        repo: "{{ item.repo }}"
+        state: present
+        filename: "{{ item.filename }}"
+      loop:
+        - repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google_linux_signing_key.gpg] http://dl.google.com/linux/chrome/deb/ stable main"
+          filename: google-chrome
+        - repo: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft_packages_key.gpg] https://packages.microsoft.com/repos/code stable main"
+          filename: vscode
+
+    - name: Install GUI apt packages
+      apt:
+        name:
+          - google-chrome-stable
+          - code # Visual Studio Code
+          - gparted # partition management
+          - vlc # watching DVDs
+          - trash-cli # command-line trash management
+          # should be installed by default, but just in case...
+          - baobab # disk usage analysis
+          - xsel # copying and pasting from middle-mouse-button clipboard
+          - xclip # accessing clipboard from cli, needed by pass
+        state: latest
+        update_cache: yes
+        cache_valid_time: 3600
