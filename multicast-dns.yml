@@ -1,0 +1,88 @@
+---
+# Ansible playbook to set up multicast DNS (mDNS) using Avahi on Ubuntu systems.
+- name: Enable multicast DNS
+  hosts: all
+  become: yes
+  vars:
+    mdns_port: 5353
+
+  handlers:
+    - name: restart systemd-resolved
+      systemd:
+        name: systemd-resolved
+        state: restarted
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Avahi daemon and utils
+      apt:
+        name:
+          - avahi-daemon
+          - avahi-utils
+          - libnss-mdns
+        state: present
+
+    # This enables resolving .local hostnames (e.g., ping other-machine.local)
+    # Without this, Avahi advertises but can't resolve other mDNS names
+    - name: Configure NSS to use mDNS
+      lineinfile:
+        path: /etc/nsswitch.conf
+        regexp: "^hosts:"
+        line: "hosts:          files mdns4_minimal [NOTFOUND=return] dns"
+        backup: yes
+
+    - name: Enable mDNS in systemd-resolved
+      lineinfile:
+        path: /etc/systemd/resolved.conf
+        regexp: "^#?MulticastDNS="
+        line: "MulticastDNS=yes"
+        backup: yes
+      notify: restart systemd-resolved
+
+    - name: Get default network interface
+      shell: ip route | grep '^default' | awk '{print $5}' | sort -u
+      register: default_interface
+      changed_when: false
+
+    - name: Enable mDNS on default network interface
+      shell: |
+        if resolvectl mdns {{ default_interface.stdout_lines[0] }} | grep no; then
+          resolvectl mdns {{ default_interface.stdout_lines[0] }} yes
+          echo "changed"
+        fi
+      register: mdns_interface_result
+      changed_when: "'changed' in mdns_interface_result.stdout"
+
+    - name: Enable and start Avahi daemon
+      systemd:
+        name: avahi-daemon
+        enabled: yes
+        state: started
+
+    - name: Check if ufw is installed and active
+      command: ufw status
+      register: ufw_status
+      failed_when: false
+      changed_when: false
+
+    - name: Allow mDNS through UFW firewall
+      ufw:
+        rule: allow
+        port: "{{ mdns_port }}"
+        proto: udp
+        comment: "mDNS/Bonjour"
+      when: "ufw_status.rc == 0 and 'Status: active' in ufw_status.stdout"
+
+    - name: Verify mDNS is working
+      command: avahi-browse -at
+      register: mdns_test
+      changed_when: false
+      failed_when: false
+
+    - name: Display mDNS status
+      debug:
+        msg: "mDNS is {{ 'working' if mdns_test.rc == 0 else 'not responding' }}"
